@@ -1,0 +1,6 @@
+@CS2Tracker_Api_HostAddress = http://localhost:5298
+
+GET {{CS2Tracker_Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

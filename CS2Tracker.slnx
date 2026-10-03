@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="CS2Tracker_Api/CS2Tracker_Api.csproj" />
+  <Project Path="CS2Tracker_Core/CS2Tracker_Core.csproj" />
+</Solution>
