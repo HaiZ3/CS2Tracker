@@ -23,8 +23,12 @@ namespace FormsApp_CS2_Arbitrage_And_Investment_Tracker.Services
             //check if a user with the same username exists
             if(await _context.Users.AnyAsync(u => u.Username == username))
             {
-                return ServiceResult.Fail("The username already exists");
-            }   
+                return ServiceResult.Fail($"The username: {username} already exists");
+            }
+            if(username.Length < 3)
+            {
+                return ServiceResult.Fail("The username must be at least 3 characters long");
+            }
             //hash the password with BCrypt
             string passwordHash = BCrypt.Net.BCrypt.HashPassword(password, 12);
 
@@ -52,7 +56,7 @@ namespace FormsApp_CS2_Arbitrage_And_Investment_Tracker.Services
                 return ServiceResult.Fail("Incorrect password!");
             }
             //Add the user info to the session
-            return ServiceResult.Ok();
+            return ServiceResult.Ok(user.Id,user.Username);
         }
     }
 }

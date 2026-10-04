@@ -1,6 +1,5 @@
 ﻿using FormsApp_CS2_Arbitrage_And_Investment_Tracker.Classes;
 using FormsApp_CS2_Arbitrage_And_Investment_Tracker.Models;
-using FormsApp_CS2_Arbitrage_And_Investment_Tracker.Models.DTOs;
 using FormsApp_CS2_Arbitrage_And_Investment_Tracker.Models.Responses;
 using System;
 using System.Collections.Generic;

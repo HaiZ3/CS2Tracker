@@ -12,6 +12,6 @@ namespace FormsApp_CS2_Arbitrage_And_Investment_Tracker.Interfaces.IServices
     {
         public Task<ServiceResultGeneric<ICollection<Sheet>>> LoadSheetsAsync(int userId);
         public Task<ServiceResult> CreateSheetAsync(int userId, string name, SheetType sheetType);
-        public Task<ServiceResultGeneric<Sheet>> GetSheetByIdAsync(int? sheetId);
+        public Task<ServiceResultGeneric<Sheet>> GetSheetByIdAsync(int sheetId,int userId);
     }
 }

@@ -39,12 +39,15 @@ namespace FormsApp_CS2_Arbitrage_And_Investment_Tracker.Services
             return ServiceResultGeneric<ICollection<Sheet>>.Ok(sheets);
         }
 
-        public async Task<ServiceResultGeneric<Sheet>> GetSheetByIdAsync(int? sheetId)
+        public async Task<ServiceResultGeneric<Sheet>> GetSheetByIdAsync(int sheetId,int userId)
         {
             Sheet? sheet = await _context.Sheets
                 .Include(s => s.Entries)
                 .ThenInclude(s => s.SkinInfo)
-                .FirstOrDefaultAsync(s => s.Id == sheetId);
+                .FirstOrDefaultAsync(
+                s => s.Id == sheetId
+                && s.UserId == userId
+                );
             if(sheet == null)
             {
                 return ServiceResultGeneric<Sheet>.Fail("No such sheet exists!");
