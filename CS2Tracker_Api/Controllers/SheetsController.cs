@@ -90,7 +90,7 @@ namespace CS2Tracker_Api.Controllers
             var userId = int.Parse(
             User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
 
-            if(request.Type > 3 && request.Type < 1)
+            if(request.Type > 3 || request.Type < 1)
             {
                 return BadRequest();
             }
