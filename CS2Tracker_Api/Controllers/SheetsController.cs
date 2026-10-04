@@ -95,6 +95,11 @@ namespace CS2Tracker_Api.Controllers
                 return BadRequest();
             }
 
+            if (string.IsNullOrWhiteSpace(request.Name))
+            {
+                return UnprocessableEntity();
+            }
+
             SheetType sheetType = (SheetType)request.Type;
 
             var result = await _sheetService.CreateSheetAsync(userId, request.Name, sheetType);
