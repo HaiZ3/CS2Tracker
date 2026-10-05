@@ -363,3 +363,6 @@ MigrationBackup/
 FodyWeavers.xsd
 /CS2Tracker_Api/appsettingsDevelopment.json
 /CS2Tracker_Api/appsettings.Development.json
+/CS2Tracker.Api/appsettings.Development.json
+/CS2Tracker_Api/appsettings.json
+/CS2Tracker_Api/appsettings.Development.json
