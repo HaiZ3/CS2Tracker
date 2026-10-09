@@ -66,7 +66,6 @@ namespace CS2Tracker_Api.Controllers
                     Quantity = s.Quantity,
                     Status = s.Status.ToString(),
                     DataSource = s.DataSource.ToString(),
-                    SellOrderPice = s.SellOrderPice,
                     Profit = s.Profit,
                     BuyPrice = s.BuyPrice,
                     SellPrice = s.SellPrice

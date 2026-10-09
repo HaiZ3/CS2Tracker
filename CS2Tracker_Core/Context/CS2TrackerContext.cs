@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using FormsApp_CS2_Arbitrage_And_Investment_Tracker.Classes;
 using FormsApp_CS2_Arbitrage_And_Investment_Tracker.Models;
+using CS2Tracker_Core.Models;
 
 namespace FormsApp_CS2_Arbitrage_And_Investment_Tracker.Context
 {
@@ -11,6 +12,7 @@ namespace FormsApp_CS2_Arbitrage_And_Investment_Tracker.Context
         {
         }
 
+        public DbSet<IdempotencyRecord> IdempotencyRecords { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<Sheet> Sheets { get; set; }
         public DbSet<Entry> Entries { get; set; }
@@ -38,8 +40,12 @@ namespace FormsApp_CS2_Arbitrage_And_Investment_Tracker.Context
             modelBuilder.Entity<Entry>()
                 .HasOne(e => e.SkinInfo)
                 .WithOne(s => s.Entry)
-                .HasForeignKey<SkinInfo>(s => s.EntryId)
+                .HasForeignKey<Entry>(e => e.SkinInfoId)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<IdempotencyRecord>()
+                .HasIndex(x => new { x.UserId, x.Key })
+                .IsUnique();
 
             foreach (var property in modelBuilder.Model
                 .GetEntityTypes()

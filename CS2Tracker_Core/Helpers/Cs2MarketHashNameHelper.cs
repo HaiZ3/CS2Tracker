@@ -54,9 +54,9 @@ namespace FormsApp_CS2_Arbitrage_And_Investment_Tracker.Helpers
                 case SkinCondition.Vanilla:
                     marketHashName = skinInfo.Name;
                     return marketHashName;
-                case null:
-                    marketHashName = skinInfo.Name;
-                    return marketHashName;
+                //case null:
+                //    marketHashName = skinInfo.Name;
+                //    return marketHashName;
                 default:
                     return skinInfo.Name;
             }

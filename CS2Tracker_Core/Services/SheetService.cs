@@ -18,14 +18,17 @@ namespace FormsApp_CS2_Arbitrage_And_Investment_Tracker.Services
         }
         public async Task<ServiceResult> CreateSheetAsync(int userId, string name, SheetType sheetType)
         {
-            Sheet sheet = new Sheet(userId, name, sheetType);
 
             if (string.IsNullOrEmpty(name))
             {
                 return ServiceResult.Fail("Failed to add the sheet to the database!");
             }
+            Sheet sheet = new Sheet(userId, name, sheetType);
+
             await _context.Sheets.AddAsync(sheet);
             await _context.SaveChangesAsync();
+
+
             return ServiceResult.Ok();
         }
         

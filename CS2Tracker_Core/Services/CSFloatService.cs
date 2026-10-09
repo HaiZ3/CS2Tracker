@@ -27,7 +27,7 @@ namespace FormsApp_CS2_Arbitrage_And_Investment_Tracker.Services
 
         public async Task<ServiceResultGeneric<decimal>> GetLowestPriceListingAsync(string marketHashName)
         {
-            var url = $"https://csfloat.com/api/v1/listings?market_hash_name={Uri.EscapeDataString(marketHashName)}&type=buy_now&sort_by=lowest_price&limit=1";
+            var url = $"https://api.openskin.dev/v1/prices?item={Uri.EscapeDataString(marketHashName)}";
 
             var request = new HttpRequestMessage(HttpMethod.Get, url);
             request.Headers.Add("Authorization", _apiKey);
@@ -60,9 +60,9 @@ namespace FormsApp_CS2_Arbitrage_And_Investment_Tracker.Services
                 if (!serviceResult.Success)
                 {
                     return ServiceResult.Fail("Failed to set the lowest sell order price of 1 or more entries!");
-                }
-                entry.SellOrderPice = serviceResult.Data;
+                }            
             }
+
 
             await _context.SaveChangesAsync();
 

@@ -12,7 +12,7 @@ namespace CS2Tracker_Core.Models.DTOs.ApiDTOs.EntiresDTOs
         public int Quantity { get; set; } = 1;
         public string Status { get; set; } = "";
         public string DataSource { get; set; } = "";
-        public decimal SellOrderPice { get; set; }
+        public decimal SellOrderPrice { get; set; }
         public decimal? Profit { get; set; }
         public decimal BuyPrice { get; set; }
         public decimal? SellPrice { get; set; }

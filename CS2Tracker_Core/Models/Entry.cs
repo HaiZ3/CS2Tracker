@@ -1,4 +1,5 @@
-﻿using FormsApp_CS2_Arbitrage_And_Investment_Tracker.Enums;
+﻿using CS2Tracker_Core.Models.DTOs.ApiDTOs.EntiresDTOs;
+using FormsApp_CS2_Arbitrage_And_Investment_Tracker.Enums;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -21,23 +22,35 @@ namespace FormsApp_CS2_Arbitrage_And_Investment_Tracker.Classes
         {
             
         }
+        public Entry(CreateEntryDTO createEntryDTO,SkinInfo skinInfo)
+        {
+            Quantity = createEntryDTO.Quantity;
+            DateBought = createEntryDTO.DateBought;
+            BuyPrice = createEntryDTO.BuyPrice;
+            SheetId = createEntryDTO.SheetId;
+            SkinInfo = skinInfo;
+            Name = skinInfo.Name;
+        }
         //Regular entry ctor
-        public Entry(int quantity,DateTime? dateBought
-            ,DateTime? dateSold,decimal buyPrice,decimal? sellPrice
-            ,int sheetId,SkinInfo skinInfo,decimal sellOrderPrice)
+        public Entry(
+            int quantity,
+            DateTime dateBought,
+            decimal buyPrice,
+            int sheetId,
+            SkinInfo skinInfo
+            )
         {
             Name = skinInfo.Name;
             Quantity = quantity;
             DateBought = dateBought;
-            DateSold = dateSold;
             BuyPrice = buyPrice * quantity;
-            SellPrice = sellPrice;
+
             SkinInfo = skinInfo;
             SheetId = sheetId;
+
             Status = EntryStatus.Open;
             CreatedAt = DateTime.UtcNow;
             DataSource = EntryDataSource.Regular;
-            SellOrderPice = sellOrderPrice;
         }
         //Legacy entry ctor
         public Entry(int quantity, DateTime? dateBought
@@ -80,9 +93,8 @@ namespace FormsApp_CS2_Arbitrage_And_Investment_Tracker.Classes
         public decimal BuyPrice { get; set; }
         public decimal? SellPrice { get; set; }
         public int SheetId { get; set; }
-        public Sheet Sheet { get; set; }
+        public Sheet Sheet { get; set; } = null!;
         public int SkinInfoId { get; set; }
-        public SkinInfo SkinInfo { get; set; }
-        public decimal SellOrderPice { get; set; }
+        public SkinInfo SkinInfo { get; set; } = null!;
     }
 }
