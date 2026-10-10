@@ -1,12 +1,11 @@
-﻿using CS2Tracker_Core.Models.DTOs.AppDTOs;
-using FormsApp_CS2_Arbitrage_And_Investment_Tracker.Context;
-using FormsApp_CS2_Arbitrage_And_Investment_Tracker.Interfaces.IServices;
-using FormsApp_CS2_Arbitrage_And_Investment_Tracker.Models;
-using FormsApp_CS2_Arbitrage_And_Investment_Tracker.Models.Responses;
+using CS2Tracker_Core.Models.DTOs.AppDTOs;
+using CS2Tracker_Core.Models;
+using CS2Tracker_Core.Context;
+using CS2Tracker_Core.Interfaces.IServices;
 using Microsoft.EntityFrameworkCore;
 using System.Net.Http.Json;
 
-namespace FormsApp_CS2_Arbitrage_And_Investment_Tracker.Services
+namespace CS2Tracker_Core.Services
 {
     public class CurrencyService : ICurrencyService
     {

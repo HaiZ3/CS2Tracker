@@ -1,9 +1,9 @@
-﻿using FormsApp_CS2_Arbitrage_And_Investment_Tracker.Enums;
+using CS2Tracker_Core.Models.Enums;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace FormsApp_CS2_Arbitrage_And_Investment_Tracker.Helpers
+namespace CS2Tracker_Core.Helpers
 {
     public static class Cs2ItemTypeHelper
     {
@@ -99,15 +99,9 @@ namespace FormsApp_CS2_Arbitrage_And_Investment_Tracker.Helpers
                 || itemName.Contains("| KSK")
                 || itemName.Contains("| Sabre")
                 || itemName.Contains("| Phoenix")
-                || itemName.Contains("| NSWC SEAL")
+                || itemName.Contains("| GENIUS")
                 || itemName.Contains("| Operator")
-                || itemName.Contains("| Ground Rebel")
-                || itemName.Contains("| Elite Crew")
-                || itemName.Contains("| Guerrilla Warfare")
-                || itemName.Contains("| The Professionals")
-                || itemName.Contains("| Kumicho Security")
-                || itemName.Contains("| Sabre Footsoldier")
-                || itemName.Contains("| Street Soldier");
+                || itemName.Contains("| Balkan");
         }
     }
 }

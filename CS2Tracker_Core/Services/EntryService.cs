@@ -1,13 +1,11 @@
-﻿using CS2Tracker_Core.Models.DTOs.ApiDTOs.EntiresDTOs;
-using FormsApp_CS2_Arbitrage_And_Investment_Tracker.Classes;
-using FormsApp_CS2_Arbitrage_And_Investment_Tracker.Context;
-using FormsApp_CS2_Arbitrage_And_Investment_Tracker.Enums;
-using FormsApp_CS2_Arbitrage_And_Investment_Tracker.Interfaces.IServices;
-using FormsApp_CS2_Arbitrage_And_Investment_Tracker.Models;
-using FormsApp_CS2_Arbitrage_And_Investment_Tracker.Models.Responses;
+using CS2Tracker_Core.Models.DTOs.ApiDTOs.EntiresDTOs;
+using CS2Tracker_Core.Models;
+using CS2Tracker_Core.Models.Enums;
+using CS2Tracker_Core.Context;
+using CS2Tracker_Core.Interfaces.IServices;
 using Microsoft.EntityFrameworkCore;
 
-namespace FormsApp_CS2_Arbitrage_And_Investment_Tracker.Services
+namespace CS2Tracker_Core.Services
 {
     public class EntryService : IEntryService
     {
@@ -132,90 +130,3 @@ namespace FormsApp_CS2_Arbitrage_And_Investment_Tracker.Services
         }
     }
 }
-//public async Task<ServiceResultGeneric<int[]>> ImportFromCsvToSheetAsync(int sheetId)
-//{
-//    string filePath =
-//        @"C:\Users\skele\source\repos\FormsApp_CS2_Arbitrage_And_Investment_Tracker\FormsApp_CS2_Arbitrage_And_Investment_Tracker\CSVs\Skins_v2.csv";
-//    List<EntryCsvDto> entriesFromCsv = new();
-
-//    var config = new CsvConfiguration(CultureInfo.InvariantCulture)
-//    {
-//        HeaderValidated = null,
-//        MissingFieldFound = null,
-//        BadDataFound = null,
-//        ShouldSkipRecord = args => args.Row.Parser.Record?.All(string.IsNullOrWhiteSpace) ?? false,
-//    };
-
-//    using var reader = new StreamReader(filePath);
-//    using var csv = new CsvHelper.CsvReader(reader, config);
-
-
-//    var records = csv.GetRecordsAsync<EntryCsvDto>();
-//    int[] recordsData = new int[2];
-//    await foreach (var record in records)
-//    {
-//        try
-//        {
-//            if (record.Name == null || record.BuyPrice < 0 || record.SellPrice < 0 || string.IsNullOrEmpty(record.Name))
-//            {
-//                recordsData[0]++;
-//                continue;
-//            }
-//            SkinInfo skinInfo = new SkinInfo(record.Name, null, null, null);
-//            skinInfo.SetItemType();
-
-//            Entry entry = new Entry(1, null, null, record.BuyPrice, record.SellPrice, 1
-//                , skinInfo, EntryDataSource.Legacy, record.Return, record.DailyReturn, EntryStatus.Closed);
-
-//            entry.SheetId = sheetId;
-//            entry.Profit = entry.SellPrice - entry.BuyPrice;
-
-//            _context.Entries.Add(entry);
-//            recordsData[1]++;
-//        }
-//        catch (Exception)
-//        {
-//            recordsData[0]++;
-//        }
-//    }
-//    await _context.SaveChangesAsync();
-//    return ServiceResultGeneric<int[]>.Ok(recordsData);
-//}
-
-//public async Task<ServiceResult> AddEntryAsync(int sheetId, string entryName, int quantity
-//    , DateTime dateBought, DateTime? dateSold, decimal buyPrice, decimal? sellPrice, decimal? itemFloat
-//    , SkinCondition skinCondition, SkinVariant skinVariant, ItemType itemType)
-//{
-//    SkinInfo skinInfo = new SkinInfo(entryName, itemFloat, skinVariant
-//        , skinCondition);
-
-//    var cosmetics = new ItemType?[] { ItemType.Sticker, ItemType.Charm, ItemType.Patch };
-
-//    if (!cosmetics.Contains(itemType))
-//    {
-//        skinInfo.SetItemType();
-//    }
-//    else
-//    {
-//        skinInfo.ItemType = itemType;
-//    }
-
-//    skinInfo.SetMarketHashName();
-
-//    ServiceResultGeneric<decimal> sellOrderPriceResult = await _CSFloatService.GetLowestPriceListingAsync(skinInfo.MarketHashName);
-
-//    if (!sellOrderPriceResult.Success)
-//    {
-//        return ServiceResult.Fail(sellOrderPriceResult.ErrorMessage);
-//    }
-
-//    decimal sellOrderPrice = sellOrderPriceResult.Data;
-
-//    Entry entry = new Entry(quantity, dateBought, buyPrice, sheetId, skinInfo);
-//    entry.DataSource = EntryDataSource.Regular;
-
-//    _context.Add(entry);
-//    await _context.SaveChangesAsync();
-
-//    return ServiceResult.Ok();
-//}

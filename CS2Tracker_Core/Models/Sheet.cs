@@ -1,4 +1,4 @@
-﻿using FormsApp_CS2_Arbitrage_And_Investment_Tracker.Enums;
+using CS2Tracker_Core.Models.Enums;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
-namespace FormsApp_CS2_Arbitrage_And_Investment_Tracker.Classes
+namespace CS2Tracker_Core.Models
 {
     [Table("Sheets")]
     public class Sheet

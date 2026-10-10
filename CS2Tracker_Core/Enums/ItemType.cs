@@ -1,8 +1,8 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace FormsApp_CS2_Arbitrage_And_Investment_Tracker.Enums
+namespace CS2Tracker_Core.Models.Enums
 {
     public enum ItemType 
     {

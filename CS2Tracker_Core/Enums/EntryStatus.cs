@@ -1,13 +1,13 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace FormsApp_CS2_Arbitrage_And_Investment_Tracker.Enums
+namespace CS2Tracker_Core.Models.Enums
 {
     public enum EntryStatus
     {
-        Open = 1,
-        Closed = 2,
-        Cancelled = 3
+        Open = 0,
+        Closed = 1,
+        Canceled = 2
     }
 }

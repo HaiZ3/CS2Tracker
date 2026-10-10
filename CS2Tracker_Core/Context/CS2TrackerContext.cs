@@ -1,9 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
-using FormsApp_CS2_Arbitrage_And_Investment_Tracker.Classes;
-using FormsApp_CS2_Arbitrage_And_Investment_Tracker.Models;
+using Microsoft.EntityFrameworkCore;
+using CS2Tracker_Core.Models;
 using CS2Tracker_Core.Models;
 
-namespace FormsApp_CS2_Arbitrage_And_Investment_Tracker.Context
+namespace CS2Tracker_Core.Context
 {
     public class CS2TrackerContext : DbContext
     {

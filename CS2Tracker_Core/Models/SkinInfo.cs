@@ -1,10 +1,10 @@
-﻿using CS2Tracker_Core.Models.DTOs.ApiDTOs.SkinInfoDTOs;
-using FormsApp_CS2_Arbitrage_And_Investment_Tracker.Enums;
-using FormsApp_CS2_Arbitrage_And_Investment_Tracker.Helpers;
+using CS2Tracker_Core.Models.DTOs.ApiDTOs.SkinInfoDTOs;
+using CS2Tracker_Core.Models.Enums;
+using CS2Tracker_Core.Helpers;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace FormsApp_CS2_Arbitrage_And_Investment_Tracker.Classes
+namespace CS2Tracker_Core.Models
 {
 
     [Table("SkinInfos")]
