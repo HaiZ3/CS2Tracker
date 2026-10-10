@@ -1,6 +1,7 @@
 
 using CS2Tracker_Api.Services;
 using CS2Tracker_Core.Interfaces.IServices;
+using CS2Tracker_Core.Services;
 using FormsApp_CS2_Arbitrage_And_Investment_Tracker.Context;
 using FormsApp_CS2_Arbitrage_And_Investment_Tracker.Interfaces.IServices;
 using FormsApp_CS2_Arbitrage_And_Investment_Tracker.Services;
@@ -31,8 +32,11 @@ namespace CS2Tracker_Api
             builder.Services.AddScoped<ISheetService, SheetService>();
 
             // External APIs
-            builder.Services.AddHttpClient<ICSFloatService, CSFloatService>();
+            builder.Services.AddMemoryCache();
+
+
             builder.Services.AddHttpClient<ICurrencyService, CurrencyService>();
+            builder.Services.AddHttpClient<IMarketplacePriceService, MarketplacePriceService>();
 
             // API
             builder.Services.AddControllers();

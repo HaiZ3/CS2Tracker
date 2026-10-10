@@ -1,6 +1,8 @@
 ﻿using CS2Tracker_Core.Interfaces.IServices;
 using CS2Tracker_Core.Models.DTOs.ApiDTOs.EntiresDTOs;
+using CS2Tracker_Core.Models.DTOs.ApiDTOs.EntiresDTOs.MarketPricesDTOs;
 using CS2Tracker_Core.Models.DTOs.ApiDTOs.SheetDTOs;
+using CS2Tracker_Core.Services;
 using FormsApp_CS2_Arbitrage_And_Investment_Tracker.Classes;
 using FormsApp_CS2_Arbitrage_And_Investment_Tracker.Enums;
 using FormsApp_CS2_Arbitrage_And_Investment_Tracker.Interfaces.IServices;
@@ -18,9 +20,11 @@ namespace CS2Tracker_Api.Controllers
     public class SheetsController : ControllerBase
     {
         private readonly ISheetService _sheetService;
-        public SheetsController(ISheetService sheetService)
+        private readonly IMarketplacePriceService _marketplacePriceService;
+        public SheetsController(ISheetService sheetService,IMarketplacePriceService marketplacePriceService)
         {
             _sheetService = sheetService;
+            _marketplacePriceService = marketplacePriceService;
         }
 
         [HttpGet]
@@ -36,13 +40,13 @@ namespace CS2Tracker_Api.Controllers
 
             return Ok(result);
         }
-        [HttpGet("{sheetId}")]
-        public async Task<IActionResult> GetSheetById(GetSheetByIdDTO request)
+        [HttpGet("{sheetId:int}")]
+        public async Task<IActionResult> GetSheetById(int sheetId)
         {
             var userId = int.Parse(
                 User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
 
-            var tempResult = await _sheetService.GetSheetByIdAsync(request.Id, userId);
+            var tempResult = await _sheetService.GetSheetByIdAsync(sheetId, userId);
 
             if (!tempResult.Success)
             {
@@ -50,6 +54,39 @@ namespace CS2Tracker_Api.Controllers
             }
 
             Sheet sheet = tempResult.Data;
+
+            EntryDisplayDto[] entries = new EntryDisplayDto[sheet.Entries.Count];
+
+            int i = 0;
+
+            foreach (Entry entry in sheet.Entries)
+            {
+                EntryDisplayDto entryDto = new EntryDisplayDto
+                {
+                    Id = entry.Id,
+                    Name = entry.Name,
+                    Quantity = entry.Quantity,
+                    Status = entry.Status.ToString(),
+                    DataSource = entry.DataSource.ToString(),
+                    Profit = entry.Profit,
+                    BuyPrice = entry.BuyPrice,
+                    SellPrice = entry.SellPrice
+                };
+
+                var priceResult = await _marketplacePriceService
+                    .GetSkinMarketplacePrice(entry.SkinInfo.MarketHashName);
+
+                if (priceResult.Success && priceResult.Data != null && entry.Status == EntryStatus.Open)
+                {
+                    SkinPriceDTO skinPrice = priceResult.Data;
+
+                    entryDto.CsFloatPrice = skinPrice.Prices.Csfloat?.Ask;
+                    entryDto.YouPinPrice = skinPrice.Prices.Youpin?.Ask;
+                }
+
+                entries[i] = entryDto;
+                i++;
+            }
 
             SheetDisplayDto sheetDisplayDto = new SheetDisplayDto
             {
@@ -59,25 +96,13 @@ namespace CS2Tracker_Api.Controllers
                 Type = (int)sheet.SheetType,
                 CreatedAt = sheet.CreatedAt,
                 UpdatedAt = sheet.UpdatedAt,
-                Entries = sheet.Entries.Select(s => new EntryDisplayDto
-                {
-                    Id = s.Id,
-                    Name = s.Name,
-                    Quantity = s.Quantity,
-                    Status = s.Status.ToString(),
-                    DataSource = s.DataSource.ToString(),
-                    Profit = s.Profit,
-                    BuyPrice = s.BuyPrice,
-                    SellPrice = s.SellPrice
-                }).ToArray()
+                Entries = entries.ToArray()
             };
 
             ServiceResultGeneric<SheetDisplayDto> result = new ServiceResultGeneric<SheetDisplayDto>
             {
                 Success = tempResult.Success,
                 ErrorMessage = tempResult.ErrorMessage,
-                UserId = tempResult.UserId,
-                Username = tempResult.Username,
                 Data = sheetDisplayDto
             };
 

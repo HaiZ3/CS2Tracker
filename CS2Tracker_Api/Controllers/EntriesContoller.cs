@@ -1,4 +1,6 @@
-﻿using CS2Tracker_Core.Models.DTOs.ApiDTOs.EntiresDTOs;
+﻿using CS2Tracker_Core.Interfaces.IServices;
+using CS2Tracker_Core.Models.DTOs.ApiDTOs.EntiresDTOs;
+using CS2Tracker_Core.Models.DTOs.ApiDTOs.EntiresDTOs.MarketPricesDTOs;
 using FormsApp_CS2_Arbitrage_And_Investment_Tracker.Classes;
 using FormsApp_CS2_Arbitrage_And_Investment_Tracker.Context;
 using FormsApp_CS2_Arbitrage_And_Investment_Tracker.Interfaces.IServices;
@@ -15,10 +17,12 @@ namespace CS2Tracker_Api.Controllers
     public class EntriesContoller : ControllerBase
     {
         private readonly IEntryService _entryService;
+        private readonly IMarketplacePriceService _marketplacePriceService;
 
-        public EntriesContoller(IEntryService entryService)
+        public EntriesContoller(IEntryService entryService,IMarketplacePriceService marketplacePriceService)
         {
             _entryService = entryService;
+            _marketplacePriceService = marketplacePriceService;
         }
 
         [HttpGet]
@@ -36,6 +40,10 @@ namespace CS2Tracker_Api.Controllers
 
             Entry entry = entryRes.Data!;
 
+            var serviceResultGenericSkinPrice = await _marketplacePriceService.GetSkinMarketplacePrice(entry.SkinInfo.MarketHashName);
+
+            SkinPriceDTO skinPriceDTO = serviceResultGenericSkinPrice.Data;
+
             EntryDisplayDto res = new EntryDisplayDto
             {
                 Id = entry.Id,
@@ -46,6 +54,8 @@ namespace CS2Tracker_Api.Controllers
                 Profit = entry.Profit,
                 BuyPrice = entry.BuyPrice,
                 SellPrice = entry.SellPrice,
+                CsFloatPrice = skinPriceDTO.Prices.Csfloat?.Ask,
+                YouPinPrice = skinPriceDTO.Prices.Youpin?.Ask
             };
 
             return Ok(res);
