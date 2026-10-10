@@ -1,7 +1,7 @@
-﻿using FormsApp_CS2_Arbitrage_And_Investment_Tracker.Classes;
-using FormsApp_CS2_Arbitrage_And_Investment_Tracker.Enums;
+using CS2Tracker_Core.Models;
+using CS2Tracker_Core.Models.Enums;
 
-namespace FormsApp_CS2_Arbitrage_And_Investment_Tracker.Helpers
+namespace CS2Tracker_Core.Helpers
 {
     public static class Cs2MarketHashNameHelper
     {
@@ -36,27 +36,21 @@ namespace FormsApp_CS2_Arbitrage_And_Investment_Tracker.Helpers
             string skinVariant = string.Empty;
             switch (skinInfo.SkinCondition)
             {
-                case SkinCondition.Factory_New:
+                case SkinCondition.FactoryNew:
                     skinVariant = "Factory New";
                     break;
-                case SkinCondition.Minimal_Wear:
+                case SkinCondition.MinimalWear:
                     skinVariant = "Minimal Wear";
                     break;
-                case SkinCondition.Field_Tested:
+                case SkinCondition.FieldTested:
                     skinVariant = "Field-Tested";
                     break;
-                case SkinCondition.Well_Worn:
+                case SkinCondition.WellWorn:
                     skinVariant = "Well-Worn";
                     break;
-                case SkinCondition.Battle_Scarred:
+                case SkinCondition.BattleScarred:
                     skinVariant = "Battle-Scarred";
                     break;
-                case SkinCondition.Vanilla:
-                    marketHashName = skinInfo.Name;
-                    return marketHashName;
-                //case null:
-                //    marketHashName = skinInfo.Name;
-                //    return marketHashName;
                 default:
                     return skinInfo.Name;
             }

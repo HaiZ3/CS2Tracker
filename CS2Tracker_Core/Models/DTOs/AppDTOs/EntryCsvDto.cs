@@ -1,6 +1,6 @@
-﻿using CsvHelper.Configuration.Attributes;
-using FormsApp_CS2_Arbitrage_And_Investment_Tracker.Enums;
-using FormsApp_CS2_Arbitrage_And_Investment_Tracker.Helpers;
+using CsvHelper.Configuration.Attributes;
+using CS2Tracker_Core.Models.Enums;
+using CS2Tracker_Core.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Text;

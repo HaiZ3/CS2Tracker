@@ -1,8 +1,8 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace FormsApp_CS2_Arbitrage_And_Investment_Tracker.Models.Responses
+namespace CS2Tracker_Core.Models
 {
     public class ServiceResultGeneric<T> : ServiceResult
     {

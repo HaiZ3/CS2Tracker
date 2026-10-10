@@ -1,14 +1,12 @@
-﻿using CS2Tracker_Core.Interfaces.IServices;
+using CS2Tracker_Core.Interfaces.IServices;
+using CS2Tracker_Core.Models;
 using CS2Tracker_Core.Models.DTOs.ApiDTOs.EntiresDTOs;
 using CS2Tracker_Core.Models.DTOs.ApiDTOs.EntiresDTOs.MarketPricesDTOs;
-using FormsApp_CS2_Arbitrage_And_Investment_Tracker.Classes;
-using FormsApp_CS2_Arbitrage_And_Investment_Tracker.Context;
-using FormsApp_CS2_Arbitrage_And_Investment_Tracker.Interfaces.IServices;
-using FormsApp_CS2_Arbitrage_And_Investment_Tracker.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
+
 namespace CS2Tracker_Api.Controllers
 {
     [Route("api/entries")]

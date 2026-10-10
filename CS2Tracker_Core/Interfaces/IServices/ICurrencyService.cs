@@ -1,10 +1,9 @@
-﻿using FormsApp_CS2_Arbitrage_And_Investment_Tracker.Models;
-using FormsApp_CS2_Arbitrage_And_Investment_Tracker.Models.Responses;
+using CS2Tracker_Core.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace FormsApp_CS2_Arbitrage_And_Investment_Tracker.Interfaces.IServices
+namespace CS2Tracker_Core.Interfaces.IServices
 {
     public interface ICurrencyService
     {
