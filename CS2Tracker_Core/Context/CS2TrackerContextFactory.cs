@@ -1,4 +1,4 @@
-﻿using FormsApp_CS2_Arbitrage_And_Investment_Tracker.Context;
+﻿using CS2Tracker_Core.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;

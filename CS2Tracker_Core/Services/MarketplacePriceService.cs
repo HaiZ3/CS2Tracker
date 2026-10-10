@@ -1,7 +1,7 @@
 ﻿using CS2Tracker_Core.Interfaces.IServices;
 using CS2Tracker_Core.Models.DTOs.ApiDTOs.EntiresDTOs.MarketPricesDTOs;
 using CS2Tracker_Core.Models.DTOs.AppDTOs;
-using FormsApp_CS2_Arbitrage_And_Investment_Tracker.Models.Responses;
+using CS2Tracker_Core.Models.Responses;
 using Microsoft.Extensions.Caching.Memory;
 using System;
 using System.Collections.Generic;

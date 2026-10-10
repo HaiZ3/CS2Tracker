@@ -1,9 +1,9 @@
 using CsvHelper.Configuration.Attributes;
-using CS2Tracker_Core.Models.Enums;
 using CS2Tracker_Core.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using FormsApp_CS2_Arbitrage_And_Investment_Tracker.Helpers;
 
 namespace CS2Tracker_Core.Models.DTOs.AppDTOs
 {

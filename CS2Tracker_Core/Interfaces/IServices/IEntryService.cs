@@ -1,6 +1,6 @@
 using CS2Tracker_Core.Models;
 using CS2Tracker_Core.Models.DTOs.ApiDTOs.EntiresDTOs;
-using CS2Tracker_Core.Models.Enums;
+using CS2Tracker_Core.Models.Responses;
 using System;
 using System.Collections.Generic;
 using System.Text;

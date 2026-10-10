@@ -1,5 +1,5 @@
 using CS2Tracker_Core.Models.DTOs.ApiDTOs.SkinInfoDTOs;
-using CS2Tracker_Core.Models.Enums;
+using CS2Tracker_Core.Enums;
 using CS2Tracker_Core.Helpers;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;

@@ -1,4 +1,4 @@
-using CS2Tracker_Core.Models.Enums;
+using CS2Tracker_Core.Enums;
 using System;
 using System.Collections.Generic;
 using System.Text;

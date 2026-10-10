@@ -1,9 +1,10 @@
 using CS2Tracker_Core.Models.DTOs.ApiDTOs.EntiresDTOs;
 using CS2Tracker_Core.Models;
-using CS2Tracker_Core.Models.Enums;
+using CS2Tracker_Core.Enums;
 using CS2Tracker_Core.Context;
 using CS2Tracker_Core.Interfaces.IServices;
 using Microsoft.EntityFrameworkCore;
+using CS2Tracker_Core.Models.Responses;
 
 namespace CS2Tracker_Core.Services
 {

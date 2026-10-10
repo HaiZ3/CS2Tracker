@@ -1,6 +1,5 @@
+using CS2Tracker_Core.Enums;
 using CS2Tracker_Core.Models;
-using CS2Tracker_Core.Models.Enums;
-
 namespace CS2Tracker_Core.Helpers
 {
     public static class Cs2MarketHashNameHelper

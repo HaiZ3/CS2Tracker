@@ -1,4 +1,4 @@
-﻿using FormsApp_CS2_Arbitrage_And_Investment_Tracker.Enums;
+﻿using CS2Tracker_Core.Enums;
 using System;
 using System.Collections.Generic;
 using System.Text;

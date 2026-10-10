@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using CS2Tracker_Core.Models.Responses;
 
 namespace CS2Tracker_Core.Services
 {

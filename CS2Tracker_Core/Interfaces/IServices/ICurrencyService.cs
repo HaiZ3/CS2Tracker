@@ -1,4 +1,4 @@
-using CS2Tracker_Core.Models;
+using CS2Tracker_Core.Models.Responses;
 using System;
 using System.Collections.Generic;
 using System.Text;

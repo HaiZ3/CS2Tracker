@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace CS2Tracker_Core.Models
+namespace CS2Tracker_Core.Models.Responses
 {
     public class ServiceResultGeneric<T> : ServiceResult
     {

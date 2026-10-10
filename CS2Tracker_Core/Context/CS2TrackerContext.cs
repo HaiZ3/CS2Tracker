@@ -1,6 +1,5 @@
 using Microsoft.EntityFrameworkCore;
 using CS2Tracker_Core.Models;
-using CS2Tracker_Core.Models;
 
 namespace CS2Tracker_Core.Context
 {

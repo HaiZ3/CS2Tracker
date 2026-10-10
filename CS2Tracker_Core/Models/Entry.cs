@@ -1,5 +1,5 @@
 using CS2Tracker_Core.Models.DTOs.ApiDTOs.EntiresDTOs;
-using CS2Tracker_Core.Models.Enums;
+using CS2Tracker_Core.Enums;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;

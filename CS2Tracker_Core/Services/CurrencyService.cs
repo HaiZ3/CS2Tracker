@@ -4,6 +4,7 @@ using CS2Tracker_Core.Context;
 using CS2Tracker_Core.Interfaces.IServices;
 using Microsoft.EntityFrameworkCore;
 using System.Net.Http.Json;
+using CS2Tracker_Core.Models.Responses;
 
 namespace CS2Tracker_Core.Services
 {
