@@ -1,10 +1,10 @@
-using CS2Tracker_Core.Models;
-using CS2Tracker_Core.Enums;
-using CS2Tracker_Core.Context;
+using CS2Tracker_Models;
+using CS2Tracker_Common.Enums;
+using CS2Tracker_Data.Context;
 using CS2Tracker_Core.Interfaces.IServices;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.EntityFrameworkCore;
-using CS2Tracker_Core.Models.Responses;
+using CS2Tracker_Common.Responses;
 
 namespace CS2Tracker_Core.Services
 {

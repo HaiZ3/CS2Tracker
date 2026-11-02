@@ -1,27 +1,30 @@
-using CS2Tracker_Core.Models.DTOs.ApiDTOs.EntiresDTOs;
-using CS2Tracker_Core.Models;
-using CS2Tracker_Core.Enums;
-using CS2Tracker_Core.Context;
+using CS2Tracker_Data.Context;
+using CS2Tracker_Common.Enums;
 using CS2Tracker_Core.Interfaces.IServices;
+using CS2Tracker_Models;
+using CS2Tracker_Core.Models.DTOs.ApiDTOs.EntiresDTOs;
+using CS2Tracker_Core.Models.DTOs.ApiDTOs.EntiresDTOs.MarketPricesDTOs;
+using CS2Tracker_Common.Responses;
 using Microsoft.EntityFrameworkCore;
-using CS2Tracker_Core.Models.Responses;
 
 namespace CS2Tracker_Core.Services
 {
     public class EntryService : IEntryService
     {
-        private CS2TrackerContext _context;
-        private ISheetService _sheetService;
-        public EntryService(CS2TrackerContext context, ISheetService sheetService)
+        private readonly CS2TrackerContext _context;
+        private readonly ISheetService _sheetService;
+        private readonly IMarketplacePriceService _marketplacePriceService;
+        public EntryService(CS2TrackerContext context, ISheetService sheetService, IMarketplacePriceService marketplacePriceService)
         {
             _context = context;
             _sheetService = sheetService;
+            _marketplacePriceService = marketplacePriceService;
         }
-        public async Task<ServiceResult> AddEntryAsync(Entry entry, SkinInfo skinInfo, int userId)
+        public async Task<ServiceResult> AddEntryAsync(int userId,CreateEntryDTO createEntryDTO)
         {
             bool sheetExists = await _context.Sheets
                 .AnyAsync(s =>
-                s.Id == entry.SheetId &&
+                s.Id == createEntryDTO.SheetId &&
                 s.UserId == userId);
 
             if (!sheetExists)
@@ -30,22 +33,25 @@ namespace CS2Tracker_Core.Services
             }
             try
             {
+                SkinInfo skinInfo = new SkinInfo(createEntryDTO.SkinInfo); ;
+
+                Entry entry = new Entry(createEntryDTO, skinInfo);
+
 
                 skinInfo.SetMarketHashName();
                 skinInfo.SetItemType();
 
+                entry.DataSource = EntryDataSource.Regular;
+
+                _context.Add(entry);
+                await _context.SaveChangesAsync();
+
+                return ServiceResult.Ok();
             }
             catch (Exception)
             {
                 return ServiceResult.Fail("Market hash name or item type failed to set!");
             }
-
-            entry.DataSource = EntryDataSource.Regular;
-
-            _context.Add(entry);
-            await _context.SaveChangesAsync();
-
-            return ServiceResult.Ok();
         }
 
         public async Task<ServiceResultGeneric<ICollection<Entry>>> GetEntriesBySheetAsync(int sheetId)
@@ -63,10 +69,10 @@ namespace CS2Tracker_Core.Services
                 return ServiceResultGeneric<ICollection<Entry>>.Ok(entries);
             }
         }
-        public async Task<ServiceResult> CloseEntryAsync(int userId,CloseEntryDTO request)
+        public async Task<ServiceResult> CloseEntryAsync(int userId, CloseEntryDTO request)
         {
             Entry? entry = await _context.Entries
-                .Include (s => s.Sheet)
+                .Include(s => s.Sheet)
                 .FirstOrDefaultAsync
                 (e => e.Id == request.EntryId
                 && e.Sheet.UserId == userId);
@@ -89,14 +95,14 @@ namespace CS2Tracker_Core.Services
                 return ServiceResult.Ok();
             }
         }
-        public async Task<ServiceResult> CancelEntryAsync(int userId,CancelEntryDTO request)
+        public async Task<ServiceResult> CancelEntryAsync(int userId, CancelEntryDTO request)
         {
             Entry? entry = await _context.Entries
                 .FirstOrDefaultAsync(
                 e => e.Id == request.EntryId
                 &&
                 e.Sheet.UserId == userId
-                
+
                 );
             if (entry == null)
             {
@@ -109,13 +115,13 @@ namespace CS2Tracker_Core.Services
                 return ServiceResult.Ok();
             }
         }
-        public async Task<ServiceResultGeneric<Entry>> GetEntryFromSheetAsync(int userId, int entryId, int sheetId)
+        public async Task<ServiceResultGeneric<EntryDisplayDto>> GetEntryBySheetIdAsync(int userId, int entryId, int sheetId)
         {
             var sheetRes = await _sheetService.GetSheetByIdAsync(sheetId, userId);
 
             if (!sheetRes.Success)
             {
-                return ServiceResultGeneric<Entry>.Fail("No such sheet exists");
+                return ServiceResultGeneric<EntryDisplayDto>.Fail("No such sheet exists");
             }
 
             Sheet sheet = sheetRes.Data!;
@@ -124,10 +130,31 @@ namespace CS2Tracker_Core.Services
 
             if (entryRes == null)
             {
-                return ServiceResultGeneric<Entry>.Fail("No such entry exists");
+                return ServiceResultGeneric<EntryDisplayDto>.Fail("No such entry exists");
             }
 
-            return ServiceResultGeneric<Entry>.Ok(entryRes);
+            var entry = entryRes;
+
+            var serviceResultGenericSkinPrice = await _marketplacePriceService.GetSkinMarketplacePrice(entry.SkinInfo.MarketHashName);
+
+            SkinPriceDTO skinPriceDTO = serviceResultGenericSkinPrice.Data;
+
+            EntryDisplayDto res = new EntryDisplayDto
+            {
+                Id = entry.Id,
+                Name = entry.Name,
+                Quantity = entry.Quantity,
+                Status = entry.Status.ToString(),
+                DataSource = entry.DataSource.ToString(),
+                Profit = entry.Profit,
+                BuyPrice = entry.BuyPrice,
+                SellPrice = entry.SellPrice,
+                CsFloatPrice = skinPriceDTO.Prices.Csfloat?.Ask,
+                YouPinPrice = skinPriceDTO.Prices.Youpin?.Ask
+            };
+
+
+            return ServiceResultGeneric<EntryDisplayDto>.Ok(res);
         }
     }
 }

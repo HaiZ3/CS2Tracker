@@ -17,4 +17,11 @@
     <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\CS2Tracker_Common\CS2Tracker_Common.csproj" />
+    <ProjectReference Include="..\CS2Tracker_Data\CS2Tracker_Data.csproj" />
+    <ProjectReference Include="..\CS2Tracker_DTOs\CS2Tracker_DTOs.csproj" />
+    <ProjectReference Include="..\CS2Tracker_Models\CS2Tracker_Models.csproj" />
+  </ItemGroup>
+
 </Project>

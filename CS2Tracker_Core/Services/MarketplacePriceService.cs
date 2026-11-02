@@ -1,7 +1,7 @@
 ﻿using CS2Tracker_Core.Interfaces.IServices;
 using CS2Tracker_Core.Models.DTOs.ApiDTOs.EntiresDTOs.MarketPricesDTOs;
 using CS2Tracker_Core.Models.DTOs.AppDTOs;
-using CS2Tracker_Core.Models.Responses;
+using CS2Tracker_Common.Responses;
 using Microsoft.Extensions.Caching.Memory;
 using System;
 using System.Collections.Generic;

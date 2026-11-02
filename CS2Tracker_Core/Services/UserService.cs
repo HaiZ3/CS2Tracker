@@ -1,12 +1,12 @@
 using BCrypt.Net;
-using CS2Tracker_Core.Models;
-using CS2Tracker_Core.Context;
+using CS2Tracker_Models;
+using CS2Tracker_Data.Context;
 using CS2Tracker_Core.Interfaces.IServices;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using CS2Tracker_Core.Models.Responses;
+using CS2Tracker_Common.Responses;
 
 namespace CS2Tracker_Core.Services
 {

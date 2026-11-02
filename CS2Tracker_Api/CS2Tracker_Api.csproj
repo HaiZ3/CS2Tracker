@@ -22,6 +22,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CS2Tracker_Core\CS2Tracker_Core.csproj" />
+    <ProjectReference Include="..\CS2Tracker_Data\CS2Tracker_Data.csproj" />
   </ItemGroup>
 
 </Project>

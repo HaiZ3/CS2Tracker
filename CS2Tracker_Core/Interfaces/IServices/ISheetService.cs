@@ -1,6 +1,6 @@
-using CS2Tracker_Core.Models.Responses;
-using CS2Tracker_Core.Models;
-using CS2Tracker_Core.Enums;
+using CS2Tracker_Common.Responses;
+using CS2Tracker_Models;
+using CS2Tracker_Common.Enums;
 using System;
 using System.Collections.Generic;
 using System.Text;

@@ -1,6 +1,6 @@
 
 using CS2Tracker_Api.Services;
-using CS2Tracker_Core.Context;
+using CS2Tracker_Data.Context;
 using CS2Tracker_Core.Interfaces.IServices;
 using CS2Tracker_Core.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -33,7 +33,6 @@ namespace CS2Tracker_Api
             builder.Services.AddMemoryCache();
 
 
-            builder.Services.AddHttpClient<ICurrencyService, CurrencyService>();
             builder.Services.AddHttpClient<IMarketplacePriceService, MarketplacePriceService>();
 
             // API
