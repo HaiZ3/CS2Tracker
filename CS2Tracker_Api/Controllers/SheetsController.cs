@@ -22,7 +22,6 @@ namespace CS2Tracker_Api.Controllers
         public SheetsController(ISheetService sheetService,IMarketplacePriceService marketplacePriceService)
         {
             _sheetService = sheetService;
-            _marketplacePriceService = marketplacePriceService;
         }
 
         [HttpGet]
