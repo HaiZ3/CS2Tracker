@@ -1,14 +1,8 @@
 using CS2Tracker_Core.Interfaces.IServices;
-using CS2Tracker_Models;
-using CS2Tracker_Core.Models.DTOs.ApiDTOs.EntiresDTOs;
-using CS2Tracker_Core.Models.DTOs.ApiDTOs.EntiresDTOs.MarketPricesDTOs;
 using CS2Tracker_Core.Models.DTOs.ApiDTOs.SheetDTOs;
-using CS2Tracker_Common.Enums;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
-using CS2Tracker_Common.Responses;
 
 namespace CS2Tracker_Api.Controllers
 {
@@ -18,12 +12,10 @@ namespace CS2Tracker_Api.Controllers
     public class SheetsController : ControllerBase
     {
         private readonly ISheetService _sheetService;
-        private readonly IMarketplacePriceService _marketplacePriceService;
-        public SheetsController(ISheetService sheetService,IMarketplacePriceService marketplacePriceService)
+        public SheetsController(ISheetService sheetService)
         {
             _sheetService = sheetService;
         }
-
         [HttpGet]
         public async Task<IActionResult> GetSheets()
         {
@@ -33,9 +25,11 @@ namespace CS2Tracker_Api.Controllers
             var result = await _sheetService.LoadSheetsAsync(userId);
 
             if (!result.Success)
-                return NotFound(result);
+            {
+                return NotFound(result.ErrorMessage);
+            }
 
-            return Ok(result);
+            return Ok(result.Data);
         }
         [HttpGet("{sheetId:int}")]
         public async Task<IActionResult> GetSheetById(int sheetId)
@@ -43,67 +37,14 @@ namespace CS2Tracker_Api.Controllers
             var userId = int.Parse(
                 User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
 
-            var tempResult = await _sheetService.GetSheetByIdAsync(sheetId, userId);
+            var result = await _sheetService.GetSheetByIdAsync(sheetId, userId);
 
-            if (!tempResult.Success)
+            if (!result.Success)
             {
-                return NotFound(tempResult);
+                return NotFound(result.ErrorMessage);
             }
 
-            Sheet sheet = tempResult.Data;
-
-            EntryDisplayDto[] entries = new EntryDisplayDto[sheet.Entries.Count];
-
-            int i = 0;
-
-            foreach (Entry entry in sheet.Entries)
-            {
-                EntryDisplayDto entryDto = new EntryDisplayDto
-                {
-                    Id = entry.Id,
-                    Name = entry.Name,
-                    Quantity = entry.Quantity,
-                    Status = entry.Status.ToString(),
-                    DataSource = entry.DataSource.ToString(),
-                    Profit = entry.Profit,
-                    BuyPrice = entry.BuyPrice,
-                    SellPrice = entry.SellPrice
-                };
-
-                var priceResult = await _marketplacePriceService
-                    .GetSkinMarketplacePrice(entry.SkinInfo.MarketHashName);
-
-                if (priceResult.Success && priceResult.Data != null && entry.Status == EntryStatus.Open)
-                {
-                    SkinPriceDTO skinPrice = priceResult.Data;
-
-                    entryDto.CsFloatPrice = skinPrice.Prices.Csfloat?.Ask;
-                    entryDto.YouPinPrice = skinPrice.Prices.Youpin?.Ask;
-                }
-
-                entries[i] = entryDto;
-                i++;
-            }
-
-            SheetDisplayDto sheetDisplayDto = new SheetDisplayDto
-            {
-                Id = sheet.Id,
-                UserId = sheet.UserId,
-                Name = sheet.Name,
-                Type = (int)sheet.SheetType,
-                CreatedAt = sheet.CreatedAt,
-                UpdatedAt = sheet.UpdatedAt,
-                Entries = entries.ToArray()
-            };
-
-            ServiceResultGeneric<SheetDisplayDto> result = new ServiceResultGeneric<SheetDisplayDto>
-            {
-                Success = tempResult.Success,
-                ErrorMessage = tempResult.ErrorMessage,
-                Data = sheetDisplayDto
-            };
-
-            return Ok(result);
+            return Ok(result.Data);
         }
         [HttpPost()]
         public async Task<IActionResult> AddNewSheet(AddNewSheetDTO request)
@@ -111,26 +52,14 @@ namespace CS2Tracker_Api.Controllers
             var userId = int.Parse(
             User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
 
-            if(request.Type > 3 || request.Type < 1)
-            {
-                return BadRequest();
-            }
-
-            if (string.IsNullOrWhiteSpace(request.Name))
-            {
-                return UnprocessableEntity();
-            }
-
-            SheetType sheetType = (SheetType)request.Type;
-
-            var result = await _sheetService.CreateSheetAsync(userId, request.Name, sheetType);
+            var result = await _sheetService.CreateSheetAsync(userId, request.Name, request.Type);
 
             if(!result.Success)
             {
-                return Conflict();
+                return Conflict(result.ErrorMessage);
             }
 
-            return Ok(result);
+            return Ok();
         }
     }
 }

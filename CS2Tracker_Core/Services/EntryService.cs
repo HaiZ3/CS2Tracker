@@ -2,10 +2,11 @@ using CS2Tracker_Data.Context;
 using CS2Tracker_Common.Enums;
 using CS2Tracker_Core.Interfaces.IServices;
 using CS2Tracker_Models;
-using CS2Tracker_Core.Models.DTOs.ApiDTOs.EntiresDTOs;
-using CS2Tracker_Core.Models.DTOs.ApiDTOs.EntiresDTOs.MarketPricesDTOs;
+using CS2Tracker_Core.Models.DTOs.ApiDTOs.EntriesDTOs;
+using CS2Tracker_Core.Models.DTOs.ApiDTOs.EntriesDTOs.MarketPricesDTOs;
 using CS2Tracker_Common.Responses;
 using Microsoft.EntityFrameworkCore;
+using CS2Tracker_Core.Models.DTOs.ApiDTOs.SheetDTOs;
 
 namespace CS2Tracker_Core.Services
 {
@@ -124,7 +125,7 @@ namespace CS2Tracker_Core.Services
                 return ServiceResultGeneric<EntryDisplayDto>.Fail("No such sheet exists");
             }
 
-            Sheet sheet = sheetRes.Data!;
+            SheetDisplayDto sheet = sheetRes.Data!;
 
             var entryRes = sheet.Entries.FirstOrDefault(e => e.Id == entryId);
 
@@ -135,9 +136,9 @@ namespace CS2Tracker_Core.Services
 
             var entry = entryRes;
 
-            var serviceResultGenericSkinPrice = await _marketplacePriceService.GetSkinMarketplacePrice(entry.SkinInfo.MarketHashName);
+            var serviceResultGenericSkinPrice = await _marketplacePriceService.GetSkinMarketplacePrice(entry.Name);
 
-            SkinPriceDTO skinPriceDTO = serviceResultGenericSkinPrice.Data;
+            SkinPriceDTO skinPriceDTO = serviceResultGenericSkinPrice.Data!;
 
             EntryDisplayDto res = new EntryDisplayDto
             {

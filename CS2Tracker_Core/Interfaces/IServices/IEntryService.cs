@@ -1,5 +1,5 @@
 using CS2Tracker_Models;
-using CS2Tracker_Core.Models.DTOs.ApiDTOs.EntiresDTOs;
+using CS2Tracker_Core.Models.DTOs.ApiDTOs.EntriesDTOs;
 using CS2Tracker_Common.Responses;
 using System;
 using System.Collections.Generic;

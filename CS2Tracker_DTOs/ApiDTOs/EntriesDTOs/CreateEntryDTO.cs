@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace CS2Tracker_Core.Models.DTOs.ApiDTOs.EntiresDTOs
+namespace CS2Tracker_Core.Models.DTOs.ApiDTOs.EntriesDTOs
 {
     public class CreateEntryDTO
     {

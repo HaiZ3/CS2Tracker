@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Text.Json.Serialization;
 
-namespace CS2Tracker_Core.Models.DTOs.ApiDTOs.EntiresDTOs.MarketPricesDTOs
+namespace CS2Tracker_Core.Models.DTOs.ApiDTOs.EntriesDTOs.MarketPricesDTOs
 {
     public class MarketplacePriceDTO
     {
