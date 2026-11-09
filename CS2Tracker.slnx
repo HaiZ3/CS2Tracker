@@ -2,8 +2,12 @@
   <Project Path="CS2Tracker_Api/CS2Tracker_Api.csproj" />
   <Project Path="CS2Tracker_Common/CS2Tracker_Common.csproj" Id="2ef9fe70-b625-41b2-8f20-9c1a92bcec39" />
   <Project Path="CS2Tracker_Core/CS2Tracker_Core.csproj" />
+<<<<<<< HEAD
   <Project Path="CS2Tracker_Data/CS2Tracker_Data.csproj" Id="41973a06-4f4a-4f13-a28c-90a9f29899ff" />
   <Project Path="CS2Tracker_DTOs/CS2Tracker_DTOs.csproj" Id="929438dc-9fcd-4e9b-befe-f1488eb2468c" />
   <Project Path="CS2Tracker_Models/CS2Tracker_Models.csproj" Id="d5811004-0139-4e5c-9905-5066850a1666" />
   <Project Path="CS2Tracker_Web/CS2Tracker_Web.csproj" Id="ecac704f-c02b-4227-b6b1-aeb7b0a301c1" />
+=======
+  <Project Path="CS2Tracker_Web/CS2Tracker_Web.csproj" Id="d4b374f9-36d5-4a02-a47a-24a57e24e744" />
+>>>>>>> a4375cb4d0909700cf537215bd3b114cab201ffb
 </Solution>

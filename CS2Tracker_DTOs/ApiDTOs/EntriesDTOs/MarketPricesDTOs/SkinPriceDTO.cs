@@ -12,6 +12,5 @@ namespace CS2Tracker_Core.Models.DTOs.ApiDTOs.EntriesDTOs.MarketPricesDTOs
 
         [JsonPropertyName("prices")]
         public PricesDTO Prices { get; set; } = null!;
-
     }
 }
