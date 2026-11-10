@@ -10,7 +10,6 @@ namespace CS2Tracker_Data.Context
         {
         }
 
-        public DbSet<IdempotencyRecord> IdempotencyRecords { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<Sheet> Sheets { get; set; }
         public DbSet<Entry> Entries { get; set; }
@@ -39,10 +38,6 @@ namespace CS2Tracker_Data.Context
                 .WithOne(s => s.Entry)
                 .HasForeignKey<Entry>(e => e.SkinInfoId)
                 .OnDelete(DeleteBehavior.Cascade);
-
-            modelBuilder.Entity<IdempotencyRecord>()
-                .HasIndex(x => new { x.UserId, x.Key })
-                .IsUnique();
 
             foreach (var property in modelBuilder.Model
                 .GetEntityTypes()
