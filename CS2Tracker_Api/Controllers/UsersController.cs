@@ -29,9 +29,9 @@ namespace CS2Tracker_Api.Controllers
                 request.Password);
 
             if (!result.Success)
-                return BadRequest(result);
+                return BadRequest(result.ErrorMessage);
 
-            return Ok(result);
+            return Ok();
         }
         [HttpPost("login")]
         public async Task<IActionResult> Login(LoginUserRequest request)

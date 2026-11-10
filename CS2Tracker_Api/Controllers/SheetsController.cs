@@ -22,7 +22,7 @@ namespace CS2Tracker_Api.Controllers
             var userId = int.Parse(
             User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
 
-            var result = await _sheetService.LoadSheetsAsync(userId);
+            var result = await _sheetService.GetSheetsIdsByUserId(userId);
 
             if (!result.Success)
             {
@@ -37,7 +37,7 @@ namespace CS2Tracker_Api.Controllers
             var userId = int.Parse(
                 User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
 
-            var result = await _sheetService.GetSheetByIdAsync(sheetId, userId);
+            var result = await _sheetService.LoadSheetInfo(sheetId, userId);
 
             if (!result.Success)
             {

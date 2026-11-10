@@ -30,27 +30,7 @@ namespace CS2Tracker_Models
             SheetId = createEntryDTO.SheetId;
             SkinInfo = skinInfo;
             Name = skinInfo.Name;
-        }
-        //Regular entry ctor
-        public Entry(
-            int quantity,
-            DateTime dateBought,
-            decimal buyPrice,
-            int sheetId,
-            SkinInfo skinInfo
-            )
-        {
-            Name = skinInfo.Name;
-            Quantity = quantity;
-            DateBought = dateBought;
-            BuyPrice = buyPrice * quantity;
-
-            SkinInfo = skinInfo;
-            SheetId = sheetId;
-
-            Status = EntryStatus.Open;
             CreatedAt = DateTime.UtcNow;
-            DataSource = EntryDataSource.Regular;
         }
         //Legacy entry ctor
         public Entry(int quantity, DateTime? dateBought

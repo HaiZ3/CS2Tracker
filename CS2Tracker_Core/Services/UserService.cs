@@ -20,7 +20,7 @@ namespace CS2Tracker_Core.Services
         public async Task<ServiceResult> CreateUserAsync(string username,string email ,string password)
         {
             //check if a user with the same username exists
-            if(await _context.Users.AnyAsync(u => u.Username == username))
+            if(await _context.Users.AnyAsync(u => u.UserName == username))
             {
                 return ServiceResult.Fail($"The username: {username} already exists");
             }
@@ -42,7 +42,7 @@ namespace CS2Tracker_Core.Services
         public async Task<ServiceResult> LoginUserAsync(string username,string password)
         {
             //get the user
-            User? user = await _context.Users.FirstOrDefaultAsync(x => x.Username == username);
+            User? user = await _context.Users.FirstOrDefaultAsync(x => x.UserName == username);
             if (user is null)
             {
                 return ServiceResult.Fail("Such a user does not exist!");
@@ -55,7 +55,7 @@ namespace CS2Tracker_Core.Services
                 return ServiceResult.Fail("Incorrect password!");
             }
             //Add the user info to the session
-            return ServiceResult.Ok(user.Id,user.Username);
+            return ServiceResult.Ok(user.Id,user.UserName ?? username);
         }
     }
 }

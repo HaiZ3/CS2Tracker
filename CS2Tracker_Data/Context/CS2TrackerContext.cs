@@ -1,16 +1,17 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using CS2Tracker_Models;
 
 namespace CS2Tracker_Data.Context
 {
-    public class CS2TrackerContext : DbContext
+    public class CS2TrackerContext : IdentityDbContext<User, IdentityRole<int>, int>
     {
         public CS2TrackerContext(DbContextOptions<CS2TrackerContext> options)
             : base(options)
         {
         }
 
-        public DbSet<User> Users { get; set; }
         public DbSet<Sheet> Sheets { get; set; }
         public DbSet<Entry> Entries { get; set; }
         public DbSet<SkinInfo> SkinInfos { get; set; }
@@ -19,8 +20,10 @@ namespace CS2Tracker_Data.Context
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
+
             modelBuilder.Entity<User>()
-                .HasIndex(u => u.Username)
+                .HasIndex(u => u.UserName)
                 .IsUnique();
 
             modelBuilder.Entity<Sheet>()

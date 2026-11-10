@@ -47,7 +47,7 @@ namespace CS2Tracker_Api.Controllers
                     return BadRequest(result.ErrorMessage);
                 }
 
-                return Ok(result);
+                return Ok();
             }
             catch (Exception)
             {
@@ -64,9 +64,9 @@ namespace CS2Tracker_Api.Controllers
 
             if (!result.Success)
             {
-                return NotFound(result);
+                return NotFound(result.ErrorMessage);
             }
-            return Ok(result);
+            return Ok();
         }
         [HttpDelete]
         public async Task<IActionResult> CancelEntry(CancelEntryDTO request)
@@ -80,7 +80,7 @@ namespace CS2Tracker_Api.Controllers
             {
                 return NotFound(result.ErrorMessage);
             }
-            return Ok(result);
+            return Ok();
         }
     }
 }

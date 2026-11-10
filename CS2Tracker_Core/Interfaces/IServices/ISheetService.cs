@@ -10,8 +10,8 @@ namespace CS2Tracker_Core.Interfaces.IServices
 {
     public interface ISheetService
     {
-        public Task<ServiceResultGeneric<ICollection<Sheet>>> LoadSheetsAsync(int userId);
+        public Task<ServiceResultGeneric<ICollection<int>>> GetSheetsIdsByUserId(int userId);
         public Task<ServiceResult> CreateSheetAsync(int userId, string name, int sheetType);
-        public Task<ServiceResultGeneric<SheetDisplayDto>> GetSheetByIdAsync(int sheetId, int userId);
+        public Task<ServiceResultGeneric<SheetDisplayDto>> LoadSheetInfo(int sheetId, int userId);
     }
 }

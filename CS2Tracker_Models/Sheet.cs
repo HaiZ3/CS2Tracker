@@ -21,6 +21,7 @@ namespace CS2Tracker_Models
             this.Name = name;
             this.SheetType = sheetType;
             CreatedAt = DateTime.Now.ToUniversalTime();
+            UpdatedAt = DateTime.Now.ToUniversalTime();
         }
         [Key]
         public int Id { get; set; }

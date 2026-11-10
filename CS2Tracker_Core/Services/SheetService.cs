@@ -36,17 +36,19 @@ namespace CS2Tracker_Core.Services
             return ServiceResult.Ok();
         }
         
-        public async Task<ServiceResultGeneric<ICollection<Sheet>>> LoadSheetsAsync(int userId)
+        public async Task<ServiceResultGeneric<ICollection<int>>> GetSheetsIdsByUserId(int userId)
         {
-            ICollection<Sheet>? sheets = _context.Sheets.Where(s => s.UserId == userId).ToList();
+            ICollection<int>? sheets = _context.Sheets.Where(s => s.UserId == userId).Select(x => x.Id).ToList();
+
             if(sheets is null || sheets.Count == 0)
             {
-                return ServiceResultGeneric<ICollection<Sheet>>.Fail("Failed to load the sheets or there are no existing sheets!");
+                return ServiceResultGeneric<ICollection<int>>.Fail("Failed to load the sheets or there are no existing sheets!");
             }
-            return ServiceResultGeneric<ICollection<Sheet>>.Ok(sheets);
+
+            return ServiceResultGeneric<ICollection<int>>.Ok(sheets);
         }
 
-        public async Task<ServiceResultGeneric<SheetDisplayDto>> GetSheetByIdAsync(int sheetId,int userId)
+        public async Task<ServiceResultGeneric<SheetDisplayDto>> LoadSheetInfo(int sheetId,int userId)
         {
             Sheet? sheet = await _context.Sheets
                 .Include(s => s.Entries)

@@ -23,12 +23,12 @@ namespace CS2Tracker_Core.Services
         }
         public async Task<ServiceResult> AddEntryAsync(int userId,CreateEntryDTO createEntryDTO)
         {
-            bool sheetExists = await _context.Sheets
-                .AnyAsync(s =>
+            Sheet? sheet = await _context.Sheets
+                .FirstOrDefaultAsync(s =>
                 s.Id == createEntryDTO.SheetId &&
                 s.UserId == userId);
 
-            if (!sheetExists)
+            if (sheet == null)
             {
                 return ServiceResult.Fail("No such sheet exists");
             }
@@ -43,6 +43,8 @@ namespace CS2Tracker_Core.Services
                 skinInfo.SetItemType();
 
                 entry.DataSource = EntryDataSource.Regular;
+
+                sheet.UpdatedAt = DateTime.UtcNow;
 
                 _context.Add(entry);
                 await _context.SaveChangesAsync();
@@ -118,7 +120,7 @@ namespace CS2Tracker_Core.Services
         }
         public async Task<ServiceResultGeneric<EntryDisplayDto>> GetEntryBySheetIdAsync(int userId, int entryId, int sheetId)
         {
-            var sheetRes = await _sheetService.GetSheetByIdAsync(sheetId, userId);
+            var sheetRes = await _sheetService.LoadSheetInfo(sheetId, userId);
 
             if (!sheetRes.Success)
             {
