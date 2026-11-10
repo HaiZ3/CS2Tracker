@@ -1,0 +1,248 @@
+{
+  "settings": {
+    "components": {
+      "code": true,
+      "binaries": false
+    },
+    "targetId": ""
+  },
+  "analysisStartTime": "2026-11-10T00:08:59.5161829Z",
+  "analysisEndTime": "2026-11-10T00:08:59.6385569Z",
+  "privacyModeHelpUrl": "https://go.microsoft.com/fwlink/?linkid=2270980",
+  "stats": {
+    "summary": {
+      "projects": 6,
+      "issues": 1,
+      "incidents": 1,
+      "effort": 0
+    },
+    "charts": {
+      "severity": {
+        "Mandatory": 0,
+        "Optional": 0,
+        "Potential": 0,
+        "Information": 1
+      },
+      "category": {
+        "Pkg": 1
+      }
+    }
+  },
+  "projects": [
+    {
+      "path": "CS2Tracker_Api\\CS2Tracker_Api.csproj",
+      "startingProject": true,
+      "issues": 1,
+      "storyPoints": 0,
+      "properties": {
+        "appName": "CS2Tracker_Api",
+        "projectKind": "AspNetCore",
+        "frameworks": [
+          "net10.0"
+        ],
+        "languages": [
+          "C#"
+        ],
+        "tools": [
+          "MSBuild"
+        ],
+        "isSdkStyle": true,
+        "isTestProject": false,
+        "numberOfFiles": 7,
+        "numberOfCodeFiles": 5,
+        "linesTotal": 355,
+        "linesOfCode": 329,
+        "totalApiScanned": 0,
+        "minLinesOfCodeToChange": 0,
+        "maxLinesOfCodeToChange": 0
+      },
+      "ruleInstances": [
+        {
+          "incidentId": "eb3a5b54-b04b-4102-ad38-4a7dad35adc8",
+          "ruleId": "Pkg.0001",
+          "description": "Project references \u0027System.Security.Cryptography.Pkcs\u0027 10.0.14 (included in this upgrade).",
+          "projectPath": "CS2Tracker_Api\\CS2Tracker_Api.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "System.Security.Cryptography.Pkcs, 10.0.14",
+              "protected": "System.Security.Cryptography.Pkcs, 10.0.14"
+            },
+            "kind": "File",
+            "path": "CS2Tracker_Api\\CS2Tracker_Api.csproj",
+            "snippet": "System.Security.Cryptography.Pkcs, 10.0.14",
+            "protectedSnippet": "System.Security.Cryptography.Pkcs, 10.0.14",
+            "label": "System.Security.Cryptography.Pkcs 10.0.14",
+            "properties": {
+              "PackageId": "System.Security.Cryptography.Pkcs",
+              "PackageVersion": "10.0.14",
+              "PackageNewVersion": "10.0.14",
+              "PackageReplacements": null
+            }
+          }
+        }
+      ],
+      "features": []
+    },
+    {
+      "path": "CS2Tracker_Common\\CS2Tracker_Common.csproj",
+      "startingProject": true,
+      "issues": 0,
+      "storyPoints": 0,
+      "properties": {
+        "appName": "CS2Tracker_Common",
+        "projectKind": "ClassLibrary",
+        "frameworks": [
+          "net10.0"
+        ],
+        "languages": [
+          "C#"
+        ],
+        "tools": [
+          "MSBuild"
+        ],
+        "isSdkStyle": true,
+        "isTestProject": false,
+        "numberOfFiles": 10,
+        "numberOfCodeFiles": 10,
+        "linesTotal": 298,
+        "linesOfCode": 298,
+        "totalApiScanned": 0,
+        "minLinesOfCodeToChange": 0,
+        "maxLinesOfCodeToChange": 0
+      },
+      "ruleInstances": [],
+      "features": []
+    },
+    {
+      "path": "CS2Tracker_Core\\CS2Tracker_Core.csproj",
+      "startingProject": true,
+      "issues": 0,
+      "storyPoints": 0,
+      "properties": {
+        "appName": "CS2Tracker_Core",
+        "projectKind": "ClassLibrary",
+        "frameworks": [
+          "net10.0"
+        ],
+        "languages": [
+          "C#"
+        ],
+        "tools": [
+          "MSBuild"
+        ],
+        "isSdkStyle": true,
+        "isTestProject": false,
+        "numberOfFiles": 9,
+        "numberOfCodeFiles": 9,
+        "linesTotal": 450,
+        "linesOfCode": 450,
+        "totalApiScanned": 0,
+        "minLinesOfCodeToChange": 0,
+        "maxLinesOfCodeToChange": 0
+      },
+      "ruleInstances": [],
+      "features": []
+    },
+    {
+      "path": "CS2Tracker_Data\\CS2Tracker_Data.csproj",
+      "startingProject": true,
+      "issues": 0,
+      "storyPoints": 0,
+      "properties": {
+        "appName": "CS2Tracker_Data",
+        "projectKind": "ClassLibrary",
+        "frameworks": [
+          "net10.0"
+        ],
+        "languages": [
+          "C#"
+        ],
+        "tools": [
+          "MSBuild"
+        ],
+        "isSdkStyle": true,
+        "isTestProject": false,
+        "numberOfFiles": 13,
+        "numberOfCodeFiles": 13,
+        "linesTotal": 2702,
+        "linesOfCode": 2702,
+        "totalApiScanned": 0,
+        "minLinesOfCodeToChange": 0,
+        "maxLinesOfCodeToChange": 0
+      },
+      "ruleInstances": [],
+      "features": []
+    },
+    {
+      "path": "CS2Tracker_DTOs\\CS2Tracker_DTOs.csproj",
+      "startingProject": true,
+      "issues": 0,
+      "storyPoints": 0,
+      "properties": {
+        "appName": "CS2Tracker_DTOs",
+        "projectKind": "ClassLibrary",
+        "frameworks": [
+          "net10.0"
+        ],
+        "languages": [
+          "C#"
+        ],
+        "tools": [
+          "MSBuild"
+        ],
+        "isSdkStyle": true,
+        "isTestProject": false,
+        "numberOfFiles": 18,
+        "numberOfCodeFiles": 18,
+        "linesTotal": 313,
+        "linesOfCode": 313,
+        "totalApiScanned": 0,
+        "minLinesOfCodeToChange": 0,
+        "maxLinesOfCodeToChange": 0
+      },
+      "ruleInstances": [],
+      "features": []
+    },
+    {
+      "path": "CS2Tracker_Models\\CS2Tracker_Models.csproj",
+      "startingProject": true,
+      "issues": 0,
+      "storyPoints": 0,
+      "properties": {
+        "appName": "CS2Tracker_Models",
+        "projectKind": "ClassLibrary",
+        "frameworks": [
+          "net10.0"
+        ],
+        "languages": [
+          "C#"
+        ],
+        "tools": [
+          "MSBuild"
+        ],
+        "isSdkStyle": true,
+        "isTestProject": false,
+        "numberOfFiles": 7,
+        "numberOfCodeFiles": 7,
+        "linesTotal": 438,
+        "linesOfCode": 438,
+        "totalApiScanned": 0,
+        "minLinesOfCodeToChange": 0,
+        "maxLinesOfCodeToChange": 0
+      },
+      "ruleInstances": [],
+      "features": []
+    }
+  ],
+  "rules": {
+    "Pkg.0001": {
+      "id": "Pkg.0001",
+      "isFeature": false,
+      "description": "Project references a package included in this upgrade.\n\nThe project references one of the packages being upgraded. This finding records the reference (current and proposed version) so the assessment lists every affected project even when no breaking API changes were detected.",
+      "label": "Project references an upgraded package",
+      "severity": "Information",
+      "effort": 0
+    }
+  }
+}
