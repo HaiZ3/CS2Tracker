@@ -2,11 +2,12 @@ using CS2Tracker_Data.Context;
 using CS2Tracker_Common.Enums;
 using CS2Tracker_Core.Interfaces.IServices;
 using CS2Tracker_Models;
-using CS2Tracker_Core.Models.DTOs.ApiDTOs.EntriesDTOs;
-using CS2Tracker_Core.Models.DTOs.ApiDTOs.EntriesDTOs.MarketPricesDTOs;
+using CS2Tracker_DTOs.DTOs.ApiDTOs.EntriesDTOs;
+using CS2Tracker_DTOs.DTOs.ApiDTOs.EntriesDTOs.MarketPricesDTOs;
 using CS2Tracker_Common.Responses;
 using Microsoft.EntityFrameworkCore;
-using CS2Tracker_Core.Models.DTOs.ApiDTOs.SheetDTOs;
+using CS2Tracker_DTOs.DTOs.ApiDTOs.SheetDTOs;
+using CS2Tracker_DTOs.ApiDTOs.SheetDTOs;
 
 namespace CS2Tracker_Core.Services
 {
@@ -21,7 +22,7 @@ namespace CS2Tracker_Core.Services
             _sheetService = sheetService;
             _marketplacePriceService = marketplacePriceService;
         }
-        public async Task<ServiceResult> AddEntryAsync(int userId,CreateEntryDTO createEntryDTO)
+        public async Task<ServiceResult> AddEntryAsync(string userId,CreateEntryDTO createEntryDTO)
         {
             Sheet? sheet = await _context.Sheets
                 .FirstOrDefaultAsync(s =>
@@ -72,7 +73,7 @@ namespace CS2Tracker_Core.Services
                 return ServiceResultGeneric<ICollection<Entry>>.Ok(entries);
             }
         }
-        public async Task<ServiceResult> CloseEntryAsync(int userId, CloseEntryDTO request)
+        public async Task<ServiceResult> CloseEntryAsync(string userId, CloseEntryDTO request)
         {
             Entry? entry = await _context.Entries
                 .Include(s => s.Sheet)
@@ -98,7 +99,7 @@ namespace CS2Tracker_Core.Services
                 return ServiceResult.Ok();
             }
         }
-        public async Task<ServiceResult> CancelEntryAsync(int userId, CancelEntryDTO request)
+        public async Task<ServiceResult> CancelEntryAsync(string userId, CancelEntryDTO request)
         {
             Entry? entry = await _context.Entries
                 .FirstOrDefaultAsync(
@@ -118,7 +119,7 @@ namespace CS2Tracker_Core.Services
                 return ServiceResult.Ok();
             }
         }
-        public async Task<ServiceResultGeneric<EntryDisplayDto>> GetEntryBySheetIdAsync(int userId, int entryId, int sheetId)
+        public async Task<ServiceResultGeneric<EntryDisplayDto>> GetEntryBySheetIdAsync(string userId, int entryId, int sheetId)
         {
             var sheetRes = await _sheetService.LoadSheetInfo(sheetId, userId);
 
@@ -127,9 +128,9 @@ namespace CS2Tracker_Core.Services
                 return ServiceResultGeneric<EntryDisplayDto>.Fail("No such sheet exists");
             }
 
-            SheetDisplayDto sheet = sheetRes.Data!;
+            SheetDisplayWithEntriesDTO sheet = sheetRes.Data!;
 
-            var entryRes = sheet.Entries.FirstOrDefault(e => e.Id == entryId);
+            var entryRes = sheet.Entries.FirstOrDefault(x => x.Id == entryId);
 
             if (entryRes == null)
             {
@@ -155,7 +156,6 @@ namespace CS2Tracker_Core.Services
                 CsFloatPrice = skinPriceDTO.Prices.Csfloat?.Ask,
                 YouPinPrice = skinPriceDTO.Prices.Youpin?.Ask
             };
-
 
             return ServiceResultGeneric<EntryDisplayDto>.Ok(res);
         }

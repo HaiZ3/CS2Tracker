@@ -5,7 +5,7 @@ using CS2Tracker_Models;
 
 namespace CS2Tracker_Data.Context
 {
-    public class CS2TrackerContext : IdentityDbContext<User, IdentityRole<int>, int>
+    public class CS2TrackerContext : IdentityDbContext
     {
         public CS2TrackerContext(DbContextOptions<CS2TrackerContext> options)
             : base(options)
@@ -21,15 +21,6 @@ namespace CS2Tracker_Data.Context
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-
-            modelBuilder.Entity<User>()
-                .HasIndex(u => u.UserName)
-                .IsUnique();
-
-            modelBuilder.Entity<Sheet>()
-                .HasOne(s => s.User)
-                .WithMany(u => u.Sheets)
-                .HasForeignKey(s => s.UserId);
 
             modelBuilder.Entity<Entry>()
                 .HasOne(s => s.Sheet)

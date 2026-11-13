@@ -1,0 +1,43 @@
+﻿@model ICollection<SheetDisplayDTO>
+@{
+    ViewData["Title"] = "My Sheets";
+}
+
+<div class="page-header">
+    <h1 class="page-title">My Sheets</h1>
+    <a class="btn btn-app-primary" asp-controller="Sheets" asp-action="Create">New sheet</a>
+</div>
+
+@if (Model.Count == 0)
+{
+    <div class="empty-state">
+        <p>You don't have any sheets yet.</p>
+        <a class="btn btn-app-primary" asp-controller="Sheets" asp-action="Create">Create your first sheet</a>
+    </div>
+}
+else
+{
+    <div class="sheet-grid">
+        @foreach (var sheet in Model)
+        {
+            <a class="sheet-card" asp-controller="Sheets" asp-action="Details" asp-route-id="@sheet.Id">
+                <div class="sheet-card-top">
+                    <h2 class="sheet-name">@sheet.Name</h2>
+                    <span class="sheet-type">@sheet.Type</span>
+                </div>
+
+                <div class="sheet-stats">
+                    <div>
+                        <span class="sheet-stat-value">@(sheet.Entries == null ? 0 : sheet.Entries)</span>
+                        <span class="sheet-stat-label">Entries</span>
+                    </div>
+                </div>
+
+                <div class="sheet-dates">
+                    <span>Created @sheet.CreatedAt.ToString("dd MMM yyyy")</span>
+                    <span>Updated @sheet.UpdatedAt.ToString("dd MMM yyyy")</span>
+                </div>
+            </a>
+        }
+    </div>
+}

@@ -1,12 +1,14 @@
 
 using CS2Tracker_Api.Services;
-using CS2Tracker_Data.Context;
 using CS2Tracker_Core.Interfaces.IServices;
 using CS2Tracker_Core.Services;
+using CS2Tracker_Data.Context;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using static CS2Tracker_Common.Validations.ModelValidations;
 
 namespace CS2Tracker_Api
 {
@@ -23,6 +25,10 @@ namespace CS2Tracker_Api
             builder.Services.AddDbContext<CS2TrackerContext>(options =>
                 options.UseSqlServer(connectionString));
 
+            builder.Services.AddIdentityCore<IdentityUser>()
+                .AddRoles<IdentityRole>()
+                .AddEntityFrameworkStores<CS2TrackerContext>();
+
             // Application services
             builder.Services.AddScoped<ITokenService, TokenService>();
             builder.Services.AddScoped<IUserService, UserService>();
@@ -31,7 +37,6 @@ namespace CS2Tracker_Api
 
             // External APIs
             builder.Services.AddMemoryCache();
-
 
             builder.Services.AddHttpClient<IMarketplacePriceService, MarketplacePriceService>();
 
@@ -57,6 +62,14 @@ namespace CS2Tracker_Api
                             Encoding.UTF8.GetBytes(jwtKey!))
                     };
                 });
+
+            builder.Services.Configure<IdentityOptions>(o =>
+            {
+                o.Password.RequiredLength = UsernameMinLen;
+                o.Password.RequireDigit = false;
+                o.Password.RequireUppercase = false;
+                o.Password.RequireNonAlphanumeric = false;
+            });
 
             var app = builder.Build();
 

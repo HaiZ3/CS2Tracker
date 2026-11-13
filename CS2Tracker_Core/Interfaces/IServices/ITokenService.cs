@@ -6,6 +6,6 @@ namespace CS2Tracker_Core.Interfaces.IServices
 {
     public interface ITokenService
     {
-        string CreateToken(int userId, string username);
+        string CreateToken(string userId, string username);
     }
 }

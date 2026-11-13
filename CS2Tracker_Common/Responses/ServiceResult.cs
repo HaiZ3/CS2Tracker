@@ -9,13 +9,13 @@ namespace CS2Tracker_Common.Responses
         public bool Success { get; set; }
         public string? ErrorMessage { get; set; }
 
-        public int? UserId { get; set; }
+        public string? UserId { get; set; }
         public string? Username { get; set; }
 
         public static ServiceResult Ok()
             => new ServiceResult { Success = true };
 
-        public static ServiceResult Ok(int userId, string username)
+        public static ServiceResult Ok(string userId, string username)
             => new ServiceResult
             {
                 Success = true,

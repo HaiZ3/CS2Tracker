@@ -5,5 +5,5 @@
   <Project Path="CS2Tracker_Data/CS2Tracker_Data.csproj" Id="41973a06-4f4a-4f13-a28c-90a9f29899ff" />
   <Project Path="CS2Tracker_DTOs/CS2Tracker_DTOs.csproj" Id="929438dc-9fcd-4e9b-befe-f1488eb2468c" />
   <Project Path="CS2Tracker_Models/CS2Tracker_Models.csproj" Id="d5811004-0139-4e5c-9905-5066850a1666" />
-  <Project Path="CS2Tracker_Web/CS2Tracker_Web.csproj" />
+  <Project Path="CS2Tracker_MVC/CS2Tracker_MVC.csproj" Id="6b3df3a3-881a-4347-aec1-c1d51647a0e3" />
 </Solution>

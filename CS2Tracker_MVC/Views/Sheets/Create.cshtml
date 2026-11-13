@@ -1,0 +1,68 @@
+﻿
+@using CS2Tracker_DTOs.ApiDTOs.SheetDTOs
+@using CS2Tracker_Common.Enums
+@model AddNewSheetDTO
+
+@{
+    ViewData["Title"] = "New Sheet";
+}
+
+<div class="sheet-form-container">
+    <div class="sheet-form-card">
+
+        <div class="sheet-form-header">
+            <h1 class="page-title">Create a new sheet</h1>
+            <p class="sheet-form-subtitle">
+                Organize and track your CS2 arbitrage and investment activities.
+            </p>
+        </div>
+
+        <form asp-controller="Sheets" asp-action="Create" method="post">
+
+            <div asp-validation-summary="ModelOnly" class="auth-error"></div>
+
+            <div class="mb-4">
+                <label asp-for="Name" class="form-label">
+                    Name
+                </label>
+
+                <input asp-for="Name"
+                       class="form-control"
+                       placeholder="e.g. Main Arbitrage" />
+
+                <span asp-validation-for="Name" class="field-error"></span>
+            </div>
+
+            <div class="mb-4">
+                <label asp-for="SheetType" class="form-label">
+                     Type
+                </label>
+
+                <select asp-for="SheetType"
+                        asp-items="Html.GetEnumSelectList<SheetType>()"
+                        class="form-select">
+                    <option value="">Select a sheet type</option>
+                </select>
+
+                <span asp-validation-for="SheetType" class="field-error"></span>
+            </div>
+
+            <div class="sheet-form-actions">
+                <a asp-controller="Sheets"
+                   asp-action="All"
+                   class="btn btn-app-outline">
+                    Cancel
+                </a>
+
+                <button type="submit" class="btn btn-app-primary">
+                    Create sheet
+                </button>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

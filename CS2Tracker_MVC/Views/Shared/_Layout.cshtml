@@ -1,0 +1,110 @@
+﻿
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - CS2 Tracker</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-md app-navbar">
+            <div class="container">
+                <a class="navbar-brand" asp-controller="Accounts" asp-action="Home">
+                    CS2 <span>Tracker</span>
+                </a>
+
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#mainNav" aria-controls="mainNav"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="mainNav">
+                    @if (User.Identity?.IsAuthenticated == true)
+                    {
+                        <ul class="navbar-nav me-auto">
+                            <li class="nav-item">
+                                <a class="nav-link"
+                                   asp-controller="Sheets"
+                                   asp-action="All">Sheets</a>
+                            </li>
+                        </ul>
+
+                        <div class="d-flex align-items-center gap-3 mt-3 mt-md-0">
+                            <span class="navbar-text">
+                                Hello, @User.Identity.Name
+                            </span>
+
+                            <form asp-controller="Accounts"
+                                  asp-action="Logout"
+                                  method="post">
+                                <button type="submit" class="btn btn-app-outline">
+                                    Logout
+                                </button>
+                            </form>
+                        </div>
+                    }
+                    else
+                    {
+                        <ul class="navbar-nav me-auto">
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Accounts" asp-action="Home">Home</a>
+                            </li>
+                        </ul>
+
+                        <div class="d-flex gap-2 mt-3 mt-md-0">
+                            <a class="btn btn-app-outline" asp-controller="Accounts" asp-action="Login">Login</a>
+                            <a class="btn btn-app-primary" asp-controller="Accounts" asp-action="Register">Register</a>
+                        </div>
+                    }
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main role="main" class="container py-4">
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="app-alert app-alert-success" role="alert">
+        <span class="app-alert-icon">✓</span>
+        <span>@TempData["SuccessMessage"]</span>
+        <button type="button" class="app-alert-close"
+                onclick="this.parentElement.remove()"
+                aria-label="Close">
+            &times;
+        </button>
+    </div>
+}
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="app-alert app-alert-error" role="alert">
+        <span class="app-alert-icon">!</span>
+        <span>@TempData["ErrorMessage"]</span>
+        <button type="button" class="app-alert-close"
+                onclick="this.parentElement.remove()"
+                aria-label="Close">
+            &times;
+        </button>
+    </div>
+}
+
+        
+@RenderBody()
+
+    </main>
+
+    <footer class="app-footer">
+        <div class="container">&copy; @DateTime.Now.Year CS2 Tracker</div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

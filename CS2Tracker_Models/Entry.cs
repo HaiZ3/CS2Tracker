@@ -1,4 +1,4 @@
-using CS2Tracker_Core.Models.DTOs.ApiDTOs.EntriesDTOs;
+using CS2Tracker_DTOs.DTOs.ApiDTOs.EntriesDTOs;
 using CS2Tracker_Common.Enums;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -7,6 +7,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
+using static CS2Tracker_Common.Validations.ModelValidations;
 
 namespace CS2Tracker_Models
 {
@@ -56,21 +57,30 @@ namespace CS2Tracker_Models
         [Key]
         public int Id { get; set; }
 
-        [MaxLength(200)]
+        [Required]
+        [MaxLength(EntryNameMaxLen),MinLength(EntryNameMinLen)]
         public string Name { get; set; } = string.Empty;
         public int Quantity { get; set; } = 1;
-        public EntryStatus Status { get; set; } 
+        [Required]
+        [AllowedValues(typeof(EntryStatus))]
+        public EntryStatus Status { get; set; }
+        [AllowedValues(typeof (EntryDataSource))]
         public EntryDataSource DataSource { get; set; }
+        [Required]
         public DateTime? DateBought { get; set; }
         public DateTime? DateSold { get; set; }
         public DateTime CreatedAt { get; set; }
+        [Range(EntryHoldDaysMin,int.MaxValue)]
         public int? HoldDays { get; set; }
         public decimal? Return { get; set; }
         public decimal? DailyReturn { get; set; }
         public decimal? MarketPrice { get; set; }
         //After the sale is confirmed add the hold days to OverallStats
         public decimal? Profit { get; set; }
+        [Range (0,int.MaxValue)]
+        [Required]
         public decimal BuyPrice { get; set; }
+        [Range(0,int.MaxValue)]
         public decimal? SellPrice { get; set; }
         public int SheetId { get; set; }
         public Sheet Sheet { get; set; } = null!;

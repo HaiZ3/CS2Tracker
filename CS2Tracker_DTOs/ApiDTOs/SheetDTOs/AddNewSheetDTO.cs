@@ -1,16 +1,20 @@
-﻿using System;
+﻿using CS2Tracker_Common.Enums;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
+using static CS2Tracker_Common.Validations.ModelValidations;
 
-namespace CS2Tracker_Core.Models.DTOs.ApiDTOs.SheetDTOs
+namespace CS2Tracker_DTOs.DTOs.ApiDTOs.SheetDTOs
 {
     public class AddNewSheetDTO
     {
-        [Required, StringLength(100)]
+        [Required]
+        [MaxLength(SheetNameMaxLen),MinLength(SheetNameMinLen)]
         public string Name { get; set; } = string.Empty;
 
-        [Range(1, 3)]
-        public int Type { get; set; }
+        [Required]
+        [EnumDataType(typeof(SheetType))]
+        public SheetType SheetType { get; set; }
     }
 }

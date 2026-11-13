@@ -9,6 +9,7 @@ namespace CS2Tracker_Core.Interfaces.IServices
     {
         Task<ServiceResult> LoginUserAsync(string username, string password);
         Task<ServiceResult> CreateUserAsync(string username, string email, string password);
-        
+        Task<ServiceResult> LogoutUserAsync();
+
     }
 }

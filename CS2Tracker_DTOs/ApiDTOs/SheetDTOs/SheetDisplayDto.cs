@@ -1,10 +1,14 @@
-﻿using CS2Tracker_Core.Models.DTOs.ApiDTOs.EntriesDTOs;
+﻿using CS2Tracker_DTOs.DTOs.ApiDTOs.EntriesDTOs;
 
-namespace CS2Tracker_Core.Models.DTOs.ApiDTOs.SheetDTOs
+namespace CS2Tracker_DTOs.DTOs.ApiDTOs.SheetDTOs
 {
-    public class SheetDisplayDto
+    public class SheetDisplayDTO
     {
-        public SheetDisplayDto(int id, string name, string type, DateTime createdAt, DateTime updatedAt, ICollection<EntryDisplayDto> entries)
+        public SheetDisplayDTO()
+        {
+            
+        }
+        public SheetDisplayDTO(int id, string name, string type, DateTime createdAt, DateTime updatedAt, int entries)
         {
             Id = id;
             Name = name;
@@ -19,6 +23,6 @@ namespace CS2Tracker_Core.Models.DTOs.ApiDTOs.SheetDTOs
         public string Type { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
-        public ICollection<EntryDisplayDto> Entries { get; set; }
+        public int Entries { get; set; }
     }
 }

@@ -1,0 +1,32 @@
+﻿@{
+    ViewData["Title"] = "Home";
+}
+
+<section class="hero text-center">
+    <div class="sticker" aria-hidden="true">
+        <svg viewBox="0 0 300 110" xmlns="http://www.w3.org/2000/svg">
+            <g class="sticker-shape">
+                <polygon points="8,40 72,40 72,60 20,70" />            <!-- stock -->
+                <rect x="70" y="36" width="68" height="22" rx="3" />   <!-- receiver -->
+                <rect x="132" y="38" width="68" height="16" rx="3" />  <!-- handguard -->
+                <rect x="132" y="30" width="62" height="5" rx="2" />   <!-- gas tube -->
+                <rect x="198" y="41" width="88" height="6" rx="2" />   <!-- barrel -->
+                <rect x="276" y="32" width="5" height="10" />          <!-- front sight -->
+                <polygon points="88,56 106,56 100,88 84,88" />         <!-- grip -->
+                <path d="M110 54 L136 54 Q142 82 124 104 L106 98 Q120 80 110 54 Z" /> <!-- magazine -->
+            </g>
+        </svg>
+    </div>
+
+<section class="hero text-center">
+    <h1 class="hero-title">Track every <span>CS2 trade</span>.</h1>
+    <p class="hero-text">
+        CS2 Tracker helps you keep your skin trades organized in one place. Record your profits and losses in sheets,
+        and see how your trading, arbitrage or investing performs over time.
+        Stop juggling scattered spreadsheets and start making decisions based on real data.
+    </p>
+    <div class="d-flex justify-content-center gap-2">
+        <a class="btn btn-app-primary btn-lg" asp-controller="Accounts" asp-action="Register">Get started</a>
+        <a class="btn btn-app-outline btn-lg" asp-controller="Accounts" asp-action="Login">Login</a>
+    </div>
+</section>

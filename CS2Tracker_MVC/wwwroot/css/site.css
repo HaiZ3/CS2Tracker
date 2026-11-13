@@ -1,0 +1,434 @@
+:root {
+    --c-bg: #181D27;
+    --c-surface: #232A38;
+    --c-text: #F5F1ED;
+    --c-muted: #A3AABA; /* lighter than 70798C so small text stays readable */
+    --c-border: #70798C;
+    --c-accent: #FF6F59;
+    --c-accent-hover: #FF8A78;
+    --c-danger: #EF3054;
+}
+
+body {
+    background-color: var(--c-bg);
+    color: var(--c-text);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex: 1;
+}
+
+/* Navbar */
+.app-navbar {
+    background-color: var(--c-surface);
+    border-bottom: 1px solid rgba(112, 121, 140, 0.35);
+}
+
+    .app-navbar .navbar-brand {
+        color: var(--c-text);
+        font-weight: 700;
+        letter-spacing: 0.5px;
+    }
+
+        .app-navbar .navbar-brand span {
+            color: var(--c-accent);
+        }
+
+    .app-navbar .nav-link {
+        color: var(--c-muted);
+        font-weight: 500;
+        transition: color 0.15s;
+    }
+
+        .app-navbar .nav-link:hover,
+        .app-navbar .nav-link.active {
+            color: var(--c-text);
+        }
+
+    .app-navbar .navbar-toggler {
+        border-color: var(--c-border);
+    }
+
+    .app-navbar .navbar-toggler-icon {
+        filter: invert(1); /* default icon is dark, make it light */
+    }
+
+/* Buttons: dark text on coral for contrast */
+.btn-app-primary {
+    background-color: var(--c-accent);
+    border-color: var(--c-accent);
+    color: var(--c-bg);
+    font-weight: 600;
+}
+
+    .btn-app-primary:hover,
+    .btn-app-primary:focus {
+        background-color: var(--c-accent-hover);
+        border-color: var(--c-accent-hover);
+        color: var(--c-bg);
+    }
+
+.btn-app-outline {
+    background-color: transparent;
+    border: 1px solid var(--c-border);
+    color: var(--c-text);
+    font-weight: 600;
+}
+
+    .btn-app-outline:hover,
+    .btn-app-outline:focus {
+        border-color: var(--c-accent);
+        color: var(--c-accent);
+    }
+
+/* Footer */
+.app-footer {
+    padding: 1rem 0;
+    color: var(--c-muted);
+    font-size: 0.875rem;
+    border-top: 1px solid rgba(112, 121, 140, 0.35);
+}
+
+.hero {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 4rem 0;
+}
+
+.hero-title {
+    font-size: 2.75rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
+    .hero-title span {
+        color: var(--c-accent);
+    }
+
+.hero-text {
+    color: var(--c-muted);
+    font-size: 1.1rem;
+    line-height: 1.7;
+    margin-bottom: 2rem;
+}
+
+/* Auth pages */
+.auth-card {
+    max-width: 420px;
+    margin: 3rem auto;
+    padding: 2rem;
+    background-color: var(--c-surface);
+    border: 1px solid rgba(112, 121, 140, 0.35);
+    border-radius: 12px;
+}
+
+.auth-title {
+    font-size: 1.6rem;
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+}
+
+.auth-subtitle {
+    color: var(--c-muted);
+    margin-bottom: 1.5rem;
+}
+
+.auth-footer {
+    color: var(--c-muted);
+    text-align: center;
+    margin: 1.5rem 0 0;
+    font-size: 0.95rem;
+}
+
+    .auth-footer a,
+    .auth-footer a:hover {
+        color: var(--c-accent);
+        text-decoration: none;
+        font-weight: 600;
+    }
+
+/* Form controls on dark */
+.form-label {
+    color: var(--c-text);
+    font-weight: 500;
+}
+
+.form-control {
+    background-color: var(--c-bg);
+    border: 1px solid var(--c-border);
+    color: var(--c-text);
+}
+
+    .form-control:focus {
+        background-color: var(--c-bg);
+        color: var(--c-text);
+        border-color: var(--c-accent);
+        box-shadow: 0 0 0 0.2rem rgba(255, 111, 89, 0.25);
+    }
+
+.form-check-input {
+    background-color: var(--c-bg);
+    border-color: var(--c-border);
+}
+
+    .form-check-input:checked {
+        background-color: var(--c-accent);
+        border-color: var(--c-accent);
+    }
+
+.form-check-label {
+    color: var(--c-muted);
+}
+
+/* Validation: red is reserved for errors */
+.field-error,
+.auth-error,
+.auth-error ul {
+    color: var(--c-danger);
+    font-size: 0.875rem;
+}
+
+.auth-error {
+    margin-bottom: 1rem;
+}
+
+    .auth-error ul {
+        padding-left: 1.1rem;
+        margin: 0;
+    }
+
+.sticker {
+    width: 260px;
+    margin: 0 auto 1.5rem;
+    transform: rotate(-8deg);
+    transition: transform 0.2s ease;
+    filter: drop-shadow(0 6px 0 rgba(255, 111, 89, 0.9)) drop-shadow(0 10px 18px rgba(0, 0, 0, 0.45));
+}
+
+    .sticker:hover {
+        transform: rotate(-3deg) scale(1.04);
+    }
+
+    .sticker svg {
+        display: block;
+        width: 100%;
+        height: auto;
+    }
+
+.sticker-shape {
+    fill: var(--c-text); /* parchment white */
+    stroke: var(--c-text);
+    stroke-width: 6;
+    stroke-linejoin: round; /* rounds the corners so it looks like a die-cut sticker */
+}
+
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.page-title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    margin: 0;
+}
+
+.sheet-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1rem;
+}
+
+.sheet-card {
+    display: block;
+    padding: 1.25rem;
+    background-color: var(--c-surface);
+    border: 1px solid rgba(112, 121, 140, 0.35);
+    border-radius: 12px;
+    color: var(--c-text);
+    text-decoration: none;
+    transition: border-color 0.15s, transform 0.15s;
+}
+
+    .sheet-card:hover {
+        border-color: var(--c-accent);
+        transform: translateY(-2px);
+        color: var(--c-text);
+    }
+
+.sheet-card-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+.sheet-name {
+    font-size: 1.15rem;
+    font-weight: 600;
+    margin: 0;
+    word-break: break-word;
+}
+
+.sheet-type {
+    flex-shrink: 0;
+    padding: 0.15rem 0.6rem;
+    border: 1px solid var(--c-border);
+    border-radius: 999px;
+    color: var(--c-muted);
+    font-size: 0.8rem;
+}
+
+.sheet-stats {
+    margin-bottom: 1rem;
+}
+
+.sheet-stat-value {
+    display: block;
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--c-accent);
+    line-height: 1.1;
+}
+
+.sheet-stat-label {
+    color: var(--c-muted);
+    font-size: 0.85rem;
+}
+
+.sheet-dates {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    color: var(--c-muted);
+    font-size: 0.8rem;
+}
+
+.empty-state {
+    text-align: center;
+    padding: 3rem 1rem;
+    background-color: var(--c-surface);
+    border: 1px dashed var(--c-border);
+    border-radius: 12px;
+    color: var(--c-muted);
+}
+.navbar-text{
+    color: white
+}
+
+/* Add New Sheet */
+.sheet-form-container {
+    max-width: 560px;
+    margin: 2rem auto;
+}
+
+.sheet-form-card {
+    padding: 2rem;
+    background-color: var(--c-surface);
+    border: 1px solid rgba(112, 121, 140, 0.35);
+    border-radius: 12px;
+}
+
+.sheet-form-header {
+    margin-bottom: 2rem;
+}
+
+.sheet-form-subtitle {
+    color: var(--c-muted);
+    margin: 0.5rem 0 0;
+}
+
+.sheet-form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.75rem;
+    margin-top: 2rem;
+}
+
+    .sheet-form-actions .btn {
+        min-width: 110px;
+    }
+
+.form-select {
+    background-color: var(--c-bg);
+    border: 1px solid var(--c-border);
+    color: var(--c-text);
+}
+
+    .form-select:focus {
+        background-color: var(--c-bg);
+        color: var(--c-text);
+        border-color: var(--c-accent);
+        box-shadow: 0 0 0 0.2rem rgba(255, 111, 89, 0.25);
+    }
+
+    .form-select option {
+        background-color: var(--c-surface);
+        color: var(--c-text);
+    }
+
+/* Notifications */
+.app-alert {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem 1.25rem;
+    margin-bottom: 1.5rem;
+    border-radius: 10px;
+    font-weight: 500;
+    animation: alert-appear 0.2s ease-out;
+}
+
+.app-alert-success {
+    background-color: rgba(255, 111, 89, 0.10);
+    border: 1px solid var(--c-accent);
+    color: var(--c-text);
+}
+
+.app-alert-error {
+    background-color: rgba(239, 48, 84, 0.10);
+    border: 1px solid var(--c-danger);
+    color: var(--c-text);
+}
+
+.app-alert-icon {
+    font-weight: 700;
+    color: var(--c-accent);
+    font-size: 1.1rem;
+}
+
+.app-alert-error .app-alert-icon {
+    color: var(--c-danger);
+}
+
+.app-alert-close {
+    margin-left: auto;
+    padding: 0 0.25rem;
+    background: none;
+    border: none;
+    color: var(--c-muted);
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+    .app-alert-close:hover {
+        color: var(--c-text);
+    }
+
+@keyframes alert-appear {
+    from {
+        opacity: 0;
+        transform: translateY(-5px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

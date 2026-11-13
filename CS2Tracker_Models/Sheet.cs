@@ -5,6 +5,8 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
+using static CS2Tracker_Common.Validations.ModelValidations;
+using Microsoft.AspNetCore.Identity;
 
 namespace CS2Tracker_Models
 {
@@ -15,7 +17,7 @@ namespace CS2Tracker_Models
         {
             
         }
-        public Sheet(int userId, string name, SheetType sheetType)
+        public Sheet(string userId, string name, SheetType sheetType)
         {
             this.UserId = userId;
             this.Name = name;
@@ -26,8 +28,10 @@ namespace CS2Tracker_Models
         [Key]
         public int Id { get; set; }
         [ForeignKey("UserId")]
-        public int UserId { get; set; }
-        public User User { get; set; }
+        public string UserId { get; set; } = string.Empty;
+        public IdentityUser User { get; set; } = null!;
+        [Required]
+        [MaxLength(SheetNameMaxLen),MinLength(SheetNameMinLen)]
         public string Name { get; set; } = string.Empty;
         public SheetType SheetType { get; set; }
         public DateTime CreatedAt { get; set; }

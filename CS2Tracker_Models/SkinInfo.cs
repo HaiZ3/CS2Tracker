@@ -1,9 +1,10 @@
-using CS2Tracker_Core.Models.DTOs.ApiDTOs.SkinInfoDTOs;
 using CS2Tracker_Common.Enums;
 using CS2Tracker_Models.Helpers;
 using CS2Tracker_Common.Helpers;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using static CS2Tracker_Common.Validations.ModelValidations;
+using CS2Tracker_DTOs.DTOs.ApiDTOs.SkinInfoDTOs;
 
 namespace CS2Tracker_Models
 {
@@ -15,14 +16,6 @@ namespace CS2Tracker_Models
         {
 
         }
-        public SkinInfo(string name, decimal? itemFloat, SkinVariant skinVariant
-            , SkinCondition skinCondition)
-        {
-            this.Name = name;
-            Float = itemFloat;
-            SkinVariant = skinVariant;
-            SkinCondition = skinCondition;
-        }
         public SkinInfo(SkinInfoRequestDTO skinInfoRequestDTO)
         {
             Name = skinInfoRequestDTO.Name;
@@ -32,7 +25,8 @@ namespace CS2Tracker_Models
         }
         [Key]
         public int Id { get; set; }
-
+        [Required]
+        [MaxLength(SkinInfoNameMaxLen),MinLength(SkinInfoNameMinLen)]
         public string Name { get; set; } = string.Empty;
         public string MarketHashName { get; set; } = string.Empty;
 
@@ -41,9 +35,9 @@ namespace CS2Tracker_Models
             get;
             set
             {
-                if (value >= 1m)
-                    throw new Exception("The float is higher or equal to 1");
-                
+                if (value is < 0m or > 1m)
+                    throw new ArgumentOutOfRangeException(nameof(value), "Float must be between 0 and 1.");
+                field = value;
             }
         }
 

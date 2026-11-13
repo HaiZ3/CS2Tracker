@@ -1,5 +1,5 @@
 ﻿using CS2Tracker_Core.Interfaces.IServices;
-using CS2Tracker_Core.Models.DTOs.ApiDTOs.EntriesDTOs.MarketPricesDTOs;
+using CS2Tracker_DTOs.DTOs.ApiDTOs.EntriesDTOs.MarketPricesDTOs;
 using CS2Tracker_Common.Responses;
 using Microsoft.Extensions.Caching.Memory;
 using System.Text.Json;

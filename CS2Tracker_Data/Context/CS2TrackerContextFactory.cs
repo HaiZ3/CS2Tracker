@@ -8,7 +8,7 @@ public class CS2TrackerContextFactory : IDesignTimeDbContextFactory<CS2TrackerCo
     public CS2TrackerContext CreateDbContext(string[] args)
     {
         var config = new ConfigurationBuilder()
-            .SetBasePath(Directory.GetCurrentDirectory())
+            .SetBasePath(AppContext.BaseDirectory)
             .AddJsonFile("appsettings.json", optional: false)
             .AddJsonFile("appsettings.Development.json", optional: true)
             .Build();

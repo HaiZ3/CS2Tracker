@@ -15,11 +15,11 @@ public class TokenService : ITokenService
         _configuration = configuration;
     }
 
-    public string CreateToken(int userId, string username)
+    public string CreateToken(string userId, string username)
     {
         var claims = new[]
         {
-            new Claim(ClaimTypes.NameIdentifier, userId.ToString()),
+            new Claim(ClaimTypes.NameIdentifier, userId),
             new Claim(ClaimTypes.Name, username)
         };
 

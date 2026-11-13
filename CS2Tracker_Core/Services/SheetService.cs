@@ -1,13 +1,14 @@
-using CS2Tracker_Models;
 using CS2Tracker_Common.Enums;
-using CS2Tracker_Data.Context;
-using CS2Tracker_Core.Interfaces.IServices;
-using Microsoft.IdentityModel.Tokens;
-using Microsoft.EntityFrameworkCore;
 using CS2Tracker_Common.Responses;
-using CS2Tracker_Core.Models.DTOs.ApiDTOs.SheetDTOs;
-using CS2Tracker_Core.Models.DTOs.ApiDTOs.EntriesDTOs;
-using CS2Tracker_Core.Models.DTOs.ApiDTOs.EntriesDTOs.MarketPricesDTOs;
+using CS2Tracker_Core.Interfaces.IServices;
+using CS2Tracker_Data.Context;
+using CS2Tracker_DTOs.ApiDTOs.SheetDTOs;
+using CS2Tracker_DTOs.DTOs.ApiDTOs.EntriesDTOs;
+using CS2Tracker_DTOs.DTOs.ApiDTOs.EntriesDTOs.MarketPricesDTOs;
+using CS2Tracker_DTOs.DTOs.ApiDTOs.SheetDTOs;
+using CS2Tracker_Models;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 
 namespace CS2Tracker_Core.Services
 {
@@ -20,14 +21,14 @@ namespace CS2Tracker_Core.Services
             _context = context;
             _marketplacePriceService = marketplacePriceService;
         }
-        public async Task<ServiceResult> CreateSheetAsync(int userId, string name, int sheetType)
+        public async Task<ServiceResult> CreateSheetAsync(string userId, string name, SheetType sheetType)
         {
 
             if (string.IsNullOrEmpty(name))
             {
                 return ServiceResult.Fail("Failed to add the sheet to the database!");
             }
-            Sheet sheet = new Sheet(userId, name, (SheetType)sheetType);
+            Sheet sheet = new Sheet(userId, name, sheetType);
 
             await _context.Sheets.AddAsync(sheet);
             await _context.SaveChangesAsync();
@@ -36,19 +37,23 @@ namespace CS2Tracker_Core.Services
             return ServiceResult.Ok();
         }
         
-        public async Task<ServiceResultGeneric<ICollection<int>>> GetSheetsIdsByUserId(int userId)
+        public async Task<ServiceResultGeneric<ICollection<SheetDisplayDTO>>> GetSheetsIdsByUserId(string userId)
         {
-            ICollection<int>? sheets = _context.Sheets.Where(s => s.UserId == userId).Select(x => x.Id).ToList();
-
-            if(sheets is null || sheets.Count == 0)
+            ICollection<SheetDisplayDTO>? sheets = _context.Sheets.Where(s => s.UserId == userId).Select(x => new SheetDisplayDTO
             {
-                return ServiceResultGeneric<ICollection<int>>.Fail("Failed to load the sheets or there are no existing sheets!");
-            }
+                Name = x.Name,
+                Entries = x.Entries.Count,
+                CreatedAt = x.CreatedAt,
+                Type = x.SheetType.ToString(),
+                UpdatedAt = x.UpdatedAt,
+                Id = x.Id
 
-            return ServiceResultGeneric<ICollection<int>>.Ok(sheets);
+            }).ToList();
+
+            return ServiceResultGeneric<ICollection<SheetDisplayDTO>>.Ok(sheets);
         }
 
-        public async Task<ServiceResultGeneric<SheetDisplayDto>> LoadSheetInfo(int sheetId,int userId)
+        public async Task<ServiceResultGeneric<SheetDisplayWithEntriesDTO>> LoadSheetInfo(int sheetId,string userId)
         {
             Sheet? sheet = await _context.Sheets
                 .Include(s => s.Entries)
@@ -60,10 +65,10 @@ namespace CS2Tracker_Core.Services
 
             if(sheet == null)
             {
-                return ServiceResultGeneric<SheetDisplayDto>.Fail("No such sheet exists!");
+                return ServiceResultGeneric<SheetDisplayWithEntriesDTO>.Fail("No such sheet exists!");
             }
 
-            ICollection<EntryDisplayDto> entryDisplayDtos = sheet.Entries
+            ICollection<EntryDisplayDto> entryDisplayDtos = sheet.Entries.Where(e => e.SheetId == sheetId)
                 .Select(e => new EntryDisplayDto
                 {
                     Id = e.Id,
@@ -86,9 +91,9 @@ namespace CS2Tracker_Core.Services
 
             }
 
-            SheetDisplayDto sheetDisplayDto = new(sheet.Id, sheet.Name, sheet.SheetType.ToString(), sheet.CreatedAt, sheet.UpdatedAt, entryDisplayDtos);
+            SheetDisplayWithEntriesDTO sheetDisplayDto = new(sheet.Id, sheet.Name, sheet.SheetType.ToString(), sheet.CreatedAt, sheet.UpdatedAt, entryDisplayDtos);
 
-            return ServiceResultGeneric<SheetDisplayDto>.Ok(sheetDisplayDto);
+            return ServiceResultGeneric<SheetDisplayWithEntriesDTO>.Ok(sheetDisplayDto);
         }
     }
 }

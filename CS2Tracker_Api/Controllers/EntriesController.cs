@@ -1,5 +1,5 @@
 using CS2Tracker_Core.Interfaces.IServices;
-using CS2Tracker_Core.Models.DTOs.ApiDTOs.EntriesDTOs;
+using CS2Tracker_DTOs.DTOs.ApiDTOs.EntriesDTOs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
@@ -20,8 +20,7 @@ namespace CS2Tracker_Api.Controllers
         [HttpGet]
         public async Task<IActionResult> GetEntryFromSheet(GetEntryDTO request)
         {
-            var userId = int.Parse(
-                   User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)!.Value;
 
             var entryRes = await _entryService.GetEntryBySheetIdAsync(userId, request.EntryId, request.SheetId);
 
@@ -35,8 +34,7 @@ namespace CS2Tracker_Api.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateEntry(CreateEntryDTO request)
         {
-            var userId = int.Parse(
-       User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)!.Value;
 
             try
             {
@@ -57,8 +55,7 @@ namespace CS2Tracker_Api.Controllers
         [HttpPut]
         public async Task<IActionResult> CloseEntry(CloseEntryDTO request)
         {
-            var userId = int.Parse(
-                User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)!.Value;
 
             var result = await _entryService.CloseEntryAsync(userId,request);
 
@@ -71,8 +68,7 @@ namespace CS2Tracker_Api.Controllers
         [HttpDelete]
         public async Task<IActionResult> CancelEntry(CancelEntryDTO request)
         {
-                var userId = int.Parse(
-                User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)!.Value;
 
             var result = await _entryService.CancelEntryAsync(userId,request);
 

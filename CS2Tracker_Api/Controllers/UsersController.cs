@@ -1,6 +1,6 @@
 using CS2Tracker_Core.Interfaces.IServices;
 using CS2Tracker_Models;
-using CS2Tracker_Core.Models.DTOs.ApiDTOs.UsersDTOs;
+using CS2Tracker_DTOs.DTOs.ApiDTOs.UsersDTOs;
 using CS2Tracker_Common.Responses;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -46,7 +46,7 @@ namespace CS2Tracker_Api.Controllers
                 return Unauthorized(result.ErrorMessage);
             }
             string token = _tokenService.CreateToken(
-            result.UserId!.Value,
+            result.UserId!,
             result.Username!);
 
             return Ok(new

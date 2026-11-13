@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace CS2Tracker_Core.Models.DTOs.AppDTOs
+namespace CS2Tracker_DTOs.DTOs.AppDTOs
 {
     public class EntryDisplayDto
     {

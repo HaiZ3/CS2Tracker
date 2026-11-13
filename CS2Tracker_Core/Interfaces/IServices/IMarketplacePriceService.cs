@@ -1,4 +1,4 @@
-﻿using CS2Tracker_Core.Models.DTOs.ApiDTOs.EntriesDTOs.MarketPricesDTOs;
+﻿using CS2Tracker_DTOs.DTOs.ApiDTOs.EntriesDTOs.MarketPricesDTOs;
 using CS2Tracker_Common.Responses;
 using System;
 using System.Collections.Generic;

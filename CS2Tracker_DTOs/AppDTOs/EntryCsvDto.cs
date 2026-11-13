@@ -5,7 +5,7 @@ using System;
 using CsvTypeConverter = CsvHelper.Configuration.Attributes.TypeConverterAttribute;
 using System.Collections.Generic;
 using System.Text;
-namespace CS2Tracker_Core.Models.DTOs.AppDTOs
+namespace CS2Tracker_DTOs.DTOs.AppDTOs
 {
     public class EntryCsvDto
     {
