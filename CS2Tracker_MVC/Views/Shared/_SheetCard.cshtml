@@ -1,0 +1,32 @@
+﻿@model SheetDisplayDTO
+@{
+    
+}
+            <div class="sheet-card-wrapper">
+                <a class="sheet-card" asp-controller="Sheets" asp-action="Details" asp-route-id="@Model.Id">
+                    <div class="sheet-card-top">
+                        <h2 class="sheet-name">@Model.Name</h2>
+                        <span class="sheet-type">@Model.Type</span>
+                    </div>
+
+                    <div class="sheet-stats">
+                        <div>
+                            <span class="sheet-stat-value">@Model.Entries</span>
+                            <span class="sheet-stat-label">Entries</span>
+                        </div>
+                    </div>
+
+                    <div class="sheet-dates">
+                        <span>Created @Model.CreatedAt.ToString("dd MMM yyyy")</span>
+                        <span>Updated @Model.UpdatedAt.ToString("dd MMM yyyy")</span>
+                    </div>
+                </a>
+                    <div class="sheet-card-actions">
+        <a class="btn btn-app-secondary" asp-controller="Sheets" asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
+
+                <form asp-controller="Sheets" asp-action="Delete" asp-route-id="@Model.Id" method="post"
+                      onsubmit="return confirm('Delete this sheet and all its entries?');">
+                    <button type="submit" class="btn btn-app-danger">Delete</button>
+                </form>
+              </div>
+            </div>

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 
-namespace CS2Tracker_DTOs.DTOs.ApiDTOs.EntriesDTOs
+namespace CS2Tracker_DTOs.ApiDTOs.EntriesDTOs
 {
     public class CloseEntryDTO
     {

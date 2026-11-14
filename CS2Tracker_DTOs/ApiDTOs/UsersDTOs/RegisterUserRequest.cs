@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Text;
 using static CS2Tracker_Common.Validations.ModelValidations;
 
-namespace CS2Tracker_DTOs.DTOs.ApiDTOs.UsersDTOs
+namespace CS2Tracker_DTOs.ApiDTOs.UsersDTOs
 {
     public class RegisterUserRequest
     {

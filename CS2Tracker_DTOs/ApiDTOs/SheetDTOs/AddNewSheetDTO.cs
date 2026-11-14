@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Text;
 using static CS2Tracker_Common.Validations.ModelValidations;
 
-namespace CS2Tracker_DTOs.DTOs.ApiDTOs.SheetDTOs
+namespace CS2Tracker_DTOs.ApiDTOs.SheetDTOs
 {
     public class AddNewSheetDTO
     {

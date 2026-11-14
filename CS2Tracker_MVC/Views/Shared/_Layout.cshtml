@@ -25,40 +25,11 @@
                 <div class="collapse navbar-collapse" id="mainNav">
                     @if (User.Identity?.IsAuthenticated == true)
                     {
-                        <ul class="navbar-nav me-auto">
-                            <li class="nav-item">
-                                <a class="nav-link"
-                                   asp-controller="Sheets"
-                                   asp-action="All">Sheets</a>
-                            </li>
-                        </ul>
-
-                        <div class="d-flex align-items-center gap-3 mt-3 mt-md-0">
-                            <span class="navbar-text">
-                                Hello, @User.Identity.Name
-                            </span>
-
-                            <form asp-controller="Accounts"
-                                  asp-action="Logout"
-                                  method="post">
-                                <button type="submit" class="btn btn-app-outline">
-                                    Logout
-                                </button>
-                            </form>
-                        </div>
+                         <partial name="Nav/_NavAuthenticated" />
                     }
                     else
                     {
-                        <ul class="navbar-nav me-auto">
-                            <li class="nav-item">
-                                <a class="nav-link" asp-controller="Accounts" asp-action="Home">Home</a>
-                            </li>
-                        </ul>
-
-                        <div class="d-flex gap-2 mt-3 mt-md-0">
-                            <a class="btn btn-app-outline" asp-controller="Accounts" asp-action="Login">Login</a>
-                            <a class="btn btn-app-primary" asp-controller="Accounts" asp-action="Register">Register</a>
-                        </div>
+                         <partial name="Nav/_NavNotAuthenticated" />
                     }
                 </div>
             </div>

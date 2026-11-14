@@ -1,13 +1,15 @@
-﻿using CS2Tracker_DTOs.DTOs.ApiDTOs.SkinInfoDTOs;
+﻿using CS2Tracker_DTOs.ApiDTOs.SkinInfoDTOs;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 
-namespace CS2Tracker_DTOs.DTOs.ApiDTOs.EntriesDTOs
+namespace CS2Tracker_DTOs.ApiDTOs.EntriesDTOs
 {
     public class CreateEntryDTO
     {
+        [Required]
+        [Range(1,100)]
         public int Quantity { get; set; }
         [Required]
         public DateTime DateBought { get; set;  }

@@ -2,12 +2,11 @@ using CS2Tracker_Data.Context;
 using CS2Tracker_Common.Enums;
 using CS2Tracker_Core.Interfaces.IServices;
 using CS2Tracker_Models;
-using CS2Tracker_DTOs.DTOs.ApiDTOs.EntriesDTOs;
-using CS2Tracker_DTOs.DTOs.ApiDTOs.EntriesDTOs.MarketPricesDTOs;
 using CS2Tracker_Common.Responses;
 using Microsoft.EntityFrameworkCore;
-using CS2Tracker_DTOs.DTOs.ApiDTOs.SheetDTOs;
 using CS2Tracker_DTOs.ApiDTOs.SheetDTOs;
+using CS2Tracker_DTOs.ApiDTOs.EntriesDTOs;
+using CS2Tracker_DTOs.ApiDTOs.EntriesDTOs.MarketPricesDTOs;
 
 namespace CS2Tracker_Core.Services
 {
@@ -58,10 +57,11 @@ namespace CS2Tracker_Core.Services
             }
         }
 
-        public async Task<ServiceResultGeneric<ICollection<Entry>>> GetEntriesBySheetAsync(int sheetId)
+        public async Task<ServiceResultGeneric<ICollection<Entry>>> GetEntriesBySheetAsync(string userId,int sheetId)
         {
             ICollection<Entry>? entries = await _context.Entries
-                .Where(e => e.SheetId == sheetId)
+                .Include(e => e.Sheet)
+                .Where(e => e.SheetId == sheetId && e.Sheet.UserId == userId)
                 .Include(e => e.SkinInfo)
                 .ToListAsync();
             if (entries == null || entries.Count == 0)
@@ -128,7 +128,7 @@ namespace CS2Tracker_Core.Services
                 return ServiceResultGeneric<EntryDisplayDto>.Fail("No such sheet exists");
             }
 
-            SheetDisplayWithEntriesDTO sheet = sheetRes.Data!;
+            SheetDisplayWithEntriesDTO sheet = sheetRes.Data;
 
             var entryRes = sheet.Entries.FirstOrDefault(x => x.Id == entryId);
 
@@ -140,6 +140,11 @@ namespace CS2Tracker_Core.Services
             var entry = entryRes;
 
             var serviceResultGenericSkinPrice = await _marketplacePriceService.GetSkinMarketplacePrice(entry.Name);
+
+            if (!serviceResultGenericSkinPrice.Success)
+            {
+                return ServiceResultGeneric<EntryDisplayDto>.Fail("Failed to fetch market prices");
+            }
 
             SkinPriceDTO skinPriceDTO = serviceResultGenericSkinPrice.Data!;
 

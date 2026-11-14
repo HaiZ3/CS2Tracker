@@ -1,4 +1,4 @@
-﻿using CS2Tracker_DTOs.DTOs.ApiDTOs.EntriesDTOs;
+﻿using CS2Tracker_DTOs.ApiDTOs.EntriesDTOs;
 using System;
 using System.Collections.Generic;
 using System.Text;

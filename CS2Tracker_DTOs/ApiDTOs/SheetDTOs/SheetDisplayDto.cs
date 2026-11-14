@@ -1,6 +1,6 @@
-﻿using CS2Tracker_DTOs.DTOs.ApiDTOs.EntriesDTOs;
+﻿using CS2Tracker_DTOs.ApiDTOs.EntriesDTOs;
 
-namespace CS2Tracker_DTOs.DTOs.ApiDTOs.SheetDTOs
+namespace CS2Tracker_DTOs.ApiDTOs.SheetDTOs
 {
     public class SheetDisplayDTO
     {

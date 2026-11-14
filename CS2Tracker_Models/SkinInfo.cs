@@ -4,7 +4,7 @@ using CS2Tracker_Common.Helpers;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using static CS2Tracker_Common.Validations.ModelValidations;
-using CS2Tracker_DTOs.DTOs.ApiDTOs.SkinInfoDTOs;
+using CS2Tracker_DTOs.ApiDTOs.SkinInfoDTOs;
 
 namespace CS2Tracker_Models
 {

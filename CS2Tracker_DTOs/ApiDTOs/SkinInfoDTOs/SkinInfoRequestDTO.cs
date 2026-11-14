@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Text;
 using static CS2Tracker_Common.Validations.ModelValidations;
 
-namespace CS2Tracker_DTOs.DTOs.ApiDTOs.SkinInfoDTOs
+namespace CS2Tracker_DTOs.ApiDTOs.SkinInfoDTOs
 {
     public class SkinInfoRequestDTO
     {

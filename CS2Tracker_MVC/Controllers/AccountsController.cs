@@ -3,6 +3,7 @@ using CS2Tracker_Core.Services;
 using CS2Tracker_MVC.ViewModels.Account;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using static Microsoft.CodeAnalysis.CSharp.SyntaxTokenParser;
 
 namespace CS2Tracker_MVC.Controllers
 {
@@ -36,6 +37,7 @@ namespace CS2Tracker_MVC.Controllers
             return View();
         }
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginViewModel model)
         {
             if (User?.Identity?.IsAuthenticated ?? false)
@@ -72,6 +74,7 @@ namespace CS2Tracker_MVC.Controllers
             return View();
         }
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(RegisterViewModel model)
         {
             if (User?.Identity?.IsAuthenticated ?? false)
@@ -85,10 +88,13 @@ namespace CS2Tracker_MVC.Controllers
             }
 
             var res = await _userService.CreateUserAsync(model.Username, model.Email, model.Password);
+
             if (!res.Success)
             {
+                ModelState.AddModelError(string.Empty, res.ErrorMessage);
                 return View(model);
             }
+
             return RedirectToAction(nameof(Login));
         }
         [HttpPost]

@@ -1,10 +1,10 @@
 using CS2Tracker_Core.Interfaces.IServices;
 using CS2Tracker_Models;
-using CS2Tracker_DTOs.DTOs.ApiDTOs.UsersDTOs;
 using CS2Tracker_Common.Responses;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
+using CS2Tracker_DTOs.ApiDTOs.UsersDTOs;
 
 namespace CS2Tracker_Api.Controllers
 {
@@ -36,7 +36,7 @@ namespace CS2Tracker_Api.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login(LoginUserRequest request)
         {
-            ServiceResult result = await _userService.LoginUserAsync(
+            ServiceResult result = await _userService.ValidateCredentialsAsync(
                 request.Username,
                 request.Password
                 );

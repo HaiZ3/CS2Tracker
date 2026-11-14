@@ -27,6 +27,7 @@ namespace CS2Tracker_Api
 
             builder.Services.AddIdentityCore<IdentityUser>()
                 .AddRoles<IdentityRole>()
+                .AddSignInManager()
                 .AddEntityFrameworkStores<CS2TrackerContext>();
 
             // Application services

@@ -1,5 +1,5 @@
 ﻿using CS2Tracker_Core.Interfaces.IServices;
-using CS2Tracker_DTOs.DTOs.ApiDTOs.SheetDTOs;
+using CS2Tracker_DTOs.ApiDTOs.SheetDTOs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
@@ -34,6 +34,7 @@ namespace CS2Tracker_MVC.Controllers
             return View();
         }
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(AddNewSheetDTO model)
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)!.Value;
@@ -52,6 +53,61 @@ namespace CS2Tracker_MVC.Controllers
             }
 
             TempData["SuccessMessage"] = $"Sheet: {model.Name} created!";
+
+            return RedirectToAction(nameof(All));
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Delete(int Id)
+        {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)!.Value;
+
+            var result = await _sheetService.DeleteSheetAsync(userId,Id);
+
+            if (!result.Success)
+            {
+                TempData["ErrorMessage"] = result.ErrorMessage;
+                return RedirectToAction(nameof(All));
+            }
+
+            TempData["SuccessMessage"] = $"Sheet Deleted";
+
+            return RedirectToAction(nameof(All));
+        }
+        [HttpGet]
+        public async Task<IActionResult> Edit(int Id)
+        {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)!.Value;
+
+            var res = await _sheetService.GetSheetForEditAsync(userId, Id);
+
+            if (!res.Success)
+            {
+                TempData["ErrorMessage"] = res.ErrorMessage;
+                return RedirectToAction(nameof(All));
+            }
+
+            return View(res.Data);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(SheetEditDTO model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)!.Value;
+
+            var res = await _sheetService.EditSheetAsync(userId, model);
+
+            if (!res.Success)
+            {
+                TempData["ErrorMessage"] = res.ErrorMessage;
+                return RedirectToAction(nameof(All));
+            }
+
+            TempData["SuccessMessage"] = "Sheet edited successfully!";
 
             return RedirectToAction(nameof(All));
         }

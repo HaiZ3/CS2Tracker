@@ -2,13 +2,11 @@ using CS2Tracker_Common.Enums;
 using CS2Tracker_Common.Responses;
 using CS2Tracker_Core.Interfaces.IServices;
 using CS2Tracker_Data.Context;
+using CS2Tracker_DTOs.ApiDTOs.EntriesDTOs;
+using CS2Tracker_DTOs.ApiDTOs.EntriesDTOs.MarketPricesDTOs;
 using CS2Tracker_DTOs.ApiDTOs.SheetDTOs;
-using CS2Tracker_DTOs.DTOs.ApiDTOs.EntriesDTOs;
-using CS2Tracker_DTOs.DTOs.ApiDTOs.EntriesDTOs.MarketPricesDTOs;
-using CS2Tracker_DTOs.DTOs.ApiDTOs.SheetDTOs;
 using CS2Tracker_Models;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
 
 namespace CS2Tracker_Core.Services
 {
@@ -36,7 +34,57 @@ namespace CS2Tracker_Core.Services
 
             return ServiceResult.Ok();
         }
-        
+
+        public async Task<ServiceResult> DeleteSheetAsync(string userId, int sheetId)
+        {
+            Sheet? sheet = await _context.Sheets.FirstOrDefaultAsync(s => s.Id == sheetId && s.UserId == userId);
+            if (sheet == null)
+            {
+                return ServiceResult.Fail("Such a sheet does not exist");
+            }
+
+            _context.Sheets.Remove(sheet);
+            await _context.SaveChangesAsync();
+
+            return ServiceResult.Ok();
+        }
+
+        public async Task<ServiceResult> EditSheetAsync(string userId, SheetEditDTO sheetDTO)
+        {
+            Sheet? sheet = _context.Sheets.FirstOrDefault(s => s.Id == sheetDTO.Id && s.UserId == userId);
+            if (sheet == null)
+            {
+                return ServiceResult.Fail("Such a sheet does not exist");
+            }
+
+            sheet.Name = sheetDTO.Name.Trim();
+            sheet.SheetType = Enum.Parse<SheetType>(sheetDTO.Type);
+
+            await _context.SaveChangesAsync();
+
+            return ServiceResult.Ok();
+        }
+
+        public async Task<ServiceResultGeneric<SheetEditDTO>> GetSheetForEditAsync(string userId, int sheetId)
+        {
+            Sheet? res = _context.Sheets.FirstOrDefault(s => s.Id == sheetId && s.UserId == userId);
+
+            if (res == null)
+            {
+                return ServiceResultGeneric<SheetEditDTO>.Fail("No such sheet exists!");
+            }
+
+            SheetEditDTO sheet = new SheetEditDTO
+            {
+                Id = res.Id,
+                Name = res.Name,
+                Type = res.SheetType.ToString()
+            };
+
+
+            return ServiceResultGeneric<SheetEditDTO>.Ok(sheet);
+        }
+
         public async Task<ServiceResultGeneric<ICollection<SheetDisplayDTO>>> GetSheetsIdsByUserId(string userId)
         {
             ICollection<SheetDisplayDTO>? sheets = _context.Sheets.Where(s => s.UserId == userId).Select(x => new SheetDisplayDTO
@@ -53,7 +101,7 @@ namespace CS2Tracker_Core.Services
             return ServiceResultGeneric<ICollection<SheetDisplayDTO>>.Ok(sheets);
         }
 
-        public async Task<ServiceResultGeneric<SheetDisplayWithEntriesDTO>> LoadSheetInfo(int sheetId,string userId)
+        public async Task<ServiceResultGeneric<SheetDisplayWithEntriesDTO>> LoadSheetInfo(int sheetId, string userId)
         {
             Sheet? sheet = await _context.Sheets
                 .Include(s => s.Entries)
@@ -63,7 +111,7 @@ namespace CS2Tracker_Core.Services
                 && s.UserId == userId
                 );
 
-            if(sheet == null)
+            if (sheet == null)
             {
                 return ServiceResultGeneric<SheetDisplayWithEntriesDTO>.Fail("No such sheet exists!");
             }
@@ -84,11 +132,18 @@ namespace CS2Tracker_Core.Services
 
             foreach (var item in entryDisplayDtos)
             {
-                ServiceResultGeneric<SkinPriceDTO> res =  await _marketplacePriceService.GetSkinMarketplacePrice(item.Name);
+                ServiceResultGeneric<SkinPriceDTO> res = await _marketplacePriceService.GetSkinMarketplacePrice(item.Name);
 
-                item.YouPinPrice = res.Data.Prices.Youpin.Ask;
-                item.CsFloatPrice = res.Data.Prices.Csfloat.Ask;
-
+                if (!res.Success)
+                {
+                    item.YouPinPrice = null;
+                    item.CsFloatPrice = null;
+                }
+                else
+                {
+                    item.YouPinPrice = res.Data.Prices.Youpin.Ask;
+                    item.CsFloatPrice = res.Data.Prices.Csfloat.Ask;
+                }
             }
 
             SheetDisplayWithEntriesDTO sheetDisplayDto = new(sheet.Id, sheet.Name, sheet.SheetType.ToString(), sheet.CreatedAt, sheet.UpdatedAt, entryDisplayDtos);

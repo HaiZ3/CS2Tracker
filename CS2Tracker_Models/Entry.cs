@@ -1,4 +1,4 @@
-using CS2Tracker_DTOs.DTOs.ApiDTOs.EntriesDTOs;
+using CS2Tracker_DTOs.ApiDTOs.EntriesDTOs;
 using CS2Tracker_Common.Enums;
 using Microsoft.EntityFrameworkCore;
 using System;

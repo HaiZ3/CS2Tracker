@@ -27,6 +27,16 @@ namespace CS2Tracker_Core.Services
                 Email = email
             };
 
+            if(_userManager.Users.Any(u => u.UserName == username))
+            {
+                return ServiceResult.Fail($"The username: {username} exists!");
+            }
+
+            if (_userManager.Users.Any(u => u.Email == email))
+            {
+                return ServiceResult.Fail($"The email: {email} belongs to another user!");
+            }
+
             var result = await _userManager.CreateAsync(user, password);
 
             if (!result.Succeeded)
@@ -53,6 +63,28 @@ namespace CS2Tracker_Core.Services
 
             return ServiceResult.Ok(
                 user!.Id,
+                user.UserName ?? username
+            );
+        }
+
+        public async Task<ServiceResult> ValidateCredentialsAsync(
+            string username, string password)
+        {
+            var user = await _userManager.FindByNameAsync(username);
+
+            if (user == null)
+                return ServiceResult.Fail("Invalid login attempt.");
+
+            var result = await _signInManager.CheckPasswordSignInAsync(
+                user,
+                password,
+                lockoutOnFailure: true);
+
+            if (!result.Succeeded)
+                return ServiceResult.Fail("Invalid login attempt.");
+
+            return ServiceResult.Ok(
+                user.Id,
                 user.UserName ?? username
             );
         }

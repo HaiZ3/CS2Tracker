@@ -1,5 +1,5 @@
 using CS2Tracker_Core.Interfaces.IServices;
-using CS2Tracker_DTOs.DTOs.ApiDTOs.EntriesDTOs;
+using CS2Tracker_DTOs.ApiDTOs.EntriesDTOs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;

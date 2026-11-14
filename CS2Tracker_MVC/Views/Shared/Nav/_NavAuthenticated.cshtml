@@ -1,0 +1,21 @@
+﻿                        <ul class="navbar-nav me-auto">
+                            <li class="nav-item">
+                                <a class="nav-link"
+                                   asp-controller="Sheets"
+                                   asp-action="All">Sheets</a>
+                            </li>
+                        </ul>
+
+                        <div class="d-flex align-items-center gap-3 mt-3 mt-md-0">
+                            <span class="navbar-text">
+                                Hello, @User.Identity.Name
+                            </span>
+
+                            <form asp-controller="Accounts"
+                                  asp-action="Logout"
+                                  method="post">
+                                <button type="submit" class="btn btn-app-outline">
+                                    Logout
+                                </button>
+                            </form>
+                        </div>

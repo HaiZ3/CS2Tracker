@@ -432,3 +432,70 @@ main {
         transform: translateY(0);
     }
 }
+.sheet-card-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-width: 0;
+}
+
+    .sheet-card-wrapper .sheet-card {
+        flex: 1;
+    }
+
+    .sheet-card-wrapper form {
+        margin: 0;
+    }
+
+.btn-app-danger {
+    background-color: #c0392b;
+    color: #fff;
+    border: none;
+    padding: 6px 14px;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 100%;
+}
+
+    .btn-app-danger:hover {
+        background-color: #a93226;
+    }
+.sheet-card-actions {
+    display: flex;
+    gap: 8px;
+}
+
+    .sheet-card-actions form {
+        flex: 1;
+        margin: 0;
+    }
+
+    .sheet-card-actions .btn {
+        flex: 1;
+        text-align: center;
+    }
+.btn-app-secondary {
+    background-color: #2d6cdf;
+    color: #ffffff;
+    border: 1px solid #4a85f0;
+    padding: 6px 14px;
+    border-radius: 4px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+}
+
+    .btn-app-secondary:hover {
+        background-color: #2358bd;
+        color: #ffffff;
+    }
+.sheet-card-actions .btn {
+    box-sizing: border-box;
+    line-height: 1.2;
+    font-size: 14px;
+}
+
+.sheet-card-actions form .btn-app-danger {
+    height: 100%;
+    font-size: 14px;
+}
