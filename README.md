@@ -1,0 +1,145 @@
+# CS2 Tracker
+
+A tracker for CS2 skin arbitrage. Record the skins you buy, compare their current prices on YouPin and CSFloat, close them when you sell, and see the profit and return for each trade.
+
+Built with **ASP.NET Core** (MVC and Web API), **ASP.NET Core Identity**, **Entity Framework Core**, and **SQL Server**.
+
+---
+
+## Features
+
+- **Accounts:** register and log in with ASP.NET Core Identity. The web app uses cookies, and the API uses JWT bearer tokens.
+- **Sheets:** group your trades into sheets. A sheet is either *Arbitrage* or *Investment*.
+- **Adding entries:** record a skin with its buy date, buy price, variant, condition, and optional float.
+- **Editing entries:** open entries can change their buy date and buy price. The item name, variant, condition, and float are fixed once the entry is added. Closed entries can't be edited.
+- **Closing a trade:** enter the sell date and sell price. The sell date must be at least 7 days after the buy date (the Steam trade hold) and can't be in the future.
+- **Deleting entries:** removes the entry and its skin record, after a confirmation prompt.
+- **Live prices:** the sheet page shows the current YouPin and CSFloat asking prices, pulled from the [OpenSkin API](https://openskin.dev/). Each price links to its marketplace listing. Prices are cached for 10 minutes.
+- **Calculated values:** profit, return, hold days, and daily return are calculated from stored prices and dates, not stored. Open entries show unrealized profit, based on the higher of the YouPin and CSFloat prices.
+
+---
+
+## Project structure
+
+- **CS2Tracker_Common**: enums, validation constants, helpers, `ServiceResult`
+- **CS2Tracker_Models**: entities `Sheet`, `Entry`, `SkinInfo`
+- **CS2Tracker_Data**: `DbContext`, migrations, design-time factory
+- **CS2Tracker_DTOs**: request and response objects for the API and the web app
+- **CS2Tracker_Core**: services for entries, sheets, users, and marketplace prices
+- **CS2Tracker_Api**: Web API with JWT authentication
+- **CS2Tracker_MVC**: web app with cookie authentication and Razor views
+
+The web app and the API both use the services in `CS2Tracker_Core`, so business rules such as the trade hold are enforced in one place.
+
+> **API status:** The Web API is not tested yet and will be updated later. Endpoints, request formats, and JWT handling may change. Use the web app for now.
+
+---
+
+## Prerequisites
+
+- .NET 10 SDK
+- SQL Server LocalDB (included with Visual Studio's "Data storage and processing" workload), or another SQL Server instance you can reach
+
+---
+
+## Configuration
+
+The committed default connection string points to LocalDB:
+
+```
+Server=(localdb)\MSSQLLocalDB;Database=CS2Tracker;Trusted_Connection=True;TrustServerCertificate=True;
+```
+
+Don't commit a machine name, server address, or password. To use a different database, set the connection string as an environment variable. Environment variables override every `appsettings*.json` file, and they work for the API, the web app, and migrations.
+
+**PowerShell (current session only):**
+
+```powershell
+$env:ConnectionStrings__DefaultConnection = "Server=MY-PC;Database=CS2Tracker;Trusted_Connection=True;TrustServerCertificate=True;"
+```
+
+**Bash:**
+
+```bash
+export ConnectionStrings__DefaultConnection="Server=MY-PC;Database=CS2Tracker;Trusted_Connection=True;TrustServerCertificate=True;"
+```
+
+### User secrets
+
+User secrets keep your local values outside the repository. The web app already has a secrets ID. The API needs one first:
+
+```bash
+dotnet user-secrets init --project CS2Tracker_Api
+dotnet user-secrets set "ConnectionStrings:DefaultConnection" "Server=MY-PC;Database=CS2Tracker;Trusted_Connection=True;TrustServerCertificate=True;" --project CS2Tracker_Api
+dotnet user-secrets set "ConnectionStrings:DefaultConnection" "Server=MY-PC;Database=CS2Tracker;Trusted_Connection=True;TrustServerCertificate=True;" --project CS2Tracker_MVC
+```
+
+User secrets only apply in the Development environment. Migrations read environment variables, so set `ConnectionStrings__DefaultConnection` for those.
+
+### JWT key (API)
+
+The `Jwt:Key` value in `CS2Tracker_Api/appsettings.json` is a placeholder. Set a real key of at least 32 characters:
+
+```bash
+dotnet user-secrets set "Jwt:Key" "<at-least-32-random-characters>" --project CS2Tracker_Api
+```
+
+```bash
+export Jwt__Key="<at-least-32-random-characters>"
+```
+
+---
+
+## Running
+
+1. Set the connection string (see above).
+2. Apply the migrations:
+
+   ```bash
+   dotnet ef database update --project CS2Tracker_Data --startup-project CS2Tracker_Api
+   ```
+
+3. Start the apps:
+
+   ```bash
+   dotnet run --project CS2Tracker_MVC
+   dotnet run --project CS2Tracker_Api
+   ```
+
+## Adding a migration
+
+```bash
+dotnet ef migrations add <MigrationName> --project CS2Tracker_Data --startup-project CS2Tracker_Api
+```
+
+---
+
+## Configuration files
+
+- **`*/appsettings.json`**: committed. Defaults only, with no machine-specific values.
+- **`*/appsettings.Development.json`**: committed (API and MVC). Logging overrides only, no secrets.
+- **User secrets**: not committed. Your local connection string and JWT key.
+- **Environment variables**: not committed. Overrides for other machines, CI, and migrations.
+
+---
+
+## Known limitations
+
+- The Web API is untested and will be updated later. Endpoints and authentication may change.
+- Item names are not checked against the real list of skins yet, so a made-up name that looks valid is accepted.
+- Profit doesn't subtract marketplace fees, so it's an upper bound. The unrealized profit label says so.
+- Each entry is one buy and one sell. Partial sells aren't supported.
+- Closed entries can't be edited. To correct one, delete it and add it again.
+- Prices come from a third-party API and can be out of date. Each price shows when the API last updated it, but the app doesn't display that yet.
+
+---
+
+## Acknowledgements
+
+Market prices are provided by [OpenSkin](https://openskin.dev/), which aggregates prices from YouPin, CSFloat, Steam, Skinport, and Buff.
+
+---
+
+## License
+
+MIT
