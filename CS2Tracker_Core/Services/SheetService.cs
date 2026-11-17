@@ -155,6 +155,11 @@ namespace CS2Tracker_Core.Services
 
             foreach (var item in entryDisplayDtos)
             {
+                if(item.Status == EntryStatus.Closed)
+                {
+                    continue;
+                }
+
                 ServiceResultGeneric<SkinPriceDTO> res = await _marketplacePriceService.GetSkinMarketplacePrice(item.Name);
 
                 if (!res.Success)
