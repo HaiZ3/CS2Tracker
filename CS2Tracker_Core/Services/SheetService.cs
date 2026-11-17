@@ -155,7 +155,7 @@ namespace CS2Tracker_Core.Services
 
             foreach (var item in entryDisplayDtos)
             {
-                if(item.Status == EntryStatus.Closed)
+                if(item.Status == EntryStatus.Closed.ToString())
                 {
                     continue;
                 }
