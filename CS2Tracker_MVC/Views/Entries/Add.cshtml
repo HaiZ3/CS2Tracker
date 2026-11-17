@@ -1,0 +1,70 @@
+﻿@model CreateEntryViewModel
+@using CS2Tracker_DTOs.SharedDTOs.EntriesDTOs
+@using CS2Tracker_DTOs.SharedDTOs.SheetDTOs
+@using CS2Tracker_MVC.ViewModels.Entries
+@{
+    ViewData["Title"] = "Add entry";}
+
+<div class="sheet-form-container">
+    <div class="sheet-form-card">
+        <div class="sheet-form-header">
+            <h1 class="page-title">Add entry</h1>
+            <p class="sheet-form-subtitle">Record a skin you bought.</p>
+        </div>
+
+        <form asp-controller="Entries" asp-action="Add" method="post">
+            <div asp-validation-summary="ModelOnly" class="auth-error"></div>
+
+            <input type="hidden" asp-for="SheetId" />
+
+            <div class="mb-3">
+                <label asp-for="SkinName" class="form-label"></label>
+                <input asp-for="SkinName" class="form-control" autofocus />
+                <span asp-validation-for="SkinName" class="field-error"></span>
+            </div>
+
+            <div class="row g-3">
+                <div class="col-md-6 mb-3">
+                    <label asp-for="DateBought" class="form-label"></label>
+                    <input asp-for="DateBought" type="date" class="form-control" />
+                    <span asp-validation-for="DateBought" class="field-error"></span>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label asp-for="BuyPrice" class="form-label"></label>
+                    <input asp-for="BuyPrice" type="number" step="0.01" min="0" class="form-control" />
+                    <span asp-validation-for="BuyPrice" class="field-error"></span>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Float" class="form-label"></label>
+                <input asp-for="Float" type="number" step="0.000001" min="0" max="1" class="form-control" />
+                <span asp-validation-for="Float" class="field-error"></span>
+            </div>
+
+            <div class="row g-3">
+                <div class="col-md-6 mb-3">
+                    <label asp-for="SkinVariant" class="form-label"></label>
+                    <select asp-for="SkinVariant" asp-items="Html.GetEnumSelectList<SkinVariant>()" class="form-select"></select>
+                    <span asp-validation-for="SkinVariant" class="field-error"></span>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label asp-for="SkinCondition" class="form-label"></label>
+                    <select asp-for="SkinCondition" asp-items="Html.GetEnumSelectList<SkinCondition>()" class="form-select"></select>
+                    <span asp-validation-for="SkinCondition" class="field-error"></span>
+                </div>
+            </div>
+
+            <div class="sheet-form-actions">
+                <a class="btn btn-app-outline" asp-controller="Sheets" asp-action="Details" asp-route-id="@Model.SheetId">Cancel</a>
+                <button type="submit" class="btn btn-app-primary">Add entry</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

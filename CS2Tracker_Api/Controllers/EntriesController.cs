@@ -1,5 +1,5 @@
 using CS2Tracker_Core.Interfaces.IServices;
-using CS2Tracker_DTOs.ApiDTOs.EntriesDTOs;
+using CS2Tracker_DTOs.SharedDTOs.EntriesDTOs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
@@ -66,11 +66,11 @@ namespace CS2Tracker_Api.Controllers
             return Ok();
         }
         [HttpDelete]
-        public async Task<IActionResult> CancelEntry(CancelEntryDTO request)
+        public async Task<IActionResult> CancelEntry(int entryId)
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)!.Value;
 
-            var result = await _entryService.CancelEntryAsync(userId,request);
+            var result = await _entryService.CancelEntryAsync(userId, entryId);
 
             if (!result.Success)
             {

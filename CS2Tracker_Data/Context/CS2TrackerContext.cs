@@ -27,10 +27,10 @@ namespace CS2Tracker_Data.Context
                 .WithMany(e => e.Entries)
                 .HasForeignKey(s => s.SheetId);
 
-            modelBuilder.Entity<Entry>()
-                .HasOne(e => e.SkinInfo)
-                .WithOne(s => s.Entry)
-                .HasForeignKey<Entry>(e => e.SkinInfoId)
+            modelBuilder.Entity<SkinInfo>()
+                .HasOne(s => s.Entry)
+                .WithOne(e => e.SkinInfo)
+                .HasForeignKey<SkinInfo>(s => s.EntryId)
                 .OnDelete(DeleteBehavior.Cascade);
 
             foreach (var property in modelBuilder.Model

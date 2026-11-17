@@ -68,50 +68,25 @@ namespace CS2Tracker_Data.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<decimal?>("DailyReturn")
-                        .HasPrecision(18, 4)
-                        .HasColumnType("decimal(18,4)");
-
-                    b.Property<int>("DataSource")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("DateBought")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("DateSold")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("HoldDays")
-                        .HasColumnType("int");
-
-                    b.Property<decimal?>("MarketPrice")
-                        .HasPrecision(18, 4)
-                        .HasColumnType("decimal(18,4)");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(128)
                         .HasColumnType("nvarchar(128)");
 
-                    b.Property<decimal?>("Profit")
-                        .HasPrecision(18, 4)
-                        .HasColumnType("decimal(18,4)");
-
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
-
-                    b.Property<decimal?>("Return")
-                        .HasPrecision(18, 4)
-                        .HasColumnType("decimal(18,4)");
 
                     b.Property<decimal?>("SellPrice")
                         .HasPrecision(18, 4)
                         .HasColumnType("decimal(18,4)");
 
                     b.Property<int>("SheetId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("SkinInfoId")
                         .HasColumnType("int");
 
                     b.Property<int>("Status")
@@ -124,9 +99,6 @@ namespace CS2Tracker_Data.Migrations
                     b.HasIndex("DateSold");
 
                     b.HasIndex("SheetId");
-
-                    b.HasIndex("SkinInfoId")
-                        .IsUnique();
 
                     b.HasIndex("Status");
 
@@ -213,6 +185,9 @@ namespace CS2Tracker_Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("EntryId")
+                        .HasColumnType("int");
+
                     b.Property<decimal?>("Float")
                         .HasPrecision(18, 4)
                         .HasColumnType("decimal(18,4)");
@@ -236,6 +211,9 @@ namespace CS2Tracker_Data.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("EntryId")
+                        .IsUnique();
 
                     b.ToTable("SkinInfos");
                 });
@@ -446,15 +424,7 @@ namespace CS2Tracker_Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("CS2Tracker_Models.SkinInfo", "SkinInfo")
-                        .WithOne("Entry")
-                        .HasForeignKey("CS2Tracker_Models.Entry", "SkinInfoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Sheet");
-
-                    b.Navigation("SkinInfo");
                 });
 
             modelBuilder.Entity("CS2Tracker_Models.Sheet", b =>
@@ -466,6 +436,17 @@ namespace CS2Tracker_Data.Migrations
                         .IsRequired();
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("CS2Tracker_Models.SkinInfo", b =>
+                {
+                    b.HasOne("CS2Tracker_Models.Entry", "Entry")
+                        .WithOne("SkinInfo")
+                        .HasForeignKey("CS2Tracker_Models.SkinInfo", "EntryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Entry");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -519,15 +500,15 @@ namespace CS2Tracker_Data.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("CS2Tracker_Models.Entry", b =>
+                {
+                    b.Navigation("SkinInfo")
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("CS2Tracker_Models.Sheet", b =>
                 {
                     b.Navigation("Entries");
-                });
-
-            modelBuilder.Entity("CS2Tracker_Models.SkinInfo", b =>
-                {
-                    b.Navigation("Entry")
-                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

@@ -2,10 +2,11 @@ using CS2Tracker_Common.Enums;
 using CS2Tracker_Common.Responses;
 using CS2Tracker_Core.Interfaces.IServices;
 using CS2Tracker_Data.Context;
-using CS2Tracker_DTOs.ApiDTOs.EntriesDTOs;
-using CS2Tracker_DTOs.ApiDTOs.EntriesDTOs.MarketPricesDTOs;
-using CS2Tracker_DTOs.ApiDTOs.SheetDTOs;
+using CS2Tracker_DTOs.SharedDTOs.EntriesDTOs;
+using CS2Tracker_DTOs.SharedDTOs.EntriesDTOs.MarketPricesDTOs;
+using CS2Tracker_DTOs.SharedDTOs.SheetDTOs;
 using CS2Tracker_Models;
+using static CS2Tracker_Common.ErrorMessages.SheetErrorMessages;
 using Microsoft.EntityFrameworkCore;
 
 namespace CS2Tracker_Core.Services
@@ -19,13 +20,24 @@ namespace CS2Tracker_Core.Services
             _context = context;
             _marketplacePriceService = marketplacePriceService;
         }
+        public async Task<ServiceResultGeneric<Sheet>> GetSheetById(string userId,int sheetId)
+        {
+            Sheet? sheet = await _context.Sheets.FirstOrDefaultAsync(s => s.Id == sheetId && s.UserId == userId);
+
+            if(sheet == null)
+            {
+                return ServiceResultGeneric<Sheet>.Fail(SheetNotFound);
+            }
+
+            return ServiceResultGeneric<Sheet>.Ok(sheet);
+        }
         public async Task<ServiceResult> CreateSheetAsync(string userId, string name, SheetType sheetType)
         {
-
-            if (string.IsNullOrEmpty(name))
+            if (string.IsNullOrWhiteSpace(name))
             {
-                return ServiceResult.Fail("Failed to add the sheet to the database!");
+                return ServiceResult.Fail(SheetNameIsEmpty);
             }
+
             Sheet sheet = new Sheet(userId, name, sheetType);
 
             await _context.Sheets.AddAsync(sheet);
@@ -40,7 +52,7 @@ namespace CS2Tracker_Core.Services
             Sheet? sheet = await _context.Sheets.FirstOrDefaultAsync(s => s.Id == sheetId && s.UserId == userId);
             if (sheet == null)
             {
-                return ServiceResult.Fail("Such a sheet does not exist");
+                return ServiceResult.Fail(SheetNotFound);
             }
 
             _context.Sheets.Remove(sheet);
@@ -51,10 +63,10 @@ namespace CS2Tracker_Core.Services
 
         public async Task<ServiceResult> EditSheetAsync(string userId, SheetEditDTO sheetDTO)
         {
-            Sheet? sheet = _context.Sheets.FirstOrDefault(s => s.Id == sheetDTO.Id && s.UserId == userId);
+            Sheet? sheet = await _context.Sheets.FirstOrDefaultAsync(s => s.Id == sheetDTO.Id && s.UserId == userId);
             if (sheet == null)
             {
-                return ServiceResult.Fail("Such a sheet does not exist");
+                return ServiceResult.Fail(SheetNotFound);
             }
 
             sheet.Name = sheetDTO.Name.Trim();
@@ -67,11 +79,11 @@ namespace CS2Tracker_Core.Services
 
         public async Task<ServiceResultGeneric<SheetEditDTO>> GetSheetForEditAsync(string userId, int sheetId)
         {
-            Sheet? res = _context.Sheets.FirstOrDefault(s => s.Id == sheetId && s.UserId == userId);
+            Sheet? res = await _context.Sheets.FirstOrDefaultAsync(s => s.Id == sheetId && s.UserId == userId);
 
             if (res == null)
             {
-                return ServiceResultGeneric<SheetEditDTO>.Fail("No such sheet exists!");
+                return ServiceResultGeneric<SheetEditDTO>.Fail(SheetNotFound);
             }
 
             SheetEditDTO sheet = new SheetEditDTO
@@ -113,21 +125,28 @@ namespace CS2Tracker_Core.Services
 
             if (sheet == null)
             {
-                return ServiceResultGeneric<SheetDisplayWithEntriesDTO>.Fail("No such sheet exists!");
+                return ServiceResultGeneric<SheetDisplayWithEntriesDTO>.Fail(SheetNotFound);
             }
 
-            ICollection<EntryDisplayDto> entryDisplayDtos = sheet.Entries.Where(e => e.SheetId == sheetId)
-                .Select(e => new EntryDisplayDto
-                {
-                    Id = e.Id,
-                    Name = e.SkinInfo.MarketHashName,
-                    Quantity = e.Quantity,
-                    Status = e.Status.ToString(),
-                    DataSource = e.DataSource.ToString(),
-                    Profit = e.Profit,
-                    BuyPrice = e.BuyPrice,
-                    SellPrice = e.SellPrice
-                })
+            ICollection<EntryDisplayDTO> entryDisplayDtos = sheet.Entries.Where(e => e.SheetId == sheetId)
+                .Select(e => 
+                    new EntryDisplayDTO
+                    (
+                    e.Id,
+                    e.SkinInfo.MarketHashName,
+                    e.Quantity,
+                    e.Status.ToString(),
+                    e.Profit,
+                    e.Return,
+                    e.DateBought,
+                    e.DateSold,
+                    e.HoldDays,
+                    e.BuyPrice,
+                    e.SellPrice,
+                    null,
+                    null
+                    )
+                )
                 .ToList();
 
             foreach (var item in entryDisplayDtos)
@@ -138,11 +157,15 @@ namespace CS2Tracker_Core.Services
                 {
                     item.YouPinPrice = null;
                     item.CsFloatPrice = null;
+                    item.YouPinUrl = null;
+                    item.CsFloatUrl = null;
                 }
                 else
                 {
-                    item.YouPinPrice = res.Data.Prices.Youpin.Ask;
-                    item.CsFloatPrice = res.Data.Prices.Csfloat.Ask;
+                    item.YouPinPrice = res.Data.Prices.Youpin?.Ask;
+                    item.CsFloatPrice = res.Data.Prices.Csfloat?.Ask;
+                    item.YouPinUrl = res.Data.Links?.Youpin;
+                    item.CsFloatUrl = res.Data.Links?.Csfloat;
                 }
             }
 

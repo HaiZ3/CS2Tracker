@@ -17,10 +17,15 @@
 }
 else
 {
-    <div class="sheet-grid">
-        @foreach (var sheet in Model)
-        {
-            <partial name="_SheetCard" model="sheet" />
-        }
-    </div>
+    <section class="sheets-area">
+
+        <partial name = "_AkSvg" />
+
+        <div class="sheet-grid">
+            @foreach (var sheet in Model)
+            {
+                <partial name="_SheetCard" model="sheet" />
+            }
+        </div>
+    </section>
 }

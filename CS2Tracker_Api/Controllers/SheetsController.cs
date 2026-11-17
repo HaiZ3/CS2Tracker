@@ -1,5 +1,5 @@
 using CS2Tracker_Core.Interfaces.IServices;
-using CS2Tracker_DTOs.ApiDTOs.SheetDTOs;
+using CS2Tracker_DTOs.SharedDTOs.SheetDTOs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;

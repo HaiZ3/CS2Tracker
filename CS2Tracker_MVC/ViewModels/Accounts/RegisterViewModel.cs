@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using static CS2Tracker_Common.Validations.ModelValidations;
 
-namespace CS2Tracker_MVC.ViewModels.Account
+namespace CS2Tracker_MVC.ViewModels.Accounts
 {
     public class RegisterViewModel
     {

@@ -1,0 +1,61 @@
+﻿@model EditEntryViewModel
+@using CS2Tracker_MVC.ViewModels.Entries
+@{
+    ViewData["Title"] = "Edit entry";
+}
+
+<div class="sheet-form-container">
+    <div class="sheet-form-card">
+        <div class="sheet-form-header">
+            <h1 class="page-title">Edit entry</h1>
+            <p class="sheet-form-subtitle">@Model.Name</p>
+        </div>
+
+        <dl class="row mb-4">
+            <dt class="col-sm-4">Variant</dt>
+            <dd class="col-sm-8">@(Html.GetEnumSelectList<SkinVariant>().First(o => o.Value == ((int)Model.SkinVariant).ToString()).Text)</dd>
+
+            <dt class="col-sm-4">Condition</dt>
+            <dd class="col-sm-8">@(Html.GetEnumSelectList<SkinCondition>().First(o => o.Value == ((int)Model.SkinCondition).ToString()).Text)</dd>
+
+            @if (Model.Float.HasValue)
+            {
+                <dt class="col-sm-4">Float</dt>
+                <dd class="col-sm-8">@Model.Float.Value.ToString("0.000000")</dd>
+            }
+        </dl>
+
+        <form asp-controller="Entries" asp-action="Edit" method="post">
+            <div asp-validation-summary="ModelOnly" class="auth-error"></div>
+
+            <input type="hidden" asp-for="EntryId" />
+            <input type="hidden" asp-for="SheetId" />
+
+            <div class="row g-3">
+                <div class="col-md-6 mb-3">
+                    <label asp-for="DateBought" class="form-label"></label>
+                    <input asp-for="DateBought" type="date" class="form-control"
+                           max="@(DateTime.Today.ToString("yyyy-MM-dd"))"
+                           oninvalid="this.setCustomValidity('Buy date can\'t be in the future.')"
+                           oninput="this.setCustomValidity('')" />
+                    <span asp-validation-for="DateBought" class="field-error"></span>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label asp-for="BuyPrice" class="form-label"></label>
+                    <input asp-for="BuyPrice" type="number" step="0.01" min="0" class="form-control" />
+                    <span asp-validation-for="BuyPrice" class="field-error"></span>
+                </div>
+            </div>
+
+            <div class="sheet-form-actions">
+                <a class="btn btn-app-outline" asp-controller="Sheets" asp-action="Details" asp-route-id="@Model.SheetId">Cancel</a>
+                <button type="submit" class="btn btn-app-primary">Save changes</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -1,8 +1,7 @@
-﻿using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 
-namespace CS2Tracker_MVC.ViewModels.Account
+namespace CS2Tracker_MVC.ViewModels.Accounts
 {
     public class LoginViewModel
     {

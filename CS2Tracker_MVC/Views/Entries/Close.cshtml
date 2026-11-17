@@ -1,0 +1,55 @@
+﻿@model CloseEntryViewModel
+@using CS2Tracker_MVC.ViewModels.Entries
+@{
+    ViewData["Title"] = "Close entry";
+}
+
+<div class="sheet-form-container">
+    <div class="sheet-form-card">
+        <div class="sheet-form-header">
+            <h1 class="page-title">Close entry</h1>
+            <p class="sheet-form-subtitle">@Model.Name</p>
+        </div>
+
+        <dl class="row mb-4">
+            <dt class="col-sm-4">Date bought</dt>
+            <dd class="col-sm-8">@Model.DateBought.ToString(DateFormat)</dd>
+
+            <dt class="col-sm-4">Buy price</dt>
+            <dd class="col-sm-8">$@Model.BuyPrice.ToString("0.00")</dd>
+        </dl>
+
+        <form asp-controller="Entries" asp-action="Close" method="post" novalidate>
+            <div asp-validation-summary="ModelOnly" class="auth-error"></div>
+
+            <input type="hidden" asp-for="EntryId" />
+            <input type="hidden" asp-for="SheetId" />
+
+            <div class="row g-3">
+                <div class="col-md-6 mb-3">
+                    <label asp-for="DateSold" class="form-label"></label>
+                    <input asp-for="DateSold" type="date" class="form-control" />
+                    <span asp-validation-for="DateSold" class="field-error"></span>
+                    <small class="text-white">
+                        Earliest sell date: @Model.DateBought.AddDays(EntryHoldDaysMin).ToString(DateFormat)
+                    </small>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label asp-for="SellPrice" class="form-label"></label>
+                    <input asp-for="SellPrice" type="number" step="0.01" min="0" class="form-control" />
+                    <span asp-validation-for="SellPrice" class="field-error"></span>
+                </div>
+            </div>
+
+            <div class="sheet-form-actions">
+                <a class="btn btn-app-outline" asp-controller="Sheets" asp-action="Details" asp-route-id="@Model.SheetId">Cancel</a>
+                <button type="submit" class="btn btn-app-primary">Close entry</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

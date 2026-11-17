@@ -69,7 +69,7 @@ namespace CS2Tracker_MVC
             app.MapStaticAssets();
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Accounts}/{action=Home}")
+                pattern: "{controller=Home}/{action=Home}")
                 .WithStaticAssets();
 
             app.Run();

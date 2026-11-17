@@ -1,4 +1,4 @@
-using CS2Tracker_DTOs.ApiDTOs.EntriesDTOs;
+using CS2Tracker_DTOs.SharedDTOs.EntriesDTOs;
 using CS2Tracker_Common.Enums;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -25,7 +25,6 @@ namespace CS2Tracker_Models
         }
         public Entry(CreateEntryDTO createEntryDTO,SkinInfo skinInfo)
         {
-            Quantity = createEntryDTO.Quantity;
             DateBought = createEntryDTO.DateBought;
             BuyPrice = createEntryDTO.BuyPrice;
             SheetId = createEntryDTO.SheetId;
@@ -34,26 +33,26 @@ namespace CS2Tracker_Models
             CreatedAt = DateTime.UtcNow;
         }
         //Legacy entry ctor
-        public Entry(int quantity, DateTime? dateBought
-    , DateTime? dateSold, decimal buyPrice, decimal? sellPrice
-    , int sheetId, SkinInfo skinInfo,EntryDataSource dataSource,decimal @return, decimal dailyReturn,EntryStatus status)
-        {
-            Name = skinInfo.Name;
-            Quantity = quantity;
-            DateBought = dateBought;
-            DateSold = dateSold;
-            BuyPrice = buyPrice;
-            SellPrice = sellPrice;
-            SkinInfo = skinInfo;
-            SheetId = sheetId;
-            Status = EntryStatus.Open;
-            CreatedAt = DateTime.UtcNow;
-            DataSource = dataSource;
-            Return = @return;
-            DailyReturn = dailyReturn;
-            Status = status;
-            Profit = sellPrice - buyPrice;
-        }
+    //    public Entry(int quantity, DateTime? dateBought
+    //, DateTime? dateSold, decimal buyPrice, decimal? sellPrice
+    //, int sheetId, SkinInfo skinInfo,EntryDataSource dataSource,decimal @return, decimal dailyReturn,EntryStatus status)
+    //    {
+    //        Name = skinInfo.Name;
+    //        Quantity = quantity;
+    //        DateBought = dateBought;
+    //        DateSold = dateSold;
+    //        BuyPrice = buyPrice;
+    //        SellPrice = sellPrice;
+    //        SkinInfo = skinInfo;
+    //        SheetId = sheetId;
+    //        Status = EntryStatus.Open;
+    //        CreatedAt = DateTime.UtcNow;
+    //        DataSource = dataSource;
+    //        Return = @return;
+    //        DailyReturn = dailyReturn;
+    //        Status = status;
+    //        Profit = sellPrice - buyPrice;
+    //    }
         [Key]
         public int Id { get; set; }
 
@@ -62,21 +61,63 @@ namespace CS2Tracker_Models
         public string Name { get; set; } = string.Empty;
         public int Quantity { get; set; } = 1;
         [Required]
-        [AllowedValues(typeof(EntryStatus))]
+        [EnumDataType(typeof(EntryStatus))]
         public EntryStatus Status { get; set; }
-        [AllowedValues(typeof (EntryDataSource))]
-        public EntryDataSource DataSource { get; set; }
         [Required]
-        public DateTime? DateBought { get; set; }
+        public DateTime DateBought { get; set; }
         public DateTime? DateSold { get; set; }
-        public DateTime CreatedAt { get; set; }
-        [Range(EntryHoldDaysMin,int.MaxValue)]
-        public int? HoldDays { get; set; }
-        public decimal? Return { get; set; }
-        public decimal? DailyReturn { get; set; }
-        public decimal? MarketPrice { get; set; }
-        //After the sale is confirmed add the hold days to OverallStats
-        public decimal? Profit { get; set; }
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+        [NotMapped]
+        public int? HoldDays
+        {
+            get
+            {
+                int? holdDays = null;
+
+                if(DateSold == null)
+                {
+                    return holdDays;
+                }
+
+                holdDays = (int)(DateSold - DateBought).Value.TotalDays;
+
+                return holdDays;
+            }
+        }
+        [NotMapped]
+        public decimal? Return
+        {
+            get
+            {
+                decimal? ret = null;
+
+                if(SellPrice == null)
+                {
+                    return ret;
+                }
+
+                ret = Profit / (BuyPrice * Quantity);
+
+                return ret;
+            }
+        }
+        [NotMapped]
+        public decimal? Profit
+        {
+            get
+            {
+                decimal? profit = null;
+
+                if(SellPrice == null)
+                {
+                    return profit;
+                }
+
+                profit = SellPrice - BuyPrice;
+                    
+                return profit;
+            }
+        }
         [Range (0,int.MaxValue)]
         [Required]
         public decimal BuyPrice { get; set; }
@@ -84,7 +125,6 @@ namespace CS2Tracker_Models
         public decimal? SellPrice { get; set; }
         public int SheetId { get; set; }
         public Sheet Sheet { get; set; } = null!;
-        public int SkinInfoId { get; set; }
         public SkinInfo SkinInfo { get; set; } = null!;
     }
 }

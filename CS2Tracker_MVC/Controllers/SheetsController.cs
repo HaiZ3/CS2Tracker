@@ -1,5 +1,5 @@
 ﻿using CS2Tracker_Core.Interfaces.IServices;
-using CS2Tracker_DTOs.ApiDTOs.SheetDTOs;
+using CS2Tracker_DTOs.SharedDTOs.SheetDTOs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
@@ -39,7 +39,7 @@ namespace CS2Tracker_MVC.Controllers
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)!.Value;
 
-            if (!ModelState.IsValid!)
+            if (!ModelState.IsValid)
             {
                 return View(model);
             }
@@ -58,11 +58,11 @@ namespace CS2Tracker_MVC.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Delete(int Id)
+        public async Task<IActionResult> Delete(int id)
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)!.Value;
 
-            var result = await _sheetService.DeleteSheetAsync(userId,Id);
+            var result = await _sheetService.DeleteSheetAsync(userId,id);
 
             if (!result.Success)
             {
@@ -75,11 +75,11 @@ namespace CS2Tracker_MVC.Controllers
             return RedirectToAction(nameof(All));
         }
         [HttpGet]
-        public async Task<IActionResult> Edit(int Id)
+        public async Task<IActionResult> Edit(int id)
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)!.Value;
 
-            var res = await _sheetService.GetSheetForEditAsync(userId, Id);
+            var res = await _sheetService.GetSheetForEditAsync(userId, id);
 
             if (!res.Success)
             {
@@ -110,6 +110,21 @@ namespace CS2Tracker_MVC.Controllers
             TempData["SuccessMessage"] = "Sheet edited successfully!";
 
             return RedirectToAction(nameof(All));
+        }
+        [HttpGet]
+        public async Task<IActionResult> Details(int id)
+        {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)!.Value;
+
+            var res = await _sheetService.LoadSheetInfo(id, userId);
+
+            if (!res.Success)
+            {
+                TempData["ErrorMessage"] = res.ErrorMessage;
+                return RedirectToAction(nameof(All));
+            }
+
+            return View(res.Data);
         }
     }
 }

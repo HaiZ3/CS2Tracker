@@ -4,7 +4,7 @@ using CS2Tracker_Common.Helpers;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using static CS2Tracker_Common.Validations.ModelValidations;
-using CS2Tracker_DTOs.ApiDTOs.SkinInfoDTOs;
+using CS2Tracker_DTOs.SharedDTOs.SkinInfoDTOs;
 
 namespace CS2Tracker_Models
 {
@@ -45,7 +45,8 @@ namespace CS2Tracker_Models
         public SkinCondition SkinCondition { get; set; }
         public SkinVariant SkinVariant { get; set; }
 
-        public Entry Entry { get; set; }
+        public int EntryId { get; set; }
+        public Entry Entry { get; set; } = null!;
 
         public void SetItemType()
         {

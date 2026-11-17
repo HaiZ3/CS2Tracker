@@ -499,3 +499,151 @@ main {
     height: 100%;
     font-size: 14px;
 }
+.table-wrapper {
+    overflow-x: auto;
+    border-radius: 8px;
+}
+
+.entries-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+    .entries-table th,
+    .entries-table td {
+        padding: 10px 12px;
+        text-align: left;
+        border-bottom: 1px solid #3a3a3a;
+        white-space: nowrap;
+    }
+
+    .entries-table th {
+        font-weight: 600;
+        color: #aaaaaa;
+    }
+
+.profit-pos {
+    color: #4caf50;
+}
+
+.profit-neg {
+    color: #e74c3c;
+}
+
+
+.sheets-area {
+    position: relative;
+    min-height: 500px;
+}
+
+    .sheets-area .sticker {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        pointer-events: none;
+        overflow: hidden;
+        z-index: 0;
+    }
+
+        .sheets-area .sticker svg {
+            width: 100%;
+            height: auto;
+            max-width: none;
+            opacity: 0.25;
+        }
+
+.sticker-shape polygon,
+.sticker-shape rect,
+.sticker-shape path {
+    fill: #ffffff;
+}
+
+.sheets-area .sheet-grid {
+    position: relative;
+    z-index: 1;
+}
+
+.home-sticker .sticker {
+    margin: 0 auto;
+}
+
+.hero-home {
+    padding-top: 1rem;
+}
+.profit-unrealized {
+    font-style: italic;
+    opacity: 0.75;
+}
+.btn-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    background: transparent;
+    border: 1px solid var(--c-border);
+    border-radius: 6px;
+    color: var(--c-muted);
+    cursor: pointer;
+    transition: color 0.15s, border-color 0.15s;
+}
+
+.btn-icon-danger:hover {
+    color: var(--c-danger);
+    border-color: var(--c-danger);
+}
+
+.entries-table th,
+.entries-table td {
+    border-bottom: none;
+}
+
+.entries-table tbody tr {
+    border-bottom: 1px solid #3a3a3a;
+}
+
+.entry-actions {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding-top: 6px;
+    padding-bottom: 6px;
+}
+
+    .entry-actions form,
+    .entry-actions .btn-icon {
+        margin: 0;
+    }
+
+.btn-icon-edit:hover {
+    color: #4a85f0;
+    border-color: #4a85f0;
+}
+
+.btn-glow:hover {
+    color: #FF6F59;
+    border-color: #FF6F59;
+    box-shadow: 0 0 12px rgba(255, 111, 89, 0.7);
+}
+.entries-table th,
+.entries-table td {
+    padding: 10px 8px;
+}
+
+    .entries-table td:first-child {
+        white-space: normal;
+        min-width: 200px;
+    }
+
+    .entries-table td.entry-actions,
+    .entries-table th:last-child {
+        white-space: nowrap;
+        width: 1%;
+    }
+
+    .entries-table td.entry-actions {
+        gap: 6px;
+    }

@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using System.Text.Json.Serialization;
 using static CS2Tracker_Common.Validations.ModelValidations;
 
 namespace CS2Tracker_Api
@@ -66,11 +67,17 @@ namespace CS2Tracker_Api
 
             builder.Services.Configure<IdentityOptions>(o =>
             {
-                o.Password.RequiredLength = UsernameMinLen;
+                o.Password.RequiredLength = UserPasswordMinLen;
                 o.Password.RequireDigit = false;
                 o.Password.RequireUppercase = false;
                 o.Password.RequireNonAlphanumeric = false;
             });
+
+            builder.Services.AddControllers()
+             .AddJsonOptions(options =>
+             {
+                 options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+             });
 
             var app = builder.Build();
 

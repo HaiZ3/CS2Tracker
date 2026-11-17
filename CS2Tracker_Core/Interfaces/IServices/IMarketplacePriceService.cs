@@ -1,5 +1,5 @@
 ﻿using CS2Tracker_Common.Responses;
-using CS2Tracker_DTOs.ApiDTOs.EntriesDTOs.MarketPricesDTOs;
+using CS2Tracker_DTOs.SharedDTOs.EntriesDTOs.MarketPricesDTOs;
 using System;
 using System.Collections.Generic;
 using System.Text;

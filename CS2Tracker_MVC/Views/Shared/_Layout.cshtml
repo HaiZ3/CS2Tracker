@@ -12,9 +12,19 @@
     <header>
         <nav class="navbar navbar-expand-md app-navbar">
             <div class="container">
-                <a class="navbar-brand" asp-controller="Accounts" asp-action="Home">
+
+                    @if (User.Identity?.IsAuthenticated == true)
+                    {
+                <a class="navbar-brand" asp-controller="Sheets" asp-action="All">
                     CS2 <span>Tracker</span>
                 </a>
+                    }
+                    else
+                    {
+                <a class="navbar-brand" asp-controller="Home" asp-action="Home">
+                    CS2 <span>Tracker</span>
+                </a>
+                    }
 
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                         data-bs-target="#mainNav" aria-controls="mainNav"
@@ -70,7 +80,7 @@
     </main>
 
     <footer class="app-footer">
-        <div class="container">&copy; @DateTime.Now.Year CS2 Tracker</div>
+        <div class="container">&copy; @DateTime.UtcNow.Year CS2 Tracker</div>
     </footer>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

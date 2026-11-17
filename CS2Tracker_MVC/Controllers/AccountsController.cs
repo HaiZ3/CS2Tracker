@@ -1,9 +1,8 @@
 ﻿using CS2Tracker_Core.Interfaces.IServices;
 using CS2Tracker_Core.Services;
-using CS2Tracker_MVC.ViewModels.Account;
+using CS2Tracker_MVC.ViewModels.Accounts;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using static Microsoft.CodeAnalysis.CSharp.SyntaxTokenParser;
 
 namespace CS2Tracker_MVC.Controllers
 {
@@ -15,16 +14,6 @@ namespace CS2Tracker_MVC.Controllers
         public AccountsController(IUserService userService)
         {
             _userService = userService;
-        }
-        [HttpGet]
-        public IActionResult Home()
-        {
-            if (User?.Identity?.IsAuthenticated ?? false)
-            {
-                return RedirectToAction("All", "Sheets");
-            }
-
-            return View();
         }
         [HttpGet]
         public IActionResult Login()
@@ -103,7 +92,7 @@ namespace CS2Tracker_MVC.Controllers
         {
             await _userService.LogoutUserAsync();
 
-            return RedirectToAction("Home", "Accounts");
+            return RedirectToAction("Home", "Home");
         }
     }
 }

@@ -1,0 +1,59 @@
+﻿@using CS2Tracker_DTOs.SharedDTOs.EntriesDTOs
+@using CS2Tracker_DTOs.SharedDTOs.SheetDTOs
+@model SheetDisplayWithEntriesDTO
+
+@{
+    ViewData["Title"] = Model.Name;
+    ViewData["SheetId"] = Model.Id;
+}
+
+<div class="page-header">
+    <div>
+        <h1 class="page-title">@Model.Name</h1>
+        <span class="sheet-type">@Model.Type</span>
+    </div>
+    <div class="d-flex gap-2">
+        <a class="btn btn-app-primary" asp-controller="Entries" asp-action="Add" asp-route-sheetId="@Model.Id">Add entry</a>
+        <a class="btn btn-app-outline" asp-controller="Sheets" asp-action="All">Back to sheets</a>
+    </div>
+</div>
+
+<div class="sheet-dates">
+    <span>Created @Model.CreatedAt.ToString(DateFormat)</span>
+    <span>Updated @Model.UpdatedAt.ToString(DateFormat)</span>
+</div>
+
+@if (Model.Entries == null || !Model.Entries.Any())
+{
+    <div class="empty-state">
+        <p>This sheet has no entries yet.</p>
+    </div>
+}
+else
+{
+    <div class="table-wrapper">
+        <table class="entries-table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Status</th>
+                    <th>Dates</th>
+                    <th>Buy</th>
+                    <th>Sell</th>
+                    <th>Profit</th>
+                    <th>Return</th>
+                    <th>Hold days</th>
+                    <th>CSFloat</th>
+                    <th>YouPin</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (EntryDisplayDTO entry in Model.Entries)
+                {
+                    <partial name="_EntryRecord" model="entry"></partial>
+                }
+            </tbody>
+        </table>
+    </div>
+}

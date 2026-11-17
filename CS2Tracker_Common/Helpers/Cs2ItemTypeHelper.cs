@@ -62,7 +62,7 @@ namespace CS2Tracker_Common.Helpers
                 return baseName switch
                 {
                     "Glock-18" or "USP-S" or "P2000" or "P250" or "Five-SeveN" or
-                    "Tec-9" or "CZ75-Auto" or "Desert Eagle" or "R8 Revolver" or "Zeus x27"
+                    "Tec-9" or "CZ75-Auto" or "Desert Eagle" or "R8 Revolver" or "Zeus x27" or "Dual Berettas"
                         => ItemType.Pistol,
 
                     "AK-47" or "M4A4" or "M4A1-S" or "FAMAS" or "Galil AR" or "AUG" or "SG 553"

@@ -17,8 +17,8 @@
                     </div>
 
                     <div class="sheet-dates">
-                        <span>Created @Model.CreatedAt.ToString("dd MMM yyyy")</span>
-                        <span>Updated @Model.UpdatedAt.ToString("dd MMM yyyy")</span>
+                        <span>Created @Model.CreatedAt.ToString(@DateFormat)</span>
+                        <span>Updated @Model.UpdatedAt.ToString(@DateFormat)</span>
                     </div>
                 </a>
                     <div class="sheet-card-actions">

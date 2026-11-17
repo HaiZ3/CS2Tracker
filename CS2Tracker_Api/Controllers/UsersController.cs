@@ -4,7 +4,7 @@ using CS2Tracker_Common.Responses;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
-using CS2Tracker_DTOs.ApiDTOs.UsersDTOs;
+using CS2Tracker_DTOs.SharedDTOs.UsersDTOs;
 
 namespace CS2Tracker_Api.Controllers
 {
