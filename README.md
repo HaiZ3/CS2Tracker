@@ -6,6 +6,17 @@ Built with **ASP.NET Core** (MVC and Web API), **ASP.NET Core Identity**, **Enti
 
 ---
 
+## Background: what is being tracked?
+
+> You don't need to know the game to understand the project.
+
+- **CS2 (Counter-Strike 2)** is a popular online game. Players can buy, sell and trade cosmetic items called **skins** (weapon appearances, stickers, charms, patches, pins).
+- These items have **real-money value** on online marketplaces, and their prices move up and down like a small commodity market.
+- Some players **trade** them: buy an item cheap, hold it, and sell it later at a higher price. This is a form of **arbitrage**.
+- To judge whether trading is actually profitable, a trader needs to know the **purchase price**, **sale price**, **marketplace fees**, **currency** and **how long each item was held**. Marketplaces don't show this, and spreadsheets get messy quickly. This application solves that.
+
+---
+
 ## Features
 
 - **Accounts:** register and log in with ASP.NET Core Identity. The web app uses cookies, and the API uses JWT bearer tokens.
