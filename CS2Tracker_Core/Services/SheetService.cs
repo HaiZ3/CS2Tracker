@@ -128,8 +128,12 @@ namespace CS2Tracker_Core.Services
                 return ServiceResultGeneric<SheetDisplayWithEntriesDTO>.Fail(SheetNotFound);
             }
 
-            ICollection<EntryDisplayDTO> entryDisplayDtos = sheet.Entries.Where(e => e.SheetId == sheetId)
-                .Select(e => 
+            ICollection<EntryDisplayDTO> entryDisplayDtos = sheet
+                .Entries
+                .Where(e => e.SheetId == sheetId)
+                .OrderBy(e => e.Status)
+                .ThenByDescending(e => e.DateBought)
+                .Select(e =>
                     new EntryDisplayDTO
                     (
                     e.Id,
