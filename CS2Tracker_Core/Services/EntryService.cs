@@ -47,11 +47,24 @@ namespace CS2Tracker_Core.Services
             {
                 SkinInfo skinInfo = new SkinInfo(createEntryDTO.SkinInfo); ;
 
-                Entry entry = new Entry(createEntryDTO, skinInfo);
-
-
                 skinInfo.SetMarketHashName();
                 skinInfo.SetItemType();
+
+                switch (skinInfo.ItemType)
+                {
+                    case ItemType.Pistol or ItemType.Rifle or ItemType.SMG or ItemType.SniperRifle
+                           or ItemType.Shotgun or ItemType.MachineGun or ItemType.Knife or ItemType.Gloves:
+
+                        if(skinInfo.SkinCondition == SkinCondition.Unknown || skinInfo.SkinVariant == SkinVariant.Unknown)
+                        {
+                            return ServiceResult.Fail("Invalid Condition or Variant");
+                        }
+                        break;
+                    default:
+                        break;
+                }
+
+                Entry entry = new Entry(createEntryDTO, skinInfo);
 
                 sheet.UpdatedAt = DateTime.UtcNow;
 

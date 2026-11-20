@@ -368,3 +368,4 @@ FodyWeavers.xsd
 /CS2Tracker_Api/appsettings.Development.json
 /CS2Tracker_Data/appsettings.Development.json
 /CS2Tracker_MVC/appsettings.Development.json
+/CS2Tracker_Common/Command_for_getting_only_the_names_for_skins.txt

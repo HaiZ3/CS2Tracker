@@ -1,4 +1,5 @@
-﻿using CS2Tracker_Core.Interfaces.IServices;
+﻿using CS2Tracker_Common.Helpers;
+using CS2Tracker_Core.Interfaces.IServices;
 using CS2Tracker_DTOs.SharedDTOs.EntriesDTOs;
 using CS2Tracker_Models;
 using CS2Tracker_MVC.ViewModels.Entries;
@@ -17,6 +18,20 @@ namespace CS2Tracker_MVC.Controllers
         {
             _entryService = entryService;
         }
+        [HttpGet]
+        public IActionResult SkinSuggestions(string q)
+        {
+            if (string.IsNullOrWhiteSpace(q) || q.Length < 2)
+                return Json(Array.Empty<string>());
+
+            var matches = SkinCatalog.Names
+                .Where(n => n.Contains(q, StringComparison.OrdinalIgnoreCase))
+                .OrderBy(n => n.IndexOf(q, StringComparison.OrdinalIgnoreCase))
+                .ThenBy(n => n)
+                .Take(10);
+
+            return Json(matches);
+        }
 
         [HttpGet]
         public IActionResult Add(int sheetId)
@@ -27,6 +42,11 @@ namespace CS2Tracker_MVC.Controllers
         [HttpPost]
         public async Task<IActionResult> Add(CreateEntryViewModel model)
         {
+            if(!SkinCatalog.Names.Any(n => model.SkinName == n))
+            {
+                TempData["ErrorMessage"] = "Invalid item name";
+                return View(model);
+            }
             if (!ModelState.IsValid)
             {
                 return View(model);

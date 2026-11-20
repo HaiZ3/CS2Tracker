@@ -1,12 +1,35 @@
 using CS2Tracker_Common.Enums;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace CS2Tracker_Common.Helpers
 {
     public static class Cs2ItemTypeHelper
     {
+        private static readonly string[] KnownAgentFactions =
+{
+    // Counter-Terrorist Factions
+    "| Brazilian 1st Battalion",
+    "| FBI",
+    "| FBI HRT",
+    "| FBI Sniper",
+    "| FBI SWAT",
+    "| Gendarmerie Nationale",
+    "| KSK",
+    "| NSWC SEAL",
+    "| NZSAS",
+    "| SAS",
+    "| SEAL Frogman",
+    "| SWAT",
+    "| USAF TACP",
+
+    // Terrorist Factions
+    "| Elite Crew",
+    "| Guerrilla Warfare",
+    "| Phoenix",
+    "| Sabre",
+    "| Sabre Footsoldier",
+    "| TACP Cavalry",
+    "| The Professionals"
+    };
         public static ItemType GetItemType(string itemName)
         {
             if (string.IsNullOrWhiteSpace(itemName))
@@ -93,15 +116,16 @@ namespace CS2Tracker_Common.Helpers
 
         private static bool IsKnownAgent(string itemName)
         {
-            return itemName.Contains("| SEAL Frogman")
-                || itemName.Contains("| FBI")
-                || itemName.Contains("| SWAT")
-                || itemName.Contains("| KSK")
-                || itemName.Contains("| Sabre")
-                || itemName.Contains("| Phoenix")
-                || itemName.Contains("| GENIUS")
-                || itemName.Contains("| Operator")
-                || itemName.Contains("| Balkan");
+            if (string.IsNullOrEmpty(itemName))
+                return false;
+
+            foreach (var faction in KnownAgentFactions)
+            {
+                if (itemName.EndsWith(faction))
+                    return true;
+            }
+
+            return false;
         }
     }
 }
