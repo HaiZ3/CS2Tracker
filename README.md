@@ -4,7 +4,7 @@ A tracker for CS2 skin arbitrage. Record the skins you buy, compare their curren
 
 Built with **ASP.NET Core** (MVC and Web API), **ASP.NET Core Identity**, **Entity Framework Core**, and **SQL Server**.
 
-<img width="1919" height="905" alt="image" src="https://github.com/user-attachments/assets/a452afda-63d5-4b2e-8366-7b8920c551ce" />
+<img width="1919" height="921" alt="image" src="https://github.com/user-attachments/assets/a2d8e16f-66f0-4f71-a3e5-d790541cb089" />
 
 
 ---
