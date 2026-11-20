@@ -179,7 +179,7 @@ dotnet test
 ## Known limitations
 
 - **The Web API is untested and will be updated later.** Endpoints, request formats, and JWT handling may change. Use the web app for now.
-- Item names are not checked against the real list of skins yet, so a made-up name that looks valid is accepted.
+- Only the base name is validated. Wear and variant are not checked against the skin, so a real skin with a wear or variant it doesn't come in is still accepted.
 - Profit doesn't subtract marketplace fees, so it's an upper bound. The unrealized profit label says so.
 - Each entry is one buy and one sell. Partial sells aren't supported.
 - Closed entries can't be edited. To correct one, delete it and add it again.
