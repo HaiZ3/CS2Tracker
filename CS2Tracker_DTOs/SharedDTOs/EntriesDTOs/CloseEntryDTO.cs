@@ -12,7 +12,7 @@ namespace CS2Tracker_DTOs.SharedDTOs.EntriesDTOs
         [Required]
         public DateTime DateSold { get; set; }
         [Required]
-        [Range(0,int.MaxValue)]
+        [Range(0.01,int.MaxValue)]
         public decimal SellPrice { get; set; }
     }
 }

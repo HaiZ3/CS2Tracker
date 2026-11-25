@@ -118,10 +118,10 @@ namespace CS2Tracker_Models
                 return profit;
             }
         }
-        [Range (0,int.MaxValue)]
         [Required]
+        [Range (0.01,int.MaxValue)]
         public decimal BuyPrice { get; set; }
-        [Range(0,int.MaxValue)]
+        [Range(0.01,int.MaxValue)]
         public decimal? SellPrice { get; set; }
         public int SheetId { get; set; }
         public Sheet Sheet { get; set; } = null!;

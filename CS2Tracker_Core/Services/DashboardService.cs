@@ -40,24 +40,28 @@ namespace CS2Tracker_Core.Services
             decimal winRate = 0;
 
             decimal totalCapitalInSheets = sheets
-                .Sum(e => e.Entries
-                .Sum(e => e.BuyPrice));
+                .SelectMany(s => s.Entries)
+                .Where(e => e.Status == EntryStatus.Open)
+                .Sum(e => e.BuyPrice * e.Quantity);
 
             foreach (var sheet in sheets)
             {
                 var res = await _sheetService.GetSheetEntriesCurrentMarketPricesAndAllocationPerEntry(sheet);
 
-                //Compute the allocation as a % per sheet as a total of all the sheets
-                decimal capitalInSheet = sheet.Entries.Sum(e => e.BuyPrice);
+                decimal? capitalInSheet = sheet.Entries
+                    .Where(e => e.Status == EntryStatus.Open)
+                    .Sum(e => e.BuyPrice * e.Quantity);
 
-                decimal allocationPerSheet = capitalInSheet / totalCapitalInSheets;
+                decimal? allocationPerSheet = totalCapitalInSheets > 0
+                    ? capitalInSheet / totalCapitalInSheets
+                    : null;
 
                 dashboardSheetDTOs.Add(new DashboardSheetDTO()
                 {
                     Id = sheet.Id,
                     Name = sheet.Name,
-                    CapitalInOpenEntries = capitalInSheet,
-                    Allocation = allocationPerSheet,
+                    CapitalInOpenEntries = capitalInSheet ?? 0,
+                    Allocation = allocationPerSheet ?? 0,
                     RealizedProfit = sheet.Entries.Sum(e => e.Profit ?? 0),
                     OpenEntries = sheet.Entries.Count(e => e.Status == EntryStatus.Open)
                 });

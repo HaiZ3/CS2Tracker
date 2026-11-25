@@ -11,7 +11,7 @@ namespace CS2Tracker_DTOs.SharedDTOs.EntriesDTOs
         [Required]
         public DateTime DateBought { get; set;  }
         [Required]
-        [Range(0,int.MaxValue)]
+        [Range(0.01,int.MaxValue)]
         public decimal BuyPrice { get; set; }
         [Required]
         public int SheetId { get; set; }

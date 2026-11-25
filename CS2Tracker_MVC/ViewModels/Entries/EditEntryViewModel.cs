@@ -20,7 +20,7 @@ namespace CS2Tracker_MVC.ViewModels.Entries
         public DateTime DateBought { get; set; } = DateTime.Today;
 
         [Required]
-        [Range(0, int.MaxValue)]
+        [Range(0.01, int.MaxValue)]
         [DataType(DataType.Currency)]
         [DisplayFormat(DataFormatString = "{0:0.00}", ApplyFormatInEditMode = true)]
         [Display(Name = "Buy price")]
