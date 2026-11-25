@@ -1,0 +1,87 @@
+﻿@model DashBoardSummaryDTO
+@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<div class="container py-4">
+    <h1 class="page-title mb-4">Dashboard</h1>
+
+    <div class="dashboard-grid">
+        <div class="dashboard-stat">
+            <span class="dashboard-stat-label">Realized profit</span>
+            <span class="dashboard-stat-value @(Model.TotalProfit >= 0 ? "profit-pos" : "profit-neg")">
+                @Model.TotalProfit.ToString("0.00")
+            </span>
+        </div>
+
+        <div class="dashboard-stat">
+            <span class="dashboard-stat-label">Weighted return</span>
+            <span class="dashboard-stat-value @(Model.WeightedReturn >= 0 ? "profit-pos" : "profit-neg")">
+                @Model.WeightedReturn.ToString("P1")
+            </span>
+        </div>
+
+        <div class="dashboard-stat">
+            <span class="dashboard-stat-label">Win rate</span>
+            <span class="dashboard-stat-value @(Model.WinRate > 0.5m ? "profit-pos" : "profit-neg")">
+                @Model.WinRate.ToString("P0")
+            </span>
+        </div>
+
+        <div class="dashboard-stat">
+            <span class="dashboard-stat-label">Unrealized profit</span>
+            <span class="dashboard-stat-value profit-unrealized">
+                @Model.TotalUnrealizedProfit.ToString("0.00")
+            </span>
+        </div>
+
+        <div class="dashboard-stat">
+            <span class="dashboard-stat-label">Open entries</span>
+            <span class="dashboard-stat-value">@Model.OpenEntries</span>
+        </div>
+
+        <div class="dashboard-stat">
+            <span class="dashboard-stat-label">Capital in open entries</span>
+            <span class="dashboard-stat-value">@Model.TotalCapitalInOpenEntries.ToString("0.00")</span>
+        </div>
+    </div>
+
+    <h2 class="page-title mt-5 mb-3 fs-4">Sheets</h2>
+
+    @if (!Model.Sheets.Any())
+    {
+        <p class="text-secondary">You don't have any sheets yet.</p>
+    }
+    else
+    {
+        <div class="table-responsive">
+            <table class="table sheets-table align-middle">
+                <thead>
+                    <tr>
+                        <th>Sheet</th>
+                        <th class="text-end">Realized profit</th>
+                        <th class="text-center">Open entries</th>
+                        <th class="text-end">Capital in open</th>
+                        <th class="text-end">Allocation</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var sheet in Model.Sheets)
+                    {
+                        <tr>
+                            <td>
+                                <a asp-controller="Sheets" asp-action="Details" asp-route-id="@sheet.Id">@sheet.Name</a>
+                            </td>
+                            <td class="text-end @(sheet.RealizedProfit >= 0 ? "profit-pos" : "profit-neg")">
+                                @sheet.RealizedProfit.ToString("0.00")
+                            </td>
+                            <td class="text-center">@sheet.OpenEntries</td>
+                            <td class="text-end">@sheet.CapitalInOpenEntries.ToString("0.00")</td>
+                            <td class="text-end">@sheet.Allocation.ToString("P1")</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</div>

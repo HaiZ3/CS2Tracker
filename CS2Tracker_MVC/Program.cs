@@ -39,6 +39,7 @@ namespace CS2Tracker_MVC
             builder.Services.AddScoped<IUserService, UserService>();
             builder.Services.AddScoped<IEntryService, EntryService>();
             builder.Services.AddScoped<ISheetService, SheetService>();
+            builder.Services.AddScoped<IDashboardService, DashboardService>();
 
 
             // External APIs

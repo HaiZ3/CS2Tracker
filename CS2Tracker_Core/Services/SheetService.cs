@@ -3,11 +3,11 @@ using CS2Tracker_Common.Responses;
 using CS2Tracker_Core.Interfaces.IServices;
 using CS2Tracker_Data.Context;
 using CS2Tracker_DTOs.SharedDTOs.EntriesDTOs;
-using CS2Tracker_DTOs.SharedDTOs.EntriesDTOs.MarketPricesDTOs;
+using CS2Tracker_DTOs.SharedDTOs.EntriesDTOs.MarketPricesDTOs.SingleItemDTOs;
 using CS2Tracker_DTOs.SharedDTOs.SheetDTOs;
 using CS2Tracker_Models;
-using static CS2Tracker_Common.ErrorMessages.SheetErrorMessages;
 using Microsoft.EntityFrameworkCore;
+using static CS2Tracker_Common.ErrorMessages.SheetErrorMessages;
 
 namespace CS2Tracker_Core.Services
 {
@@ -20,11 +20,11 @@ namespace CS2Tracker_Core.Services
             _context = context;
             _marketplacePriceService = marketplacePriceService;
         }
-        public async Task<ServiceResultGeneric<Sheet>> GetSheetById(string userId,int sheetId)
+        public async Task<ServiceResultGeneric<Sheet>> GetSheetById(string userId, int sheetId)
         {
             Sheet? sheet = await _context.Sheets.FirstOrDefaultAsync(s => s.Id == sheetId && s.UserId == userId);
 
-            if(sheet == null)
+            if (sheet == null)
             {
                 return ServiceResultGeneric<Sheet>.Fail(SheetNotFound);
             }
@@ -99,7 +99,7 @@ namespace CS2Tracker_Core.Services
 
         public async Task<ServiceResultGeneric<ICollection<SheetDisplayDTO>>> GetSheetsIdsByUserId(string userId)
         {
-            ICollection<SheetDisplayDTO>? sheets = _context.Sheets.Where(s => s.UserId == userId).Select(x => new SheetDisplayDTO
+            ICollection<SheetDisplayDTO>? sheets = await _context.Sheets.Where(s => s.UserId == userId).Select(x => new SheetDisplayDTO
             {
                 Name = x.Name,
                 Entries = x.Entries.Count,
@@ -108,12 +108,12 @@ namespace CS2Tracker_Core.Services
                 UpdatedAt = x.UpdatedAt,
                 Id = x.Id
 
-            }).ToList();
+            }).ToListAsync();
 
             return ServiceResultGeneric<ICollection<SheetDisplayDTO>>.Ok(sheets);
         }
 
-        public async Task<ServiceResultGeneric<SheetDisplayWithEntriesDTO>> LoadSheetInfo(int sheetId, string userId)
+        public async Task<ServiceResultGeneric<SheetDisplayWithEntriesDTO>> GetSheetDetailsById(string userId, int sheetId)
         {
             Sheet? sheet = await _context.Sheets
                 .Include(s => s.Entries)
@@ -128,59 +128,87 @@ namespace CS2Tracker_Core.Services
                 return ServiceResultGeneric<SheetDisplayWithEntriesDTO>.Fail(SheetNotFound);
             }
 
-            ICollection<EntryDisplayDTO> entryDisplayDtos = sheet
-                .Entries
-                .Where(e => e.SheetId == sheetId)
-                .OrderBy(e => e.Status)
-                .ThenByDescending(e => e.DateBought)
-                .Select(e =>
-                    new EntryDisplayDTO
-                    (
-                    e.Id,
-                    e.SkinInfo.MarketHashName,
-                    e.Quantity,
-                    e.Status.ToString(),
-                    e.Profit,
-                    e.Return,
-                    e.DateBought,
-                    e.DateSold,
-                    e.HoldDays,
-                    e.BuyPrice,
-                    e.SellPrice,
-                    null,
-                    null
-                    )
-                )
-                .ToList();
+            var res = await GetSheetEntriesCurrentMarketPricesAndAllocationPerEntry(sheet);
 
-            foreach (var item in entryDisplayDtos)
-            {
-                if(item.Status == EntryStatus.Closed.ToString())
-                {
-                    continue;
-                }
-
-                ServiceResultGeneric<SkinPriceDTO> res = await _marketplacePriceService.GetSkinMarketplacePrice(item.Name);
-
-                if (!res.Success)
-                {
-                    item.YouPinPrice = null;
-                    item.CsFloatPrice = null;
-                    item.YouPinUrl = null;
-                    item.CsFloatUrl = null;
-                }
-                else
-                {
-                    item.YouPinPrice = res.Data.Prices.Youpin?.Ask;
-                    item.CsFloatPrice = res.Data.Prices.Csfloat?.Ask;
-                    item.YouPinUrl = res.Data.Links?.Youpin;
-                    item.CsFloatUrl = res.Data.Links?.Csfloat;
-                }
-            }
+            ICollection<EntryDisplayDTO> entryDisplayDtos = res.Data!;
 
             SheetDisplayWithEntriesDTO sheetDisplayDto = new(sheet.Id, sheet.Name, sheet.SheetType.ToString(), sheet.CreatedAt, sheet.UpdatedAt, entryDisplayDtos);
 
             return ServiceResultGeneric<SheetDisplayWithEntriesDTO>.Ok(sheetDisplayDto);
+        }
+        public async Task<ServiceResultGeneric<ICollection<EntryDisplayDTO>>> GetSheetEntriesCurrentMarketPricesAndAllocationPerEntry(Sheet sheet)
+        {
+            List<EntryDisplayDTO> entryDisplayDtos = sheet
+                  .Entries
+                  .OrderBy(e => e.Status)
+                  .ThenByDescending(e => e.BuyPrice)
+                  .ThenByDescending(e => e.DateBought)
+                  .Select(e =>
+                      new EntryDisplayDTO
+                      (
+                      e.Id,
+                      e.SkinInfo.MarketHashName,
+                      e.Quantity,
+                      e.Status.ToString(),
+                      e.Profit,
+                      e.Return,
+                      e.DateBought,
+                      e.DateSold,
+                      e.HoldDays,
+                      e.BuyPrice,
+                      e.SellPrice,
+                      null,
+                      null
+                      )
+                  )
+                  .ToList();
+
+            decimal totalCapitalInOpenEntries = entryDisplayDtos
+                .Where(e => e.Status == EntryStatus.Open.ToString())
+                .Sum(e => e.Quantity * e.BuyPrice);
+
+
+            string[] marketHashNames = new string[entryDisplayDtos.Count];
+
+            for (int i = 0; i < entryDisplayDtos.Count; i++)
+            {
+                marketHashNames[i] = entryDisplayDtos[i].Name;
+            }
+
+            ServiceResult loadMarketpacePricesInCache = await _marketplacePriceService.GetSkinsMarketPlacePrices(marketHashNames);
+
+            foreach (var entry in entryDisplayDtos)
+            {
+                if (entry.Status == EntryStatus.Closed.ToString())
+                {
+                    continue;
+                }
+
+                //Compute the allocation as a % per open entry as a total of all the entries
+                decimal capitalInOpenEntry = entry.BuyPrice * entry.Quantity;
+
+                decimal allocationInOpenEntry = capitalInOpenEntry / totalCapitalInOpenEntries;
+
+                entry.Allocation = allocationInOpenEntry;
+
+                ServiceResultGeneric<SkinPriceSingleDTO> res = await _marketplacePriceService.GetSkinMarketplacePrice(entry.Name);
+
+                if (!res.Success)
+                {
+                    entry.YouPinPrice = null;
+                    entry.CsFloatPrice = null;
+                    entry.YouPinUrl = null;
+                    entry.CsFloatUrl = null;
+                }
+                else
+                {
+                    entry.YouPinPrice = res.Data!.Prices.Youpin?.Ask;
+                    entry.CsFloatPrice = res.Data!.Prices.Csfloat?.Ask;
+                    entry.YouPinUrl = res.Data!.Links?.Youpin;
+                    entry.CsFloatUrl = res.Data!.Links?.Csfloat;
+                }
+            }
+            return ServiceResultGeneric<ICollection<EntryDisplayDTO>>.Ok(entryDisplayDtos);
         }
     }
 }

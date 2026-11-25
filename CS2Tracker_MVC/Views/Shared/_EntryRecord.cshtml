@@ -13,6 +13,9 @@
     </td>
     <td>$@Model.BuyPrice.ToString("0.00")</td>
     <td>@(Model.SellPrice.HasValue ? $"${Model.SellPrice.Value:0.00}" : "-")</td>
+    <td>
+        @(Model.Allocation.HasValue ? Model.Allocation.Value.ToString("P2") : "-")
+    </td>
     <td class="@profitClass @(isUnrealized ? "profit-unrealized" : "")"
         title="@(isUnrealized ? "Unrealized: based on the higher current market price (fees not included!)" : "")">
         @(shownProfit.HasValue ? $"${shownProfit.Value:0.00}" : "-")
@@ -20,7 +23,7 @@
     <td class="@(Model.ReturnPercent > 0 ? "profit-pos" : Model.ReturnPercent < 0 ? "profit-neg" : "")">
         @(Model.ReturnPercent.HasValue ? $"{Model.ReturnPercent.Value:0.00}%" : "-")
     </td>
-    <td>@(Model.HoldDays.HasValue ? $"{Model.HoldDays.Value} d" : "Open")</td>
+    <td class="text-center">@(Model.HoldDays.HasValue ? $"{Model.HoldDays.Value} d" : "Open")</td>
     <td>
         @if (Model.CsFloatPrice.HasValue && Model.CsFloatUrl != null)
         {

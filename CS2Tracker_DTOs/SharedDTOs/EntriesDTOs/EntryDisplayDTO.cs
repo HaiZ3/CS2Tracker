@@ -61,5 +61,6 @@ namespace CS2Tracker_DTOs.SharedDTOs.EntriesDTOs
         }
         public string? YouPinUrl {  get; set; }
         public string? CsFloatUrl { get; set; }
+        public decimal? Allocation { get; set; }
     }
 }

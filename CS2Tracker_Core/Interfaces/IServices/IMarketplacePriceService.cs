@@ -1,5 +1,5 @@
 ﻿using CS2Tracker_Common.Responses;
-using CS2Tracker_DTOs.SharedDTOs.EntriesDTOs.MarketPricesDTOs;
+using CS2Tracker_DTOs.SharedDTOs.EntriesDTOs.MarketPricesDTOs.SingleItemDTOs;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -8,6 +8,7 @@ namespace CS2Tracker_Core.Interfaces.IServices
 {
     public interface IMarketplacePriceService 
     {
-        public Task<ServiceResultGeneric<SkinPriceDTO>> GetSkinMarketplacePrice(string marketHashName);
+        public Task<ServiceResultGeneric<SkinPriceSingleDTO>> GetSkinMarketplacePrice(string marketHashName);
+        public Task<ServiceResult> GetSkinsMarketPlacePrices(string[] marketHashNames);
     }
 }

@@ -3,7 +3,7 @@ using CS2Tracker_Common.Responses;
 using CS2Tracker_Core.Interfaces.IServices;
 using CS2Tracker_Data.Context;
 using CS2Tracker_DTOs.SharedDTOs.EntriesDTOs;
-using CS2Tracker_DTOs.SharedDTOs.EntriesDTOs.MarketPricesDTOs;
+using CS2Tracker_DTOs.SharedDTOs.EntriesDTOs.MarketPricesDTOs.SingleItemDTOs;
 using CS2Tracker_Models;
 using Microsoft.EntityFrameworkCore;
 using static CS2Tracker_Common.ErrorMessages.EntryErrorMessages;
@@ -41,7 +41,7 @@ namespace CS2Tracker_Core.Services
                 return ServiceResult.Fail(SheetNotFound);
             }
 
-            Sheet sheet = res.Data;
+            Sheet sheet = res.Data!;
 
             try
             {
@@ -66,7 +66,7 @@ namespace CS2Tracker_Core.Services
 
                 Entry entry = new Entry(createEntryDTO, skinInfo);
 
-                sheet.UpdatedAt = DateTime.UtcNow;
+                sheet!.UpdatedAt = DateTime.UtcNow;
 
                 _context.Add(entry);
                 await _context.SaveChangesAsync();
@@ -84,10 +84,10 @@ namespace CS2Tracker_Core.Services
 
             if (!res.Success)
             {
-                return ServiceResult.Fail(res.ErrorMessage);
+                return ServiceResult.Fail(res.ErrorMessage!);
             }
 
-            Entry entry = res.Data;
+            Entry entry = res.Data!;
 
             if (entry.Status != EntryStatus.Open)
             {
@@ -116,10 +116,10 @@ namespace CS2Tracker_Core.Services
 
             if (!res.Success)
             {
-                return ServiceResult.Fail(res.ErrorMessage);
+                return ServiceResult.Fail(res.ErrorMessage!);
             }
 
-            Entry entry = res.Data;
+            Entry entry = res.Data!;
 
 
             _context.Remove(entry);
@@ -132,10 +132,10 @@ namespace CS2Tracker_Core.Services
 
             if (!res.Success)
             {
-                return ServiceResult.Fail(res.ErrorMessage);
+                return ServiceResult.Fail(res.ErrorMessage!);
             }
 
-            Entry entry = res.Data;
+            Entry entry = res.Data!;
 
             entry.DateBought = editEntryDTO.DateBought;
             entry.BuyPrice = editEntryDTO.BuyPrice;
@@ -149,10 +149,10 @@ namespace CS2Tracker_Core.Services
 
             if (!sheetRes.Success)
             {
-                return ServiceResultGeneric<EntryDisplayDTO>.Fail(sheetRes.ErrorMessage);
+                return ServiceResultGeneric<EntryDisplayDTO>.Fail(sheetRes.ErrorMessage!);
             }
 
-            EntryDisplayDTO? entry = sheetRes.Data.Entries.Select(e => new EntryDisplayDTO
+            EntryDisplayDTO? entry = sheetRes.Data!.Entries.Select(e => new EntryDisplayDTO
             (
                     e.Id,
                     e.SkinInfo.MarketHashName,
@@ -176,7 +176,7 @@ namespace CS2Tracker_Core.Services
                 return ServiceResultGeneric<EntryDisplayDTO>.Fail(EntryNotFound);
             }
 
-            ServiceResultGeneric<SkinPriceDTO> res = await _marketplacePriceService.GetSkinMarketplacePrice(entry.Name);
+            ServiceResultGeneric<SkinPriceSingleDTO> res = await _marketplacePriceService.GetSkinMarketplacePrice(entry.Name);
 
             if (!res.Success)
             {
@@ -185,8 +185,8 @@ namespace CS2Tracker_Core.Services
             }
             else
             {
-                entry.YouPinPrice = res.Data.Prices.Youpin.Ask;
-                entry.CsFloatPrice = res.Data.Prices.Csfloat.Ask;
+                entry.YouPinPrice = res.Data?.Prices.Youpin.Ask;
+                entry.CsFloatPrice = res.Data?.Prices.Csfloat.Ask;
             }
 
             return ServiceResultGeneric<EntryDisplayDTO>.Ok(entry);
@@ -208,6 +208,5 @@ namespace CS2Tracker_Core.Services
 
             return ServiceResultGeneric<Entry>.Ok(entry);
         }
-
     }
 }

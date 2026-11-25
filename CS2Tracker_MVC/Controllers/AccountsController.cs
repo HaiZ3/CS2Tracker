@@ -50,6 +50,8 @@ namespace CS2Tracker_MVC.Controllers
                 return View(model);
             }
 
+            TempData["SuccessMessage"] = "Successful login!";
+
             return RedirectToAction("All", "Sheets");
         }
         [HttpGet]
@@ -84,6 +86,7 @@ namespace CS2Tracker_MVC.Controllers
                 return View(model);
             }
 
+            TempData["SuccessMessage"] = "Account created, please login";
             return RedirectToAction(nameof(Login));
         }
         [HttpPost]

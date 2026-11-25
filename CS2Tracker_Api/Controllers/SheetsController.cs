@@ -35,7 +35,7 @@ namespace CS2Tracker_Api.Controllers
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)!.Value;
 
-            var result = await _sheetService.LoadSheetInfo(sheetId, userId);
+            var result = await _sheetService.GetSheetDetailsById(userId, sheetId);
 
             if (!result.Success)
             {

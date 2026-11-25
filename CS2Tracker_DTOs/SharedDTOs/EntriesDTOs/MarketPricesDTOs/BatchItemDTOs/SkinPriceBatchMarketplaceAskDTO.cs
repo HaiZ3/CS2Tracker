@@ -3,13 +3,11 @@ using System.Collections.Generic;
 using System.Text;
 using System.Text.Json.Serialization;
 
-namespace CS2Tracker_DTOs.SharedDTOs.EntriesDTOs.MarketPricesDTOs
+namespace CS2Tracker_DTOs.SharedDTOs.EntriesDTOs.MarketPricesDTOs.BatchItemDTOs
 {
-    public class MarketplacePriceDTO
+    public class SkinPriceBatchMarketplaceAskDTO
     {
         [JsonPropertyName("ask")]
         public decimal? Ask { get; set; }
-        [JsonPropertyName("updated_at")]
-        public DateTime UpdatedAt { get; set; }
     }
 }
